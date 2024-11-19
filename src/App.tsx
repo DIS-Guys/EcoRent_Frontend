@@ -1,35 +1,50 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
+import React from 'react';
 import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0);
-
+const App: React.FC = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <header className="header">
+        <nav className="nav">
+          <ul className="nav-list">
+            <li className="nav-item">
+              <a className="logo-link" href="/">
+                <img className="logo" src="/logo.svg" alt="Logo" />
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Головна
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Орендувати
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Для власників
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="/">
+                Підтримка
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div className="icon-block">
+          <a href="/" className="icon-link search-icon-link">
+            <img src="/search.svg" alt="Search" />
+          </a>
+          <a href="/" className="icon-link profile-icon-link">
+            <img src="/profile.svg" alt="Profile" />
+          </a>
+        </div>
+      </header>
     </>
   );
-}
+};
 
 export default App;
