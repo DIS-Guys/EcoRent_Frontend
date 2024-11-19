@@ -43,6 +43,25 @@ const App: React.FC = () => {
           </a>
         </div>
       </header>
+      <main className="main">
+        <div className="container">
+          <section className="search">
+            <div className="search-block">
+              <input
+                className="main-search"
+                type="text"
+                placeholder="Який зарядний пристрій шукаєте?"
+              />
+              <button className="search-button">
+                <p className='search-button-text'>Пошук</p>
+                <img src="/icons/white-search.svg" alt="Search" />
+              </button>
+            </div>
+          </section>
+          <section className="about-us"></section>
+          <section className="rent"></section>
+        </div>
+      </main>
     </>
   );
 };
