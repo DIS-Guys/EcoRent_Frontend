@@ -87,7 +87,10 @@ const App: React.FC = () => {
               </p>
             </article>
           </section>
-          <section className="rent"></section>
+          <section className="rent">
+            <button className="rent-button">Хочу орендувати!</button>
+            <button className="rent-button">Здати в оренду!</button>
+          </section>
         </div>
       </main>
     </>
