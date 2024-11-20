@@ -53,12 +53,30 @@ const App: React.FC = () => {
                 placeholder="Який зарядний пристрій шукаєте?"
               />
               <button className="search-button">
-                <p className='search-button-text'>Пошук</p>
+                <p className="search-button-text">Пошук</p>
                 <img src="/icons/white-search.svg" alt="Search" />
               </button>
             </div>
           </section>
-          <section className="about-us"></section>
+          <section className="about-us">
+            <article className="about-us-header">
+              <p className="about-us-header-text">
+                Орендуйте EcoFlow швидко та вигідно за системою peer-to-peer
+              </p>
+              <img src="/images/ecoflows-1.png" alt="Charging stations" />
+            </article>
+            <article className="about-us-detailed">
+              <p className="about-us-detailed-text">
+                Ми надаємо можливість орендувати портативні зарядні станції
+                безпосередньо у власників за системою peer-to-peer. Це означає,
+                що ви можете швидко знайти EcoFlow у вашому районі, домовитися
+                про вигідні умови та отримати доступ до чистої енергії, коли це
+                потрібно найбільше.
+              </p>
+              <div className="blue-triangle"></div>
+              <img src="/images/rent.png" alt="Rent picture" />
+            </article>
+          </section>
           <section className="rent"></section>
         </div>
       </main>
