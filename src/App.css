@@ -197,3 +197,62 @@ body {
   color: #fff;
   font-weight: 500;
 }
+
+.footer {
+  display: flex;
+  height: 275px;
+  background-color: #15b392;
+  padding-left: 58px;
+  padding-top: 42px;
+  padding-right: 148px;
+  color: #fff;
+  justify-content: space-between;
+}
+
+.contact-us {
+  width: 812px;
+}
+
+.contact-us-header {
+  font-weight: 700;
+  font-size: 32px;
+  margin-bottom: 14px;
+}
+
+.contact-us-text {
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.our-contacts {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.contact-block {
+  display: flex;
+}
+
+.email-block {
+  gap: 120px;
+}
+
+.phone-block {
+  gap: 94px;
+}
+
+.address-block {
+  gap: 108px;
+}
+
+.socials {
+  display: flex;
+  gap: 28px;
+}
+
+.socials-link {
+  display: flex;
+}
