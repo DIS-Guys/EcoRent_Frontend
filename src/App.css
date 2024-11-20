@@ -57,7 +57,7 @@ p {
   background-image: url('/images/main-background.png');
   background-position: top center;
   background-repeat: repeat-y;
-  background-size: cover;
+  background-size: contain;
 }
 
 .search {
@@ -148,4 +148,27 @@ p {
   right: 282px;
   border-right: 168px solid transparent;
   border-top: 300px solid #e3e6ec;
+}
+
+.about-us-service {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 36px;
+  height: 500px;
+}
+
+.about-us-service-text {
+  text-align: right;
+  font-size: 32px;
+  margin-right: 58px;
+}
+
+.white-triangle {
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 345px;
+  border-left: 105px solid transparent;
+  border-top: 300px solid #f7f7f7;
 }

@@ -76,6 +76,16 @@ const App: React.FC = () => {
               <div className="blue-triangle"></div>
               <img src="/images/rent.png" alt="Rent picture" />
             </article>
+            <article className="about-us-service">
+              <img src="/images/ecoflows-2.png" alt="Charging stations" />
+              <div className="white-triangle"></div>
+              <p className="about-us-service-text">
+                Наш сервіс допомагає економити кошти, зберігати довкілля та
+                підтримувати спільноту, яка використовує інноваційні енергетичні
+                рішення. Додавайте свої пристрої для оренди або знайдіть
+                EcoFlow, який вам підійде.
+              </p>
+            </article>
           </section>
           <section className="rent"></section>
         </div>
