@@ -35,3 +35,7 @@
 .icon-link {
   display: flex;
 }
+
+.is-active {
+  color: #2f9228;
+}

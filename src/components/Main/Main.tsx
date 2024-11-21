@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import './Main.css';
 
 export const Main: React.FC = () => {
@@ -47,8 +48,12 @@ export const Main: React.FC = () => {
           </article>
         </section>
         <section className="rent">
-          <button className="rent-button">Хочу орендувати!</button>
-          <button className="rent-button">Здати в оренду!</button>
+          <Link to="rent" className="rent-button">
+            Хочу орендувати!
+          </Link>
+          <Link to="rent-out" className="rent-button">
+            Здати в оренду!
+          </Link>
         </section>
       </div>
     </main>
