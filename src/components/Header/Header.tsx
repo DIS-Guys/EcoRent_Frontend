@@ -1,4 +1,9 @@
+import { Link, NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 import './Header.css';
+
+const getLinkClass = ({ isActive }: { isActive: boolean }) =>
+  classNames('nav-link', { 'is-active': isActive });
 
 export const Header: React.FC = () => {
   return (
@@ -6,39 +11,39 @@ export const Header: React.FC = () => {
       <nav className="nav">
         <ul className="nav-list">
           <li className="nav-item">
-            <a className="logo-link" href="/">
+            <Link to="/" className="logo-link">
               <img className="logo" src="/icons/logo.svg" alt="Logo" />
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <NavLink to="/" className={getLinkClass}>
               Головна
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <NavLink to="/rent" className={getLinkClass}>
               Орендувати
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <NavLink to="/rent-out" className={getLinkClass}>
               Для власників
-            </a>
+            </NavLink>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="/">
+            <NavLink to="/support" className={getLinkClass}>
               Підтримка
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>
       <div className="icon-block">
-        <a href="/" className="icon-link search-icon-link">
+        <Link to="/rent-out" className="icon-link search-icon-link">
           <img src="/icons/search.svg" alt="Search" />
-        </a>
-        <a href="/" className="icon-link profile-icon-link">
+        </Link>
+        <Link to="/user-profile" className="icon-link profile-icon-link">
           <img src="/icons/profile.svg" alt="Profile" />
-        </a>
+        </Link>
       </div>
     </header>
   );

@@ -25,19 +25,19 @@ export const Footer: React.FC = () => {
           <p className="contact-value">м. Київ, вул. Червоних ліхтарів, 52</p>
         </div>
         <div className="socials">
-          <a className="socials-link" href="/">
+          <a className="socials-link" href="https://youtube.com">
             <img src="/icons/youtube.svg" alt="YouTube" />
           </a>
-          <a className="socials-link" href="/">
+          <a className="socials-link" href="https://instagram.com">
             <img src="/icons/instagram.svg" alt="Instagram" />
           </a>
-          <a className="socials-link" href="/">
+          <a className="socials-link" href="https://facebook.com">
             <img src="/icons/facebook.svg" alt="Facebook" />
           </a>
-          <a className="socials-link" href="/">
+          <a className="socials-link" href="https://x.com">
             <img src="/icons/twitter.svg" alt="Twitter" />
           </a>
-          <a className="socials-link" href="/">
+          <a className="socials-link" href="https://linkedin.com">
             <img src="/icons/linkedin.svg" alt="LinkedIn" />
           </a>
         </div>
