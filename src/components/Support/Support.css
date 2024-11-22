@@ -1,0 +1,104 @@
+.support-background {
+    width: 1420px;
+    height: 742px;
+    background-color: #e3e6ec;
+    margin: 50px auto;
+    border-radius: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.support-back {
+    width: 1332px;
+    height: 654px;
+    background-color: #f7f7f7;
+    border-radius: 40px;
+    position: relative;
+    padding-left: 44px;
+    padding-top: 27px;
+}
+
+.question-background {
+    width: 374px;
+    height: 90px;
+    background-color: #54c392;
+    border-radius: 20px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    position: absolute;
+    top: 27px;
+    right: 44px;
+}
+
+.question {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    color: #fff;
+}
+
+.email-label {
+    font-size: 20px;
+    display: block;
+    color: #757575;
+}
+
+.email-input {
+    width: 350px;
+    height: 56px;
+    margin-top: 18px;
+    border-radius: 25px;
+    background-color: #f7f7f7;
+    border: #d9d9d9 solid 3px;
+    font-size: 20px;
+    color: #757575;
+    padding: 18px;
+    outline: none;
+}
+
+.problem-label {
+    font-size: 20px;
+    margin-top: 18px;
+    display: block;
+    color: #757575;
+}
+
+.problem-textarea {
+    margin-top: 18px;
+    width: 1244px;
+    height: 355px;
+    background-color: #f7f7f7;
+    border: #d9d9d9 solid 3px;
+    border-radius: 25px;
+    resize: none;
+    font-size: 20px;
+    color: #757575;
+    outline: none;
+    padding: 10px 18px;
+}
+
+.send-button {
+    position: absolute;
+    bottom: 23px;
+    right: 44px;
+    width: 205px;
+    height: 66px;
+    background-color: #54c392;
+    border: none;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 28px;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.send-button:hover {
+    cursor: pointer;
+    background-color: #3e9670;
+}
