@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Main } from './components/Main';
 import { Support } from './components/Support';
+import { UserProfile } from './components/UserProfile';
 import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
@@ -14,7 +15,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="rent" element={<h1>Rent</h1>} />
           <Route path="rent-out" element={<h1>Rent out</h1>} />
           <Route path="support" element={<Support />} />
-          <Route path="user-profile" element={<h1>User profile</h1>} />
+          <Route path="user-profile" element={<UserProfile />} />
         </Route>
         <Route path="*" element={<h1>Not found</h1>} />
       </Routes>
