@@ -1,4 +1,5 @@
 .register-block {
+  position: relative;
   padding: 10px;
   display: flex;
   background-color: #e3e6ec;
@@ -9,21 +10,36 @@
   justify-content: space-between;
 }
 
+.register-block-image {
+  position: absolute;
+  filter: brightness(1.2);
+  transition: all 0.5s ease;
+}
+
+.register-block-image-right {
+  right: 10px;
+}
+
+.register-block-image-left {
+  right: 540px;
+}
+
 .authentication-block {
+  position: absolute;
   display: flex;
   width: 360px;
   flex-direction: column;
   align-items: center;
-  margin-top: 114px;
+  top: 124px;
   gap: 68px;
 }
 
 .sign-up-block {
-  margin-left: 100px;
+  left: 110px;
 }
 
 .log-in-block {
-  margin-right: 100px;
+  right: 110px;
 }
 
 .authentication-buttons {
@@ -39,6 +55,11 @@
   font-size: 36px;
   color: #888;
   cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.auth-button:not(.is-btn-active):hover {
+  color: #555;
 }
 
 .is-btn-active {

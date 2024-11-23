@@ -7,7 +7,6 @@ export const RegisterPage: React.FC = () => {
 
   return (
     <div className="register-block">
-      {isSignedUp && <img src="/images/ecoflow.png" alt="EcoFlow" />}
       <div
         className={`authentication-block ${
           isSignedUp ? 'log-in-block' : 'sign-up-block'
@@ -75,7 +74,15 @@ export const RegisterPage: React.FC = () => {
           )}
         </form>
       </div>
-      {!isSignedUp && <img src="/images/ecoflow.png" alt="EcoFlow" />}
+      <img
+        className={`register-block-image ${
+          isSignedUp
+            ? 'register-block-image-left'
+            : 'register-block-image-right'
+        }`}
+        src="/images/ecoflow.png"
+        alt="EcoFlow"
+      />
     </div>
   );
 };
