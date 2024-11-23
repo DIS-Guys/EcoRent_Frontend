@@ -6,7 +6,7 @@ type Props = {
 
 export const AuthContext = React.createContext({
   authorized: false,
-  login: (email: string, password: string) => {},
+  login: (email: string, password: string) => false as boolean,
 });
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
@@ -15,7 +15,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
   const login = (email: string, password: string) => {
     if (email && password) {
       setAuthorized(true);
+      return true;
     }
+
+    return false;
   };
 
   return (

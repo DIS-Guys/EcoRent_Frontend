@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
 import './RegisterPage.css';
+import { AuthContext } from '../../contexts/AuthContext';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 export const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
+  const { login } = useContext(AuthContext);
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    if (login(email, password)) {
+      navigate(state?.pathname || '/', { replace: true })
+    }
+  };
 
   return (
     <div className="register-block">
@@ -30,18 +48,22 @@ export const RegisterPage: React.FC = () => {
             Log-in
           </button>
         </div>
-        <form className="register-form">
+        <form className="register-form" onSubmit={handleSubmit}>
           {!isSignedUp && (
             <div className="fullname-block">
               <input
                 type="text"
                 placeholder="Ім'я"
                 className="name auth-input"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
               />
               <input
                 type="text"
                 placeholder="Прізвище"
                 className="surname auth-input"
+                value={surname}
+                onChange={(event) => setSurname(event.target.value)}
               />
             </div>
           )}
@@ -49,11 +71,15 @@ export const RegisterPage: React.FC = () => {
             type="email"
             placeholder="E-mail"
             className="email auth-input"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <input
             type="password"
             placeholder="Пароль"
             className="password auth-input"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
           {!isSignedUp && (
             <>
@@ -61,6 +87,8 @@ export const RegisterPage: React.FC = () => {
                 type="password"
                 placeholder="Підтвердити пароль"
                 className="repeat-password auth-input"
+                value={repeatPassword}
+                onChange={(event) => setRepeatPassword(event.target.value)}
               />
               <button type="submit" className="register-button">
                 Зареєструватись
