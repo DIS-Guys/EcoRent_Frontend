@@ -1,9 +1,9 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Main } from './components/Main';
-import { Support } from './components/Support';
-import { UserProfile } from './components/UserProfile';
+import { Main } from './components/Main/index.ts';
+import { Support } from './components/Support/index.ts';
+import { UserProfile } from './components/UserProfile/index.ts';
 import App from './App.tsx';
 
 createRoot(document.getElementById('root')!).render(
