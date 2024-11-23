@@ -14,9 +14,16 @@
   width: 360px;
   flex-direction: column;
   align-items: center;
-  margin-left: 100px;
   margin-top: 114px;
   gap: 68px;
+}
+
+.sign-up-block {
+  margin-left: 100px;
+}
+
+.log-in-block {
+  margin-right: 100px;
 }
 
 .authentication-buttons {
