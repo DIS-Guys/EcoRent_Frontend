@@ -1,0 +1,134 @@
+.register-block {
+  position: relative;
+  padding: 10px;
+  display: flex;
+  background-color: #e3e6ec;
+  width: 1420px;
+  height: 742px;
+  margin: 50px auto;
+  border-radius: 160px;
+  justify-content: space-between;
+}
+
+.register-block-image {
+  position: absolute;
+  filter: brightness(1.2);
+  transition: all 0.5s ease;
+}
+
+.register-block-image-right {
+  right: 10px;
+}
+
+.register-block-image-left {
+  right: 540px;
+}
+
+.authentication-block {
+  position: absolute;
+  display: flex;
+  width: 360px;
+  flex-direction: column;
+  align-items: center;
+  top: 124px;
+  gap: 68px;
+}
+
+.sign-up-block {
+  left: 110px;
+}
+
+.log-in-block {
+  right: 110px;
+}
+
+.authentication-buttons {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding-inline: 36px;
+}
+
+.auth-button {
+  border: none;
+  background-color: transparent;
+  font-size: 36px;
+  color: #888;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.auth-button:not(.is-btn-active):hover {
+  color: #555;
+}
+
+.is-btn-active {
+  color: #000;
+  font-weight: 700;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 36px;
+}
+
+.fullname-block {
+  display: flex;
+  width: 100%;
+  gap: 60px;
+}
+
+.auth-input {
+  border: none;
+  background-color: transparent;
+  outline: none;
+  border-bottom: #fff solid 1px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #282828;
+  padding: 2px 10px;
+}
+
+.auth-input::placeholder {
+  color: #282828;
+}
+
+.name {
+  width: 150px;
+}
+
+.surname {
+  width: 150px;
+}
+
+.email {
+  width: 100%;
+}
+
+.password {
+  width: 100%;
+}
+
+.repeat-password {
+  width: 100%;
+}
+
+.register-button {
+  border: none;
+  font-size: 36px;
+  font-weight: 600;
+  width: 100%;
+  height: 78px;
+  color: #fff;
+  background-color: #54c392;
+  border-radius: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.register-button:hover {
+  background-color: #3e9670;
+}
