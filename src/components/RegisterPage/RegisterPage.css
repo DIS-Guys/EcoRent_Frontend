@@ -34,7 +34,8 @@
 }
 
 .auth-button {
-  all: unset;
+  border: none;
+  background-color: transparent;
   font-size: 36px;
   color: #888;
   cursor: pointer;
@@ -60,7 +61,9 @@
 }
 
 .auth-input {
-  all: unset;
+  border: none;
+  background-color: transparent;
+  outline: none;
   border-bottom: #fff solid 1px;
   font-size: 16px;
   font-weight: 500;
