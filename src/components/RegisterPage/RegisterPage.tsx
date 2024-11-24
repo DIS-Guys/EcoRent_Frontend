@@ -19,12 +19,12 @@ export const RegisterPage: React.FC = () => {
     event.preventDefault();
 
     if (login(email, password)) {
-      navigate(state?.pathname || '/', { replace: true })
+      navigate(state?.pathname || '/', { replace: true });
     }
   };
 
   return (
-    <div className="register-block">
+    <div className="register-block gray-container">
       <div
         className={`authentication-block ${
           isSignedUp ? 'log-in-block' : 'sign-up-block'
@@ -90,13 +90,13 @@ export const RegisterPage: React.FC = () => {
                 value={repeatPassword}
                 onChange={(event) => setRepeatPassword(event.target.value)}
               />
-              <button type="submit" className="register-button">
+              <button type="submit" className="register-button main-button">
                 Зареєструватись
               </button>
             </>
           )}
           {isSignedUp && (
-            <button type="submit" className="register-button">
+            <button type="submit" className="register-button main-button">
               Увійти
             </button>
           )}
