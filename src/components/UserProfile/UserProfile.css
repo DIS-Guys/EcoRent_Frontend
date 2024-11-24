@@ -1,330 +1,96 @@
-.profile-background {
-  width: 1420px;
-  height: 742px;
-  background-color: #e3e6ec;
-  margin: 50px auto;
-  border-radius: 60px;
+.profile-section-buttons {
   display: flex;
-  flex-direction: column;
-}
-
-.profile-buttons {
-  display: flex;
-  margin: 44px 0 34px 44px;
-}
-
-.account-button {
-  width: 338px;
+  gap: 44px;
+  margin-bottom: 34px;
   height: 70px;
-  background-color: #54c392;
-  border: none;
-  border-radius: 20px;
-  color: #f7f7f7;
-  font-size: 28px;
-  font-weight: 600;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
 }
 
-.account-button:hover {
-  cursor: pointer;
-  background-color: #3e9670;
+.profile-section-button {
+  padding: 18px 26px;
+  border-radius: 20px;
+  font-size: 28px;
 }
 
-.devices-button {
-  margin-left: 44px;
-  width: 240px;
-  height: 70px;
-  background-color: #f7f7f7;
-  border: none;
-  border-radius: 20px;
-  color: #000;
-  font-size: 28px;
-  font-weight: 400;
+.profile-container {
+  height: 550px;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background-color 0.3s ease;
-}
-
-.devices-button:hover {
-  cursor: pointer;
-  border: 2px solid #54c392;
+  gap: 44px;
 }
 
 .profile-menu {
-  display: flex;
-}
-
-.profile-left {
-  margin-left: 44px;
   width: 338px;
-  height: 550px;
-  background-color: #f7f7f7;
-  border-radius: 40px;
   display: flex;
   flex-direction: column;
-  padding: 36px 44px 36px 44px;
+  gap: 24px;
+  padding: 36px 44px;
 }
 
-.profile {
-  width: 250px;
-  height: 52px;
-  border-radius: 15px;
-  font-weight: 600;
+.profile-menu-button {
+  border-radius: 16px;
   font-size: 28px;
-  background-color: #54c392;
-  color: #f7f7f7;
-  border: none;
-  transition: background-color 0.3s ease;
   display: flex;
   align-items: center;
-  gap: 23px;
-  padding-left: 30px;
+  gap: 22px;
+  padding: 9px 30px;
 }
 
-.profile:hover {
-  cursor: pointer;
-  background-color: #3e9670;
-}
-
-.security {
-  width: 250px;
-  height: 52px;
-  border-radius: 15px;
-  font-weight: 400;
-  font-size: 28px;
-  border: none;
-  background-color: #f7f7f7;
-  transition: background-color 0.3s ease;
+.profile-info-block {
   display: flex;
-  align-items: center;
-  gap: 23px;
-  padding-left: 30px;
-  margin-top: 24px;
+  flex-direction: column;
+  gap: 50px;
+  width: 100%;
+  padding: 40px 44px;
 }
 
-.security:hover {
-  cursor: pointer;
-  outline: 2px solid #54c392;
-}
-
-.address {
-  width: 250px;
-  height: 52px;
-  border-radius: 15px;
-  font-weight: 400;
-  font-size: 28px;
-  border: none;
-  background-color: #f7f7f7;
-  transition: background-color 0.3s ease;
+.profile-fullname-block {
   display: flex;
-  align-items: center;
-  gap: 23px;
-  padding-left: 30px;
-  margin-top: 24px;
+  width: fit-content;
+  gap: 100px;
 }
 
-.address:hover {
-  cursor: pointer;
-  outline: 2px solid #54c392;
-}
-
-.payment {
-  width: 250px;
-  height: 52px;
-  border-radius: 15px;
-  font-weight: 400;
-  font-size: 28px;
-  border: none;
-  background-color: #f7f7f7;
-  transition: background-color 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 23px;
-  padding-left: 30px;
-  margin-top: 24px;
-}
-
-.payment:hover {
-  cursor: pointer;
-  outline: 2px solid #54c392;
-}
-
-.profile-right {
-  margin-left: 44px;
-  padding: 60px 44px 30px 44px;
-  width: 950px;
-  height: 550px;
-  background-color: #f7f7f7;
-  border-radius: 40px;
-}
-
-.name-surname {
-  display: flex;
-}
-
-.name-block {
+.profile-edit-block {
+  width: fit-content;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .edit-icon {
   position: absolute;
   right: 16px;
-  margin-top: 23px;
+  top: 49px;
+  cursor: pointer;
 }
 
-.profile-name-label {
-  display: block;
-  font-size: 20px;
-  line-height: 100%;
-  color: #757575;
+.profile-edit-label {
   margin-left: 18px;
 }
 
-.profile-name-input {
+.profile-edit-input {
   width: 320px;
-  height: 46px;
-  font-size: 20px;
-  color: #757575;
-  border-radius: 25px;
-  background-color: #f7f7f7;
-  border: #d9d9d9 solid 3px;
-  outline: none;
+  padding: 10px 50px 10px 18px;
+}
+
+.edit-buttons-block {
   display: flex;
-  align-items: center;
-  margin-top: 12px;
-  padding: 18px 50px 18px 18px;
-}
-
-.surname-block {
-  margin-left: 100px;
-  position: relative;
-}
-
-.profile-surname-label {
-  display: block;
-  font-size: 20px;
-  line-height: 100%;
-  color: #757575;
-  margin-left: 18px;
-}
-
-.profile-surname-input {
-  width: 320px;
-  height: 46px;
-  font-size: 20px;
-  color: #757575;
-  border-radius: 25px;
-  background-color: #f7f7f7;
-  border: #d9d9d9 solid 3px;
-  outline: none;
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-  padding: 18px 50px 18px 18px;
-}
-
-.profile-email-block {
-  margin-top: 50px;
-  margin-right: 542px;
-  position: relative;
-}
-
-.profile-email-label {
-  display: block;
-  font-size: 20px;
-  line-height: 100%;
-  color: #757575;
-  margin-left: 18px;
-}
-
-.profile-email-input {
-  width: 320px;
-  height: 46px;
-  font-size: 20px;
-  color: #757575;
-  border-radius: 25px;
-  background-color: #f7f7f7;
-  border: #d9d9d9 solid 3px;
-  outline: none;
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-  padding: 18px 50px 18px 18px;
-}
-
-.profile-phone-block {
-  margin-top: 50px;
-  margin-right: 542px;
-  position: relative;
-}
-
-.profile-phone-label {
-  display: block;
-  font-size: 20px;
-  line-height: 100%;
-  color: #757575;
-  margin-left: 18px;
-}
-
-.profile-phone-input {
-  width: 320px;
-  height: 46px;
-  font-size: 20px;
-  color: #757575;
-  border-radius: 25px;
-  background-color: #f7f7f7;
-  border: #d9d9d9 solid 3px;
-  outline: none;
-  display: flex;
-  align-items: center;
-  margin-top: 12px;
-  padding: 18px 50px 18px 18px;
-}
-
-.buttons-block {
-  float: right;
-  display: flex;
-  margin-top: 73px;
+  justify-content: flex-end;
+  gap: 26px;
 }
 
 .cancel-button {
-  width: 196px;
-  height: 54px;
-  background-color: #f7f7f7;
-  border: none;
   border-radius: 15px;
   color: #db6262;
   font-size: 28px;
-  font-weight: 400;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 10px 24px;
 }
 
 .cancel-button:hover {
-  cursor: pointer;
-  border: 2px solid #db6262;
+  border: 1px solid #db6262;
 }
 
 .save-button {
-  width: 195px;
-  height: 54px;
-  background-color: #54c392;
-  border: none;
   border-radius: 15px;
-  color: #f7f7f7;
   font-size: 28px;
-  font-weight: 600;
-  justify-content: center;
-  align-items: center;
-  margin-left: 25px;
-  transition: background-color 0.3s ease;
-}
-
-.save-button:hover {
-  cursor: pointer;
-  background-color: #3e9670;
+  padding: 10px 24px;
 }

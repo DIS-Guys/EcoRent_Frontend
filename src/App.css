@@ -10,3 +10,57 @@ body {
   margin: 0;
   background-color: #f7f7f7;
 }
+
+.main-button {
+  color: #fff;
+  background-color: #54c392;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.main-button:hover {
+  background-color: #3e9670;
+}
+
+.secondary-button {
+  color: #000;
+  background-color: #f7f7f7;
+  font-weight: 400;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: border 0.3s ease;
+}
+
+.secondary-button:hover {
+  border-color: #54c392;
+}
+
+.info-input {
+  outline: none;
+  border-radius: 25px;
+  background-color: #f7f7f7;
+  border: 3px solid #d9d9d9;
+  font-size: 20px;
+  color: #757575;
+}
+
+.gray-container {
+  width: 1420px;
+  height: 742px;
+  padding: 44px;
+  background-color: #e3e6ec;
+  margin: 50px auto;
+  border-radius: 60px;
+}
+
+.main-block {
+  background-color: #f7f7f7;
+  border-radius: 40px;
+}
+
+.main-label {
+  font-size: 20px;
+  color: #757575;
+}

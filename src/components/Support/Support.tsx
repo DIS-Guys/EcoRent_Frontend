@@ -2,30 +2,30 @@ import './Support.css';
 
 export const Support: React.FC = () => {
   return (
-    <div className="support-background">
-      <div className="support-back">
-        <div className="question-background">
-          <p className="question">Виникли проблеми або питання?</p>
+    <div className="gray-container">
+      <div className="support-block">
+        <div className="support-question-background">
+          <p className="support-question">Виникли проблеми або питання?</p>
         </div>
-        <form action="" className="input-form">
-          <label htmlFor="email" className="email-label">
+        <form className="support-form">
+          <label htmlFor="supportEmail" className="main-label">
             Ваш E-mail
           </label>
           <input
             type="email"
-            id="email"
-            className="email-input"
-            placeholder="example@email.com"
+            id="supportEmail"
+            className="support-email-input info-input"
+            placeholder="example@gmail.com"
           />
-          <label htmlFor="problem-textarea" className="problem-label">
+          <label htmlFor="supportTextArea" className="main-label">
             Проблема або питання
           </label>
           <textarea
-            id="problem-textarea"
-            className="problem-textarea"
+            id="supportTextArea"
+            className="support-textarea info-input"
             placeholder="Опишіть свою проблему"
           ></textarea>
-          <button className="send-button">Відправити</button>
+          <button className="support-send-button main-button">Відправити</button>
         </form>
       </div>
     </div>

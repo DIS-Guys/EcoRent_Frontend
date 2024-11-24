@@ -12,7 +12,7 @@ export const Main: React.FC = () => {
               type="text"
               placeholder="Який зарядний пристрій шукаєте?"
             />
-            <button className="search-button">
+            <button className="search-button main-button">
               <p className="search-button-text">Пошук</p>
               <img src="/icons/white-search.svg" alt="Search" />
             </button>
