@@ -9,7 +9,8 @@ import { RequireAuth } from './components/RequireAuth';
 import { RegisterPage } from './components/RegisterPage';
 import { Cabinet } from './components/Cabinet';
 import { Profile } from './components/Profile';
-import { Security } from './components/Security/Security.tsx';
+import { Security } from './components/Security';
+import { PersonalPage } from './components/PersonalPage';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -22,12 +23,15 @@ createRoot(document.getElementById('root')!).render(
             <Route path="support" element={<Support />} />
             <Route element={<RequireAuth />}>
               <Route path="rent-out" element={<h1>Rent out</h1>} />
-              <Route path="cabinet" element={<Cabinet />}>
-                <Route index element={<Navigate to="profile" replace />} />
-                <Route path="profile" element={<Profile />} />
-                <Route path="security" element={<Security />} />
-                <Route path="address" element={<h1>Address</h1>} />
-                <Route path="payment" element={<h1>Payment</h1>} />
+              <Route path="personal-page" element={<PersonalPage />}>
+                <Route index element={<Navigate to="cabinet" replace />} />
+                <Route path="cabinet" element={<Cabinet />}>
+                  <Route index element={<Navigate to="profile" replace />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="security" element={<Security />} />
+                  <Route path="address" element={<h1>Address</h1>} />
+                  <Route path="payment" element={<h1>Payment</h1>} />
+                </Route>
                 <Route path="my-devices" element={<h1>My devices</h1>} />
               </Route>
             </Route>

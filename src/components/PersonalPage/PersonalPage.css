@@ -1,0 +1,21 @@
+.personal-page-section-buttons {
+  display: flex;
+  gap: 44px;
+  margin-bottom: 34px;
+  height: 70px;
+}
+
+.personal-page-section-button {
+  text-decoration: none;
+  padding: 18px 26px;
+  border-radius: 20px;
+  font-size: 28px;
+}
+
+.cabinet-button {
+  width: 338px;
+}
+
+.my-devices-button {
+  width: 250px;
+}
