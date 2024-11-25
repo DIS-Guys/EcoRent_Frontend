@@ -6,10 +6,10 @@ export const Cabinet: React.FC = () => {
   return (
     <div className="gray-container">
       <div className="profile-section-buttons">
-        <button className="profile-section-button main-button">
+        <button className="profile-section-button cabinet-button main-button">
           Особистий кабінет
         </button>
-        <button className="profile-section-button secondary-button">
+        <button className="profile-section-button my-devices-button secondary-button">
           Мої пристрої
         </button>
       </div>

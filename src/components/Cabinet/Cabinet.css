@@ -11,6 +11,14 @@
   font-size: 28px;
 }
 
+.cabinet-button {
+  width: 338px;
+}
+
+.my-devices-button {
+  width: 250px;
+}
+
 .profile-container {
   height: 550px;
   display: flex;
@@ -31,14 +39,16 @@
   font-size: 28px;
   display: flex;
   align-items: center;
+  padding-left: 30px;
+  height: 52px;
+  width: 100%;
   gap: 22px;
-  padding: 9px 30px;
 }
 
 .profile-info-block {
   display: flex;
   flex-direction: column;
   gap: 50px;
-  width: 100%;
+  width: 950px;
   padding: 40px 44px;
 }
