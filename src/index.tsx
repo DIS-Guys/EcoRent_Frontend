@@ -7,10 +7,11 @@ import { Main } from './components/Main';
 import { Support } from './components/Support';
 import { RequireAuth } from './components/RequireAuth';
 import { RegisterPage } from './components/RegisterPage';
+import { PersonalPage } from './components/PersonalPage';
 import { Cabinet } from './components/Cabinet';
 import { Profile } from './components/Profile';
 import { Security } from './components/Security';
-import { PersonalPage } from './components/PersonalPage';
+import { Address } from './components/Address';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -29,7 +30,7 @@ createRoot(document.getElementById('root')!).render(
                   <Route index element={<Navigate to="profile" replace />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="security" element={<Security />} />
-                  <Route path="address" element={<h1>Address</h1>} />
+                  <Route path="address" element={<Address />} />
                   <Route path="payment" element={<h1>Payment</h1>} />
                 </Route>
                 <Route path="my-devices" element={<h1>My devices</h1>} />
