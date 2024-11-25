@@ -1,31 +1,10 @@
-.profile-section-buttons {
-  display: flex;
-  gap: 44px;
-  margin-bottom: 34px;
-  height: 70px;
-}
-
-.profile-section-button {
-  padding: 18px 26px;
-  border-radius: 20px;
-  font-size: 28px;
-}
-
-.cabinet-button {
-  width: 338px;
-}
-
-.my-devices-button {
-  width: 250px;
-}
-
-.profile-container {
+.cabinet-container {
   height: 550px;
   display: flex;
   gap: 44px;
 }
 
-.profile-menu {
+.cabinet-menu {
   width: 338px;
   display: flex;
   flex-direction: column;
@@ -33,7 +12,7 @@
   padding: 36px 44px;
 }
 
-.profile-menu-button {
+.cabinet-menu-button {
   text-decoration: none;
   border-radius: 16px;
   font-size: 28px;
@@ -45,10 +24,40 @@
   gap: 22px;
 }
 
-.profile-info-block {
+.cabinet-info-block {
   display: flex;
   flex-direction: column;
   gap: 50px;
   width: 950px;
   padding: 40px 44px;
+}
+
+.edit-icon {
+  position: absolute;
+  right: 16px;
+  top: 49px;
+  cursor: pointer;
+}
+
+.edit-buttons-block {
+  display: flex;
+  justify-content: flex-end;
+  gap: 26px;
+}
+
+.cancel-button {
+  border-radius: 15px;
+  color: #db6262;
+  font-size: 28px;
+  padding: 10px 24px;
+}
+
+.cancel-button:hover {
+  border: 1px solid #db6262;
+}
+
+.save-button {
+  border-radius: 15px;
+  font-size: 28px;
+  padding: 10px 24px;
 }

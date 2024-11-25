@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
         <Link to="/rent" className="icon-link search-icon-link">
           <img src="/icons/search.svg" alt="Search" />
         </Link>
-        <Link to="/cabinet" className="icon-link profile-icon-link">
+        <Link to="/personal-page" className="icon-link profile-icon-link">
           <img src="/icons/profile.svg" alt="Profile" />
         </Link>
       </div>
