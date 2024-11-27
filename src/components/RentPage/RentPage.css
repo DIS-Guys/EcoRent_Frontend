@@ -1,0 +1,163 @@
+.centering-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.external-container {
+    display: flex;
+    width: 1420px;
+    height: 1940px;
+}
+
+.content-block {
+    width: 1100px;
+    height: 1940px;
+
+}
+
+.filter-block {
+    width: 320px;
+    height: 1940px;
+}
+
+.cards-block {
+    display: flex;
+    flex-wrap: wrap;
+    width: 984px;
+    height: 1562px;
+    margin-top: 76px;
+    margin-left: 58px;
+    margin-right: 58px;
+    gap: 42px;
+}
+
+.navigation-block {
+    display: flex;
+    width: 707px;
+    height: 41px;
+    margin-left: 197px;
+    margin-right: 196px;
+    margin-top: 190px;
+    gap: 15px;
+}
+
+.filters-title {
+    color: #000;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    width: 168px;
+    margin-top: 18px;
+    margin-left: 76px;
+    margin-right: 76px;
+}
+
+.page-number {
+    padding-top: 3px;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #000;
+    background: #FFF;
+    color: #000;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    cursor: pointer;
+}
+
+.left-arrow {
+    margin-right: 16px;
+    cursor: pointer;
+}
+
+.right-arrow {
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.manufacturer-option {
+    margin-top: 12px;
+    margin-left: 32px;
+    display: flex;
+}
+
+.option-text {
+    margin-left: 20px;
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    text-align: center;
+    line-height: 20px;
+}
+
+.filter-checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.model-option {
+    margin-top: 12px;
+    margin-left: 32px;
+    display: flex;
+}
+
+.filter-checkbox-option {
+    margin-top: 12px;
+    margin-left: 32px;
+    display: flex;
+}
+
+.filter-subtitle {
+    margin-top: 18px;
+    margin-left: 32px;
+    margin-bottom: 4px;
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.filter-field-option {
+
+}
+
+.input-field {
+    margin-top: 16px;
+    margin-left: 32px;
+    padding-left: 8px;
+    width: 240px;
+    height: 36px;
+    border-radius: 25px;
+    border: 3px solid #D9D9D9;
+    background: #FFF;
+    font-size: 16px;
+    font-style: normal;
+    line-height: 100%;
+}
+
+.apply-button {
+    width: 240px;
+    height: 60px;
+    border-radius: 20px;
+    background: #54C392;
+    color: #FFF;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border-width: 0;
+    cursor: pointer;
+    margin-top: 28px;
+    margin-left: 32px;
+}
+
+.apply-button:hover {
+    background: #46b985;;
+}
