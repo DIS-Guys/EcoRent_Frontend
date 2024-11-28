@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import App from './App.tsx';
-import { AuthProvider } from './contexts/AuthContext.tsx';
+import { AuthProvider } from './providers/AuthProvider.tsx';
 import { Main } from './components/Main';
 import { Support } from './components/Support';
 import { RequireAuth } from './components/RequireAuth';

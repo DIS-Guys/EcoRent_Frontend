@@ -1,29 +1,6 @@
-import React, { useState } from 'react';
-
-type Props = {
-  children: React.ReactNode;
-};
+import React from 'react';
 
 export const AuthContext = React.createContext({
   authorized: false,
   login: (_email: string, _password: string) => false as boolean,
 });
-
-export const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [authorized, setAuthorized] = useState(false);
-
-  const login = (email: string, password: string) => {
-    if (email && password) {
-      setAuthorized(true);
-      return true;
-    }
-
-    return false;
-  };
-
-  return (
-    <AuthContext.Provider value={{ authorized, login }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
