@@ -13,13 +13,35 @@ export const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { login } = useContext(AuthContext);
+  const { login, register } = useContext(AuthContext);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleLogin = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (login(email, password)) {
+    try {
+      await login(email, password);
       navigate(state?.pathname || '/', { replace: true });
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        console.error('Unknown error:', error);
+      }
+    }
+  };
+
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+
+    try {
+      await register(name, surname, email, password);
+      navigate(state?.pathname || '/', { replace: true });
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      } else {
+        console.error('Unknown error:', error);
+      }
     }
   };
 
@@ -48,7 +70,10 @@ export const RegisterPage: React.FC = () => {
             Log-in
           </button>
         </div>
-        <form className="register-form" onSubmit={handleSubmit}>
+        <form
+          className="register-form"
+          onSubmit={!isSignedUp ? handleRegister : handleLogin}
+        >
           {!isSignedUp && (
             <div className="fullname-block">
               <input
