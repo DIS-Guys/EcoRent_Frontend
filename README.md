@@ -11,7 +11,7 @@
 
 Our project is an innovative charging station rental site called EcoFlow, which allows users to both rent and lease portable power stations. The main goal of this project is to ensure the availability of chargers for those who need them on a short-term basis, as well as to create a platform for station owners to generate additional income. We aim to create an ecosystem that enables the convenient exchange of energy resources by optimising the use of charging stations. This solution will enable efficient use of resources by reducing the need to purchase expensive stations for temporary needs and will contribute to sustainable development as each station will be used as efficiently as possible.
 
-![screenshot](https://imgur.com/a/BxNPbek)
+![screenshot](https://i.imgur.com/0bT7HSm.jpeg)
 
 ## How to set up project
 
