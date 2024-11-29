@@ -4,7 +4,7 @@
 }
 
 .rent-search-block {
-  width: 75%;
+  width: 1024px;
 }
 
 .content-block {
@@ -13,13 +13,21 @@
 }
 
 .filter-block {
+  position: sticky;
+  top: 0;
   width: 320px;
-  height: 1526px;
-  padding: 10px 24px;
+  height: 90vh;
   display: flex;
-  gap: 18px;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.filter-content {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 24px;
+  gap: 18px;
+  flex: 1;
 }
 
 .filter-title {
@@ -87,6 +95,17 @@
   border-radius: 25px;
   border: 3px solid #d9d9d9;
   font-size: 16px;
+}
+
+.filter-button-wrapper {
+  position: sticky;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  bottom: 0;
+  background-color: #f7f7f7;
+  padding: 10px;
 }
 
 .filter-button {
