@@ -25,7 +25,9 @@ export const Support: React.FC = () => {
             className="support-textarea info-input"
             placeholder="Опишіть свою проблему"
           ></textarea>
-          <button className="support-send-button main-button">Відправити</button>
+          <button className="support-send-button main-button">
+            Відправити
+          </button>
         </form>
       </div>
     </div>

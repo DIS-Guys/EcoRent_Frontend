@@ -7,7 +7,7 @@ export const RequireAuth: React.FC = () => {
   const { pathname } = useLocation();
 
   if (!authorized) {
-    return <Navigate to="/login" state={{ pathname }} replace/>;
+    return <Navigate to="/login" state={{ pathname }} replace />;
   }
 
   return <Outlet />;
