@@ -125,16 +125,40 @@
   align-items: center;
   width: 40px;
   height: 40px;
-  border-radius: 10px;
-  border: 1px solid #000;
-  background-color: #fff;
-  font-size: 24px;
+  border-radius: 8px;
+  border: 1px solid #e3e6ec;
+  font-size: 18px;
   font-weight: 600;
+  color: #757575;
   cursor: pointer;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.page-number:hover {
+  background-color: #15b392;
+  color: #fff;
+  border-color: #15b392;
 }
 
 .arrow {
-  border: none;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background-color: #f7f7f7;
+  border: 1px solid #e3e6ec;
   cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+}
+
+.arrow img {
+  width: 24px;
+  height: 24px;
+}
+
+.arrow:hover {
+  border-color: #15b392;
+  transform: scale(1.1);
 }

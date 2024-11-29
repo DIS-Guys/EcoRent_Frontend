@@ -247,7 +247,7 @@ export const RentPage: React.FC = () => {
           </div>
           <div className="navigation-block">
             <button className="arrow">
-              <img src="./icons/leftarrow.svg" />
+              <img src="./icons/leftarrow.svg" alt='Previous page'/>
             </button>
             <div className="page-number">1</div>
             <div className="page-number">2</div>
@@ -260,7 +260,7 @@ export const RentPage: React.FC = () => {
             <div className="page-number">...</div>
             <div className="page-number">14</div>
             <button className="arrow">
-              <img src="./icons/rightarrow.svg" />
+              <img src="./icons/rightarrow.svg" alt='Next page'/>
             </button>
           </div>
         </div>
