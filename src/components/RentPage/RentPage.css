@@ -1,8 +1,15 @@
 .rent-container {
-  display: flex;
   width: 1420px;
   margin: 0 auto;
-  padding: 64px 0;
+}
+
+.rent-search-block {
+  width: 75%;
+}
+
+.content-block {
+  display: flex;
+  padding: 24px 0 64px;
 }
 
 .filter-block {
@@ -89,7 +96,7 @@
   font-size: 24px;
 }
 
-.content-block {
+.devices-block {
   width: 1100px;
   height: 1650px;
   display: flex;
