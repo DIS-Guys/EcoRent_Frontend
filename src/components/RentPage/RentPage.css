@@ -14,7 +14,6 @@
 
 .filter-block {
   width: 320px;
-  height: 800px;
   height: 1526px;
   padding: 10px 24px;
   display: flex;
@@ -56,6 +55,7 @@
 
 .size-fields {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
