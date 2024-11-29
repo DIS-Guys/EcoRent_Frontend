@@ -12,7 +12,7 @@ import { Cabinet } from './components/Cabinet';
 import { Profile } from './components/Profile';
 import { Security } from './components/Security';
 import { Address } from './components/Address';
-import {RentPage} from "./components/RentPage/RentPage.tsx";
+import { RentPage } from './components/RentPage';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
