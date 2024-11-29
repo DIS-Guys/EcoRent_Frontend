@@ -4,23 +4,26 @@ import { DeviceCard } from '../DeviceCard/DeviceCard.tsx';
 export const RentPage: React.FC = () => {
   return (
     <div className="rent-container">
-      <div className="search">
-        <div className="search-block rent-search-block">
-          <input
-            className="main-search"
-            type="text"
-            placeholder="Який зарядний пристрій шукаєте?"
-          />
-          <button className="search-button main-button">
-            <p className="search-button-text">Пошук</p>
-            <img src="/icons/white-search.svg" alt="Search" />
-          </button>
+      <div className="sticky-block">
+        <h1 className="filter-title">Фільтри</h1>
+        <div className="search">
+          <div className="search-block rent-search-block">
+            <input
+              className="main-search"
+              type="text"
+              placeholder="Який зарядний пристрій шукаєте?"
+            />
+            <button className="search-button main-button">
+              <p className="search-button-text">Пошук</p>
+              <img src="/icons/white-search.svg" alt="Search" />
+            </button>
+          </div>
         </div>
       </div>
+
       <div className="content-block">
         <div className="filter-block">
           <div className="filter-content">
-            <h1 className="filter-title">Фільтри</h1>
             <div className="filter-section">
               <h2 className="filter-subtitle">Виробник</h2>
               <div className="filter-option">

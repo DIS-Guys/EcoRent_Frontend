@@ -1,22 +1,42 @@
 .rent-container {
+  display: flex;
+  position: relative;
+  flex-direction: column;
   width: 1420px;
   margin: 0 auto;
+  padding: 0 0 64px;
+}
+
+.sticky-block {
+  position: sticky;
+  background-color: #f7f7f7;
+  z-index: 10;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 80px;
+  padding-right: 58px;
+}
+
+.filter-title {
+  font-size: 40px;
 }
 
 .rent-search-block {
-  width: 1024px;
+  width: 984px;
 }
 
 .content-block {
+  position: relative;
   display: flex;
-  padding: 24px 0 64px;
 }
 
 .filter-block {
   position: sticky;
-  top: 0;
+  top: 100px;
   width: 320px;
-  height: 90vh;
+  height: 750px;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
@@ -28,11 +48,6 @@
   padding: 10px 24px;
   gap: 18px;
   flex: 1;
-}
-
-.filter-title {
-  font-size: 40px;
-  align-self: center;
 }
 
 .filter-section {
