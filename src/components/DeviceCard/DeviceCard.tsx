@@ -1,4 +1,3 @@
-import React from 'react';
 import './DeviceCard.css';
 
 export const DeviceCard: React.FC = () => {

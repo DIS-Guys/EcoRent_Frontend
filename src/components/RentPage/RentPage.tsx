@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './RentPage.css';
-import { DeviceCard } from '../DeviceCard/DeviceCard.tsx';
+import { DeviceCard } from '../DeviceCard';
 import brands from '../../data/brands.json';
 import sockets from '../../data/sockets.json';
 
