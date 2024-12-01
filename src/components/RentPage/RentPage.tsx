@@ -1,7 +1,12 @@
+import { useState } from 'react';
 import './RentPage.css';
-import { DeviceCard } from '../DeviceCard/DeviceCard.tsx';
+import { DeviceCard } from '../DeviceCard';
+import brands from '../../data/brands.json';
+import sockets from '../../data/sockets.json';
 
 export const RentPage: React.FC = () => {
+  const [chosenBrands, setChosenBrands] = useState(['EcoFlow']);
+
   return (
     <div className="rent-container">
       <div className="sticky-block">
@@ -26,75 +31,37 @@ export const RentPage: React.FC = () => {
           <div className="filter-content">
             <div className="filter-section">
               <h2 className="filter-subtitle">Виробник</h2>
-              <div className="filter-option">
-                <input
-                  type="checkbox"
-                  className="filter-checkbox"
-                  id="EcoFlow"
-                />
-                <label htmlFor="EcoFlow" className="option-text">
-                  EcoFlow
-                </label>
-              </div>
-              <div className="filter-option">
-                <input
-                  type="checkbox"
-                  className="filter-checkbox"
-                  id="Bluetti"
-                />
-                <label htmlFor="Bluetti" className="option-text">
-                  Bluetti
-                </label>
-              </div>
-              <div className="filter-option">
-                <input
-                  type="checkbox"
-                  className="filter-checkbox"
-                  id="Jackery"
-                />
-                <label htmlFor="Jackery" className="option-text">
-                  Jackery
-                </label>
-              </div>
-              <div className="filter-option">
-                <input
-                  type="checkbox"
-                  className="filter-checkbox"
-                  id="Choetech"
-                />
-                <label htmlFor="Choetech" className="option-text">
-                  Choetech
-                </label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" id="Anker" />
-                <label htmlFor="Anker" className="option-text">
-                  Anker
-                </label>
-              </div>
+              {brands.map((brand) => (
+                <div className="filter-option" key={brand.name}>
+                  <input
+                    type="checkbox"
+                    className="filter-checkbox"
+                    id={`${brand.name}`}
+                  />
+                  <label htmlFor={`${brand.name}`} className="option-text">
+                    {`${brand.name}`}
+                  </label>
+                </div>
+              ))}
             </div>
             <div className="filter-section">
               <h2 className="filter-subtitle">Модель</h2>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Модель 1</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Модель 2</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Модель 3</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Модель 4</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Модель 5</label>
-              </div>
+              {brands
+                .filter((brand) => chosenBrands.includes(brand.name))
+                .map((brand) =>
+                  brand.model.map((model) => (
+                    <div className="filter-option" key={model}>
+                      <input
+                        id={`${model}`}
+                        type="checkbox"
+                        className="filter-checkbox"
+                      />
+                      <label htmlFor={`${model}`} className="option-text">
+                        {model}
+                      </label>
+                    </div>
+                  ))
+                )}
             </div>
             <div className="filter-section">
               <h2 className="filter-subtitle">Розмір</h2>
@@ -109,115 +76,119 @@ export const RentPage: React.FC = () => {
             <div className="filter-section">
               <h2 className="filter-subtitle">Стан</h2>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Новий</label>
+                <input id="new" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="new" className="option-text">
+                  Новий
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Б/в</label>
+                <input id="used" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="used" className="option-text">
+                  Б/в
+                </label>
               </div>
             </div>
-            <div className="filter-section">
-              <h2 className="filter-subtitle">Кількість розеток</h2>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">1 роз'єм</label>
+            {sockets.map((socket) => (
+              <div className="filter-section" key={socket.title}>
+                <h2 className="filter-subtitle">{socket.title}</h2>
+                {socket.amounts.map((amount) => (
+                  <div className="filter-option" key={`${amount.id}`}>
+                    <input
+                      id={`${amount.id}`}
+                      type="checkbox"
+                      className="filter-checkbox"
+                    />
+                    <label htmlFor={`${amount.id}`} className="option-text">
+                      {amount.title}
+                    </label>
+                  </div>
+                ))}
               </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">2 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">3 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Більше 4 роз'ємів</label>
-              </div>
-            </div>
-            <div className="filter-section">
-              <h2 className="filter-subtitle">USB-Type A</h2>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">1 роз'єм</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">2 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">3 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Більше 4 роз'ємів</label>
-              </div>
-            </div>
-            <div className="filter-section">
-              <h2 className="filter-subtitle">USB-Type C</h2>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">1 роз'єм</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">2 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">3 роз'єми</label>
-              </div>
-              <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Більше 4 роз'ємів</label>
-              </div>
-            </div>
+            ))}
             <div className="filter-section">
               <h2 className="filter-subtitle">Тип акумулятора</h2>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">SLA</label>
+                <input id="sla" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="sla" className="option-text">
+                  SLA
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">EFB</label>
+                <input id="efb" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="efb" className="option-text">
+                  EFB
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">GEL</label>
+                <input id="gel" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="gel" className="option-text">
+                  GEL
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">AGM</label>
+                <input id="agm" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="agm" className="option-text">
+                  AGM
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Li-Ion</label>
+                <input
+                  id="li-ion"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="li-ion" className="option-text">
+                  Li-Ion
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Li-Pol</label>
+                <input
+                  id="li-pol"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="li-pol" className="option-text">
+                  Li-Pol
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">LiFePO4</label>
+                <input
+                  id="lifepo4"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="lifepo4" className="option-text">
+                  LiFePO4
+                </label>
               </div>
             </div>
             <div className="filter-section">
               <h2 className="filter-subtitle">Віддалене користування</h2>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">WI-FI</label>
+                <input id="wi-fi" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="wi-fi" className="option-text">
+                  WI-FI
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Bluetooth</label>
+                <input
+                  id="bluetooth"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="bluetooth" className="option-text">
+                  Bluetooth
+                </label>
               </div>
               <div className="filter-option">
-                <input type="checkbox" className="filter-checkbox" />
-                <label className="option-text">Відсутнє</label>
+                <input
+                  id="missing"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="missing" className="option-text">
+                  Відсутнє
+                </label>
               </div>
             </div>
             <div className="filter-section">
@@ -242,18 +213,9 @@ export const RentPage: React.FC = () => {
 
         <div className="devices-block">
           <div className="cards-block">
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
-            <DeviceCard />
+            {Array.from({ length: 12 }, (_, i) => (
+              <DeviceCard key={i} />
+            ))}
           </div>
           <div className="navigation-block">
             <button className="arrow">
