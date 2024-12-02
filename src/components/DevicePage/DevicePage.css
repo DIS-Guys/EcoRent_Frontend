@@ -1,0 +1,227 @@
+.device-page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 48px;
+  width: 1200px;
+  margin: 0 auto;
+  padding-block: 20px 64px;
+}
+
+.device-main-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.back-to-rent-page-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.back-to-rent-page-button:hover {
+  color: #2f9228;
+  transform: translateX(-2px);
+}
+
+.device-picture-block {
+  display: flex;
+  gap: 24px;
+}
+
+.device-side-pictures {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  width: 100px;
+}
+
+.device-side-picture {
+  border-radius: 15px;
+  background-color: #d9d9d9;
+  cursor: pointer;
+}
+
+.view-all-pictures {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 600;
+  border-radius: 15px;
+  cursor: pointer;
+  flex: 1;
+  user-select: none;
+  background-color: #d9d9d9;
+}
+
+.main-device-picture {
+  width: 600px;
+  height: 600px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.device-main-info-block {
+  display: flex;
+  gap: 50px;
+}
+
+.device-short-info {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+}
+
+.device-page-name {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.device-page-name-title {
+  align-self: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.lessor-info-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  border-radius: 25px;
+  padding: 15px 45px;
+}
+
+.lessor-info-button-title {
+  font-weight: 600;
+  font-size: 32px;
+}
+
+.lessor-info-button-price {
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.device-extended-info-block {
+  display: flex;
+  gap: 64px;
+}
+
+.device-characteristics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  gap: 20px;
+  border-top: 2px solid #54c392;
+  border-bottom: 2px solid #54c392;
+  flex: 1;
+}
+
+.characteristics-title {
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.characteristics-block {
+  display: flex;
+  gap: 44px;
+}
+
+.char-name-block {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.char-name {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.char-value-block {
+  display: flex;
+  flex-direction: column;
+  gap: 26px;
+}
+
+.char-value {
+  font-size: 20px;
+}
+
+.device-additional-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 20px;
+  padding: 20px;
+  height: fit-content;
+  border-top: 2px solid #54c392;
+  border-bottom: 2px solid #54c392;
+}
+
+.additional-info-title {
+  align-self: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.additional-info-text {
+  font-size: 20px;
+}
+
+.device-page-location {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 2px solid #54c392;
+  border-radius: 15px;
+}
+
+.device-page-location-title {
+  align-self: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.device-page-location-info {
+  font-size: 24px;
+}
+
+.location-info {
+  font-weight: 500;
+}
+
+.device-page-owner {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  border: 2px solid #54c392;
+  border-radius: 15px;
+}
+
+.device-page-owner-title {
+  align-self: center;
+  font-size: 28px;
+  font-weight: 600;
+}
+
+.device-page-owner-fullname {
+  font-weight: 500;
+  font-size: 24px;
+}
+
+.owner-registration-date {
+  font-size: 16px;
+}
