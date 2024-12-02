@@ -13,7 +13,7 @@ import { Profile } from './components/Profile';
 import { Security } from './components/Security';
 import { Address } from './components/Address';
 import { RentPage } from './components/RentPage';
-import { DevicePage } from './components/DevicePage/DevicePage.tsx';
+import { DevicePage } from './components/DevicePage';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
