@@ -26,7 +26,7 @@ export const Header: React.FC = () => {
             </NavLink>
           </li>
           <li className="nav-item">
-            <NavLink to="/rent-out" className={getLinkClass}>
+            <NavLink to="/personal-page/my-devices" className={getLinkClass}>
               Для власників
             </NavLink>
           </li>
