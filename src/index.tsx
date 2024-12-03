@@ -15,6 +15,7 @@ import { Address } from './components/Address';
 //import { RentPage } from './components/RentPage';
 import { DevicePage } from './components/DevicePage';
 import { Payment } from './components/Payment/Payment.tsx';
+import { AddedCard } from './components/AddedCard';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -24,7 +25,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />}>
             <Route index element={<Main />} />
             <Route path="rent">
-              <Route index element={<Payment />} />
+              <Route index element={<AddedCard/>} />
               <Route path="device-details" element={<DevicePage />} />
             </Route>
             <Route path="support" element={<Support />} />
