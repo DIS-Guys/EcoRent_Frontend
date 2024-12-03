@@ -74,41 +74,76 @@
 }
 
 .device-short-info {
+  align-self: center;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
 }
 
 .device-page-name {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 12px;
 }
 
 .device-page-name-title {
-  align-self: center;
-  font-size: 28px;
-  font-weight: 600;
+  font-size: 26px;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+  word-wrap: break-word;
+  line-height: 1.2;
+  text-align: center;
 }
 
 .lessor-info-button {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 14px;
-  border-radius: 25px;
-  padding: 15px 45px;
+  justify-content: center;
+  gap: 12px;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
 }
 
 .lessor-info-button-title {
   font-weight: 600;
-  font-size: 32px;
+  font-size: 16px;
 }
 
-.lessor-info-button-price {
+.device-page-location,
+.device-page-owner {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.device-page-location-title,
+.device-page-owner-title {
+  font-size: 20px;
   font-weight: 600;
-  font-size: 24px;
+  color: #444;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.device-page-location-info p,
+.device-page-owner-info h2,
+.device-page-owner-info p {
+  font-size: 14px;
+  color: #555;
+  margin: 4px 0;
 }
 
 .device-extended-info-block {
@@ -177,51 +212,4 @@
 
 .additional-info-text {
   font-size: 20px;
-}
-
-.device-page-location {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  border: 2px solid #54c392;
-  border-radius: 15px;
-}
-
-.device-page-location-title {
-  align-self: center;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.device-page-location-info {
-  font-size: 24px;
-}
-
-.location-info {
-  font-weight: 500;
-}
-
-.device-page-owner {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 20px;
-  border: 2px solid #54c392;
-  border-radius: 15px;
-}
-
-.device-page-owner-title {
-  align-self: center;
-  font-size: 28px;
-  font-weight: 600;
-}
-
-.device-page-owner-fullname {
-  font-weight: 500;
-  font-size: 24px;
-}
-
-.owner-registration-date {
-  font-size: 16px;
 }

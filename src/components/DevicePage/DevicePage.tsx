@@ -50,8 +50,8 @@ export const DevicePage: React.FC = () => {
             <div className="device-page-name">
               <h1 className="device-page-name-title">Назва пристрою</h1>
               <button className="lessor-info-button main-button">
-                <p className="lessor-info-button-title">Орендувати</p>
-                <p className="lessor-info-button-price">1500 грн/міс</p>
+                <span className="lessor-info-button-title">Орендувати</span>
+                <span className="lessor-info-button-price">1500 грн/міс</span>
               </button>
             </div>
             <div className="device-page-location">
