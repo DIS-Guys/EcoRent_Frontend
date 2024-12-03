@@ -1,4 +1,4 @@
-import './AddedCard.css';
+import './UserCard.css';
 
 export const AddedCard: React.FC = () => {
   return (

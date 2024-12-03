@@ -1,80 +1,20 @@
-.payment-cards-block {
-  position: relative;
-  height: 380px;
-}
-
-.gray-card {
-  position: absolute;
-  width: 500px;
-  height: 300px;
-  border-radius: 40px;
-  background-color: #d9d9d9;
-  padding: 25px;
-  z-index: 1;
-}
-
-.red-card {
-  position: absolute;
-  width: 500px;
-  height: 300px;
-  border-radius: 40px;
-  background: #dac8c8;
-  left: 362px;
-  top: 78px;
-}
-
-.yellow-chip {
-  width: 92px;
-  height: 64px;
-  background: #dccb86;
-  border-radius: 15px;
-  margin-left: 18px;
-}
-
-.payment-card-info-block {
-  margin-top: 16px;
+.add-card-button {
   display: flex;
-  gap: 56px;
+  gap: 15px;
+  width: 240px;
+  height: 70px;
+  background-color: #f7f7f7;
+  font-weight: 600;
+  color: #54c392;
+  text-decoration: none;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
-.payment-card-left-block {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.payment-card-input-block {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.payment-card-input {
-  padding-inline: 18px;
-}
-
-.payment-card-label {
-  margin-left: 6px;
-}
-
-.payment-card-big-input {
-  height: 46px;
-  width: 245px;
-}
-
-.payment-card-small-input {
-  height: 46px;
-  width: 100px;
-}
-
-.black-line {
-  margin-top: 64px;
-  height: 55px;
-  background-color: #494949;
-}
-
-.cvv-block {
-  float: right;
-  margin-top: 50px;
-  margin-right: 64px;
+.add-card-button:hover {
+  transition: border-color 0.3s ease;
+  border-color: #54c392;
 }
