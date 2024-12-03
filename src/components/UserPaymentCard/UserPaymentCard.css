@@ -1,0 +1,23 @@
+.user-payment-card {
+  display: flex;
+  gap: 25px;
+  justify-content: center;
+  align-items: center;
+  width: 435px;
+  height: 70px;
+  border-radius: 20px;
+  border: 1px solid #54c392;
+  background: #fff;
+}
+
+.user-payment-card-text {
+  color: #54c392;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.delete-payment-card-button {
+  border: none;
+  display: flex;
+  cursor: pointer;
+}
