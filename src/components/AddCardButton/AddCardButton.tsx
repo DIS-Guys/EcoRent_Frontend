@@ -1,6 +1,6 @@
-import './AddedCard.css';
+import './AddCardButton.css';
 
-export const AddedCard: React.FC = () => {
+export const AddCardButton: React.FC = () => {
   return (
     <div className="added-card">
       <img className="plus-icon" alt="plus icon" src="/icons/plus-circle.svg" />
