@@ -9,8 +9,9 @@
   border-radius: 20px;
   border: 1px solid #54C392;
   background: #FFF;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 28px;
+  padding-right: 28px;
+  cursor: pointer;
 }
 
 .added-card-text {
