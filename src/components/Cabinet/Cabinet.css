@@ -41,7 +41,8 @@
 
 .edit-buttons-block {
   display: flex;
-  justify-content: flex-end;
+  margin-top: auto;
+  align-self: flex-end;
   gap: 26px;
 }
 
