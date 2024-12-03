@@ -13,6 +13,7 @@ import { Profile } from './components/Profile';
 import { Security } from './components/Security';
 import { Address } from './components/Address';
 import { RentPage } from './components/RentPage';
+import { DevicePage } from './components/DevicePage';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -21,7 +22,10 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Main />} />
-            <Route path="rent" element={<RentPage />} />
+            <Route path="rent">
+              <Route index element={<RentPage />} />
+              <Route path="device-details" element={<DevicePage />} />
+            </Route>
             <Route path="support" element={<Support />} />
             <Route element={<RequireAuth />}>
               <Route path="rent-out" element={<h1>Rent out</h1>} />

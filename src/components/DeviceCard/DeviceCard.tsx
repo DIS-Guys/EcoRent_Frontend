@@ -1,8 +1,11 @@
+import { useNavigate } from 'react-router-dom';
 import './DeviceCard.css';
 
 export const DeviceCard: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="device-card">
+    <div className="device-card" onClick={() => navigate('device-details')}>
       <img
         className="device-card-image"
         src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
