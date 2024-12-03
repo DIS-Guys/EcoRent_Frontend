@@ -14,6 +14,7 @@ import { Security } from './components/Security';
 import { Address } from './components/Address';
 import { RentPage } from './components/RentPage';
 import { DevicePage } from './components/DevicePage';
+import { Payment } from './components/Payment';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -23,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />}>
             <Route index element={<Main />} />
             <Route path="rent">
-              <Route index element={<RentPage />} />
+              <Route index element={<RentPage/>} />
               <Route path="device-details" element={<DevicePage />} />
             </Route>
             <Route path="support" element={<Support />} />
@@ -36,7 +37,7 @@ createRoot(document.getElementById('root')!).render(
                   <Route path="profile" element={<Profile />} />
                   <Route path="security" element={<Security />} />
                   <Route path="address" element={<Address />} />
-                  <Route path="payment" element={<h1>Payment</h1>} />
+                  <Route path="payment" element={<Payment />} />
                 </Route>
                 <Route path="my-devices" element={<h1>My devices</h1>} />
               </Route>

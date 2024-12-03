@@ -1,0 +1,159 @@
+.extra-container {
+  width: 1420px;
+  height: 742px;
+  background: #757575;
+}
+
+.external-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 44px;
+  padding-left: 44px;
+  width: 950px;
+  height: 550px;
+  position: relative;
+  background: white;
+}
+
+.gray-card {
+  position: relative;
+  width: 500px;
+  height: 300px;
+  border-radius: 40px;
+  background: #D9D9D9;
+  padding-top: 36px;
+  z-index: 2;
+}
+
+.yellow-chip {
+  width: 92px;
+  height: 64px;
+  background: #DCCB86;
+  border-radius: 15px;
+  margin-left: 39px;
+}
+
+.red-card {
+  width: 500px;
+  height: 300px;
+  border-radius: 40px;
+  margin-top: 44px;
+  margin-left: 44px;
+  background: #DAC8C8;
+  padding-top: 65px;
+  position: absolute;
+  left: 362px;
+  top: 79px;
+  z-index: 1;
+}
+
+.black-line {
+  width: 500px;
+  height: 55px;
+  background: #494949;
+}
+
+.cvv-block {
+  margin-top: 25px;
+  margin-left: 323px;
+}
+
+.big-input {
+  width: 245px;
+  height: 46px;
+  border-radius: 25px;
+  border: 3px solid #D9D9D9;
+  background: #FFF;
+  margin-top: 12px;
+  font-size: 16px;
+  padding: 13px 19px;
+}
+
+.small-input {
+  width: 90px;
+  height: 46px;
+  border-radius: 25px;
+  border: 3px solid #D9D9D9;
+  background: #FFF;
+  font-size: 20px;
+}
+
+.card-info-block {
+  display: flex;
+  margin-top: 16px;
+}
+
+.left-block {
+  margin-left: 22px;
+}
+
+.card-info-text {
+  color: #757575;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%;
+}
+
+.big-input-label {
+  margin-left: 18px;
+}
+
+.owner-label {
+  margin-top: 14px;
+}
+
+.expiration-date {
+  margin-top: 12px;
+  padding: 13px 12px;
+}
+
+.expiration-date-block {
+  margin-left: 47px;
+  margin-top: 92px;
+}
+
+.cvv-label {
+  margin-left: 24px;
+  margin-left: 24px;
+}
+
+.cvv-input {
+  margin-top: 11px;
+  padding: 13px 25px;
+}
+
+.cards-block {
+  height: 423px;
+}
+
+.button-block {
+  display: flex;
+  margin-left: 446px;
+}
+
+.cancel-button {
+  width: 196px;
+  height: 54px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  border: 1px solid #DB6262;
+  background: #FFF;
+  cursor: pointer;
+}
+
+.apply-button {
+  border-radius: 15px;
+  background: #54C392;
+  width: 195px;
+  height: 54px;
+  color: #FFF;
+  text-align: center;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  border: none;
+  margin-left: 25px;
+  cursor: pointer;
+}
