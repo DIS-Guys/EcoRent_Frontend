@@ -88,6 +88,51 @@ export const RentPage: React.FC = () => {
                 </label>
               </div>
             </div>
+            <div className="filter-section">
+              <h2 className="filter-subtitle">Ємність батареї</h2>
+              <div className="filter-option">
+                <input id="500-" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="500-" className="option-text">
+                  Менше 500 кВт·год
+                </label>
+              </div>
+              <div className="filter-option">
+                <input
+                  id="500-1000"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="500-1000" className="option-text">
+                  500 - 1000 кВт·год
+                </label>
+              </div>
+              <div className="filter-option">
+                <input
+                  id="1001-2000"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="1001-2000" className="option-text">
+                  1001 - 2000 кВт·год
+                </label>
+              </div>
+              <div className="filter-option">
+                <input
+                  id="2001 - 3000"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="2001 - 3000" className="option-text">
+                  2001 - 3000 кВт·год
+                </label>
+              </div>
+              <div className="filter-option">
+                <input id="3000+" type="checkbox" className="filter-checkbox" />
+                <label htmlFor="3000+" className="option-text">
+                  Більше 3000 кВт·год
+                </label>
+              </div>
+            </div>
             {sockets.map((socket) => (
               <div className="filter-section" key={socket.title}>
                 <h2 className="filter-subtitle">{socket.title}</h2>
