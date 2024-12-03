@@ -16,6 +16,7 @@ import { RentPage } from './components/RentPage';
 import { DevicePage } from './components/DevicePage';
 import { Payment } from './components/Payment';
 import { AddCardPage } from './components/AddCardPage';
+import { UserDevicesPage } from './components/UserDevicesPage';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -43,7 +44,7 @@ createRoot(document.getElementById('root')!).render(
                     <Route path="add-card" element={<AddCardPage />} />
                   </Route>
                 </Route>
-                <Route path="my-devices" element={<h1>My devices</h1>} />
+                <Route path="my-devices" element={<UserDevicesPage />} />
               </Route>
             </Route>
             <Route path="login" element={<RegisterPage />} />
