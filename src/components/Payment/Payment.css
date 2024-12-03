@@ -1,28 +1,26 @@
-.extra-container {
-  width: 1420px;
-  height: 742px;
-  background: #757575;
-}
-
-.external-container {
-  display: flex;
-  flex-direction: column;
-  padding-top: 44px;
-  padding-left: 44px;
-  width: 950px;
-  height: 550px;
+.payment-cards-block {
   position: relative;
-  background: white;
+  height: 380px;
 }
 
 .gray-card {
-  position: relative;
+  position: absolute;
   width: 500px;
   height: 300px;
   border-radius: 40px;
-  background: #d9d9d9;
-  padding-top: 36px;
-  z-index: 2;
+  background-color: #d9d9d9;
+  padding: 25px;
+  z-index: 1;
+}
+
+.red-card {
+  position: absolute;
+  width: 500px;
+  height: 300px;
+  border-radius: 40px;
+  background: #dac8c8;
+  left: 362px;
+  top: 78px;
 }
 
 .yellow-chip {
@@ -30,130 +28,53 @@
   height: 64px;
   background: #dccb86;
   border-radius: 15px;
-  margin-left: 39px;
-}
-
-.red-card {
-  width: 500px;
-  height: 300px;
-  border-radius: 40px;
-  margin-top: 44px;
-  margin-left: 44px;
-  background: #dac8c8;
-  padding-top: 65px;
-  position: absolute;
-  left: 362px;
-  top: 79px;
-  z-index: 1;
-}
-
-.black-line {
-  width: 500px;
-  height: 55px;
-  background: #494949;
-}
-
-.cvv-block {
-  margin-top: 25px;
-  margin-left: 323px;
-}
-
-.big-input {
-  width: 245px;
-  height: 46px;
-  border-radius: 25px;
-  border: 3px solid #d9d9d9;
-  background: #fff;
-  margin-top: 12px;
-  font-size: 16px;
-  padding: 13px 19px;
-}
-
-.small-input {
-  width: 90px;
-  height: 46px;
-  border-radius: 25px;
-  border: 3px solid #d9d9d9;
-  background: #fff;
-  font-size: 20px;
-}
-
-.card-info-block {
-  display: flex;
-  margin-top: 16px;
-}
-
-.left-block {
-  margin-left: 22px;
-}
-
-.card-info-text {
-  color: #757575;
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 100%;
-}
-
-.big-input-label {
   margin-left: 18px;
 }
 
-.owner-label {
-  margin-top: 14px;
-}
-
-.expiration-date {
-  margin-top: 12px;
-  padding: 13px 12px;
-}
-
-.expiration-date-block {
-  margin-left: 47px;
-  margin-top: 92px;
-}
-
-.cvv-label {
-  margin-left: 24px;
-  margin-left: 24px;
-}
-
-.cvv-input {
-  margin-top: 11px;
-  padding: 13px 25px;
-}
-
-.cards-block {
-  height: 423px;
-}
-
-.button-block {
+.payment-card-info-block {
+  margin-top: 16px;
   display: flex;
-  margin-left: 446px;
+  gap: 56px;
 }
 
-.cancel-button {
-  width: 196px;
-  height: 54px;
-  flex-shrink: 0;
-  border-radius: 15px;
-  border: 1px solid #db6262;
-  background: #fff;
-  cursor: pointer;
+.payment-card-left-block {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-.apply-button {
-  border-radius: 15px;
-  background: #54c392;
-  width: 195px;
-  height: 54px;
-  color: #fff;
-  text-align: center;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: normal;
-  border: none;
-  margin-left: 25px;
-  cursor: pointer;
+.payment-card-input-block {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.payment-card-input {
+  padding-inline: 18px;
+}
+
+.payment-card-label {
+  margin-left: 6px;
+}
+
+.payment-card-big-input {
+  height: 46px;
+  width: 245px;
+}
+
+.payment-card-small-input {
+  height: 46px;
+  width: 100px;
+}
+
+.black-line {
+  margin-top: 64px;
+  height: 55px;
+  background-color: #494949;
+}
+
+.cvv-block {
+  float: right;
+  margin-top: 50px;
+  margin-right: 64px;
 }
