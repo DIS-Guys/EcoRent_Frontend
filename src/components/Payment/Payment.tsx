@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom';
-import './Payment.css';
 
 export const Payment: React.FC = () => {
   return (
-    <Link to="add-card" className="add-card-button">
+    <Link to="add-card" className="add-button">
       <img
         className="add-card-icon"
         alt="Add card icon"
