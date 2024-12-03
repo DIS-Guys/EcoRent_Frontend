@@ -20,7 +20,7 @@
   width: 500px;
   height: 300px;
   border-radius: 40px;
-  background: #D9D9D9;
+  background: #d9d9d9;
   padding-top: 36px;
   z-index: 2;
 }
@@ -28,7 +28,7 @@
 .yellow-chip {
   width: 92px;
   height: 64px;
-  background: #DCCB86;
+  background: #dccb86;
   border-radius: 15px;
   margin-left: 39px;
 }
@@ -39,7 +39,7 @@
   border-radius: 40px;
   margin-top: 44px;
   margin-left: 44px;
-  background: #DAC8C8;
+  background: #dac8c8;
   padding-top: 65px;
   position: absolute;
   left: 362px;
@@ -62,8 +62,8 @@
   width: 245px;
   height: 46px;
   border-radius: 25px;
-  border: 3px solid #D9D9D9;
-  background: #FFF;
+  border: 3px solid #d9d9d9;
+  background: #fff;
   margin-top: 12px;
   font-size: 16px;
   padding: 13px 19px;
@@ -73,8 +73,8 @@
   width: 90px;
   height: 46px;
   border-radius: 25px;
-  border: 3px solid #D9D9D9;
-  background: #FFF;
+  border: 3px solid #d9d9d9;
+  background: #fff;
   font-size: 20px;
 }
 
@@ -137,17 +137,17 @@
   height: 54px;
   flex-shrink: 0;
   border-radius: 15px;
-  border: 1px solid #DB6262;
-  background: #FFF;
+  border: 1px solid #db6262;
+  background: #fff;
   cursor: pointer;
 }
 
 .apply-button {
   border-radius: 15px;
-  background: #54C392;
+  background: #54c392;
   width: 195px;
   height: 54px;
-  color: #FFF;
+  color: #fff;
   text-align: center;
   font-size: 28px;
   font-style: normal;
