@@ -12,10 +12,9 @@ import { Cabinet } from './components/Cabinet';
 import { Profile } from './components/Profile';
 import { Security } from './components/Security';
 import { Address } from './components/Address';
-//import { RentPage } from './components/RentPage';
+import { RentPage } from './components/RentPage';
 import { DevicePage } from './components/DevicePage';
 import { Payment } from './components/Payment';
-import { AddedCard } from './components/AddedCard';
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -25,7 +24,7 @@ createRoot(document.getElementById('root')!).render(
           <Route path="/" element={<App />}>
             <Route index element={<Main />} />
             <Route path="rent">
-              <Route index element={<AddedCard/>} />
+              <Route index element={<RentPage/>} />
               <Route path="device-details" element={<DevicePage />} />
             </Route>
             <Route path="support" element={<Support />} />
