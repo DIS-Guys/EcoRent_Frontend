@@ -28,7 +28,7 @@ createRoot(document.getElementById('root')!).render(
             <Route index element={<Main />} />
             <Route path="rent">
               <Route index element={<RentPage />} />
-              <Route path="device-details" element={<DevicePage />} />
+              <Route path=":deviceId" element={<DevicePage />} />
             </Route>
             <Route path="support" element={<Support />} />
             <Route element={<RequireAuth />}>

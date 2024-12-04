@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
-import './RegisterPage.css';
-import { AuthContext } from '../../contexts/AuthContext';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './RegisterPage.css';
+import { createUser, loginUser } from '../../api/users';
+import { AuthContext } from '../../contexts/AuthContext';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -13,13 +14,19 @@ export const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { login, register } = useContext(AuthContext);
+  const { setAuthorized } = useContext(AuthContext);
 
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleAuthForm = async (
+    event: React.FormEvent,
+    isRegistration: boolean
+  ) => {
     event.preventDefault();
 
     try {
-      await login(email, password);
+      if (isRegistration) await createUser({ name, surname, email, password });
+      const { token } = await loginUser({ email, password });
+      localStorage.setItem('jwt', token);
+      setAuthorized(true);
       navigate(state?.pathname || '/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
@@ -30,20 +37,10 @@ export const RegisterPage: React.FC = () => {
     }
   };
 
-  const handleRegister = async (event: React.FormEvent) => {
-    event.preventDefault();
-
-    try {
-      await register(name, surname, email, password);
-      navigate(state?.pathname || '/', { replace: true });
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        console.error('Unknown error:', error);
-      }
-    }
-  };
+  const handleLogin = async (event: React.FormEvent) =>
+    handleAuthForm(event, false);
+  const handleRegister = async (event: React.FormEvent) =>
+    handleAuthForm(event, true);
 
   return (
     <div className="register-block gray-container">

@@ -1,11 +1,22 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './RentPage.css';
 import { DeviceCard } from '../DeviceCard';
 import brands from '../../data/brands.json';
 import sockets from '../../data/sockets.json';
+import { Device } from '../../types/Device';
+import { getAllDevices } from '../../api/devices';
 
 export const RentPage: React.FC = () => {
+  const [devices, setDevices] = useState<Device[]>([]);
   const [chosenBrands, setChosenBrands] = useState(['EcoFlow']);
+
+  useEffect(() => {
+    const getDevices = async () => {
+      const devs = await getAllDevices();
+      setDevices(devs);
+    };
+    getDevices();
+  }, []);
 
   return (
     <div className="rent-container">
@@ -258,8 +269,17 @@ export const RentPage: React.FC = () => {
 
         <div className="devices-block">
           <div className="cards-block">
-            {Array.from({ length: 12 }, (_, i) => (
+            {/* {Array.from({ length: 12 }, (_, i) => (
               <DeviceCard key={i} />
+            ))} */}
+            {devices.map((device) => (
+              <DeviceCard
+                key={device._id}
+                id={device._id}
+                mainImage={device.deviceImages[0]}
+                brand={device.manufacturer}
+                model={device.deviceModel}
+              />
             ))}
           </div>
           <div className="navigation-block">

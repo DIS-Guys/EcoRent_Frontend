@@ -141,8 +141,7 @@
 .cards-block {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  height: 1526px;
+  padding-inline: 58px;
   gap: 42px;
 }
 

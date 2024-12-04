@@ -79,7 +79,7 @@ export const DevicePage: React.FC = () => {
       <div className="device-extended-info-block">
         <div className="device-characteristics">
           <h2 className="characteristics-title">Характеристики</h2>
-          <div className="characteristics-block">
+          <div className="device-page-characteristics-block">
             <div className="char-name-block">
               <p className="char-name">Виробник:</p>
               <p className="char-name">Модель:</p>

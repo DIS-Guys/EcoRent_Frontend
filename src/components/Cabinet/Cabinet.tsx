@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { CabinetLink } from '../../utils/CabinetLink';
+import { CabinetLink } from '../../customComponents/CabinetLink';
 import './Cabinet.css';
 
 export const Cabinet: React.FC = () => {
