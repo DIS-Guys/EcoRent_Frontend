@@ -14,7 +14,7 @@ import { Security } from './components/Security';
 import { Address } from './components/Address';
 import { RentPage } from './components/RentPage';
 import { DevicePage } from './components/DevicePage';
-import { OwnerPage } from './components/OwnerPage';
+import { RentOutPage } from './components/RentOutPage';
 import { Payment } from './components/Payment';
 import { AddCardPage } from './components/AddCardPage';
 import { UserDevicesPage } from './components/UserDevicesPage';
@@ -32,7 +32,7 @@ createRoot(document.getElementById('root')!).render(
             </Route>
             <Route path="support" element={<Support />} />
             <Route element={<RequireAuth />}>
-              <Route path="rent-out" element={<OwnerPage />} />
+              <Route path="rent-out" element={<RentOutPage />} />
               <Route path="personal-page" element={<PersonalPage />}>
                 <Route index element={<Navigate to="cabinet" replace />} />
                 <Route path="cabinet" element={<Cabinet />}>

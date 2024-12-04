@@ -114,10 +114,6 @@
   width: 62.5px;
 }
 
-.inactive-step-title {
-  display: flex;
-}
-
 h1.step-title-text {
   font-weight: 600;
   font-size: 24px;

@@ -1,6 +1,6 @@
-import './OwnerPage.css';
+import './RentOutPage.css';
 
-export const OwnerPage: React.FC = () => {
+export const RentOutPage: React.FC = () => {
   return (
     <>
       <div className="add-advert">
