@@ -1,4 +1,5 @@
 import './RentOutPage.css';
+import '../../App.css';
 
 export const RentOutPage: React.FC = () => {
   return (
@@ -56,14 +57,14 @@ export const RentOutPage: React.FC = () => {
               <input
                 type="text"
                 placeholder="Введіть назву оголошення"
-                className="title-form"
+                className="title-form info-input"
               />
             </div>
             <div className="title-input">
               <h2 className="title-header">Опис від власника</h2>
               <textarea
                 placeholder="Опишіть пристрій (Опціонально)"
-                className="description-form"
+                className="description-form info-input"
               ></textarea>
             </div>
           </div>
@@ -89,7 +90,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Назва виробника"
-                  className="char-form"
+                  className="char-form info-input "
                 />
               </div>
               <div className="charact-array-form">
@@ -97,7 +98,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Новий/вживаний"
-                  className="char-form"
+                  className="char-form info-input "
                 />
               </div>
             </div>
@@ -108,12 +109,16 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Модель пристрою"
-                  className="char-form"
+                  className="char-form info-input "
                 />
               </div>
               <div className="charact-array-form">
                 <h2 className="title-header">Ємність батареї</h2>
-                <input type="text" placeholder="Вт/год" className="char-form" />
+                <input
+                  type="text"
+                  placeholder="Вт/год"
+                  className="char-form info-input"
+                />
               </div>
             </div>
 
@@ -123,7 +128,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Д × Ш × В, в сантиметрах"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
               <div className="charact-array-form">
@@ -131,7 +136,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="В грамах"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
             </div>
@@ -142,7 +147,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Кількість роз'ємів"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
               <div className="charact-array-form">
@@ -150,7 +155,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Кількість роз'ємів"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
             </div>
@@ -161,7 +166,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Наприклад: LiFePO4"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
               <div className="charact-array-form">
@@ -169,7 +174,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Кількість розеток"
-                  className="char-form"
+                  className="char-form info-input"
                 />
               </div>
             </div>
@@ -180,7 +185,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Наприклад: чиста синусоїда"
-                  className="char-form"
+                  className="char-form info-input "
                 />
               </div>
               <div className="charact-array-form">
@@ -188,7 +193,7 @@ export const RentOutPage: React.FC = () => {
                 <input
                   type="text"
                   placeholder="Наприклад: Wi-Fi"
-                  className="char-form"
+                  className="char-form info-input "
                 />
               </div>
             </div>
@@ -198,7 +203,7 @@ export const RentOutPage: React.FC = () => {
                 <h2 className="title-header">Додатково</h2>
                 <textarea
                   placeholder="Поле для додаткової інформації про характеристики"
-                  className="char-text"
+                  className="char-text info-input "
                 ></textarea>
               </div>
             </div>
@@ -218,22 +223,29 @@ export const RentOutPage: React.FC = () => {
             <div className="title-input">
               <h2 className="title-header">Ціна</h2>
               <div className="price-box">
-                <input type="text" className="price-form" />
+                <input type="text" className="price-form info-input " />
                 <h2 className="four-title-header">грн/добу</h2>
               </div>
             </div>
             <div className="title-input">
               <h2 className="title-header">Мінімальна тривалість оренди</h2>
               <div className="price-box">
-                <input type="text" className="price-form" />
+                <input type="text" className="price-form info-input " />
+                <h2 className="four-title-header">діб</h2>
+              </div>
+            </div>
+            <div className="title-input">
+              <h2 className="title-header">Максимальна тривалість оренди</h2>
+              <div className="price-box">
+                <input type="text" className="price-form info-input " />
                 <h2 className="four-title-header">діб</h2>
               </div>
             </div>
             <div className="submit-form-box">
-              <input type="checkbox" className="submit-checkbox" />
-              <h2 className="price-header">
-                Я згоден з умовами надання послуг
-              </h2>
+              <label className="price-header">
+                <input type="checkbox" className="submit-checkbox" />Я згоден з
+                умовами надання послуг
+              </label>
             </div>
             <button className="submit-step-button-click main-button">
               Розмістити оголошення
