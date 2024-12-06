@@ -168,29 +168,22 @@ h3.step-title-text {
   padding: 0px 20px 0px 20px;
   width: 650px;
   height: 50px;
-  border-radius: 25px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 3px;
 }
 
 .description-form {
-  word-break: break-all;
   font-size: 16px;
+  word-break: break-all;
   resize: none;
   position: relative;
   padding: 20px;
   width: 650px;
   height: 300px;
-  border-radius: 25px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 3px;
 }
 
 .characteristics-block {
   display: flex;
   flex-direction: column;
+  gap: 48px;
 }
 
 .charact-array-box {
@@ -206,15 +199,11 @@ h3.step-title-text {
 }
 
 .char-form {
-  font-size: 16px;
   position: relative;
+  font-size: 16px;
   padding: 0 20px 0 20px;
   width: 300px;
   height: 40px;
-  border-radius: 25px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 3px;
 }
 
 .charact-array-form {
@@ -229,29 +218,19 @@ h3.step-title-text {
 }
 
 .char-text {
-  word-break: break-all;
   font-size: 16px;
+  word-break: break-all;
   resize: none;
   padding: 20px;
   width: 648px;
   height: 208px;
-  border-radius: 25px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 3px;
 }
 
 .price-form {
-  font-size: 16px;
   position: relative;
   padding: 0px 20px 0px 20px;
   width: 200px;
   height: 40px;
-  border-radius: 25px;
-  border-style: solid;
-  border-color: #d9d9d9;
-  border-width: 3px;
-  outline: none;
 }
 
 .price-box {
@@ -290,4 +269,10 @@ h3.step-title-text {
   font-size: 24px;
   display: flex;
   align-items: center;
+}
+.price-header {
+  display: flex;
+  font-size: 24px;
+  font-weight: 400px;
+  gap: 16px;
 }
