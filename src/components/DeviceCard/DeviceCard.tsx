@@ -6,6 +6,8 @@ type Props = {
   brand: string;
   model: string;
   mainImage: string;
+  price: number;
+  location: string;
 };
 
 export const DeviceCard: React.FC<Props> = ({
@@ -13,6 +15,8 @@ export const DeviceCard: React.FC<Props> = ({
   brand,
   model,
   mainImage,
+  price,
+  location,
 }) => {
   const navigate = useNavigate();
 
@@ -22,8 +26,8 @@ export const DeviceCard: React.FC<Props> = ({
       <div className="device-card-description-block">
         <h2 className="device-card-title">{`${brand} ${model}`}</h2>
         <div className="device-info-block">
-          <p className="device-location">м. Полтава</p>
-          <p className="device-rent-price">500 грн/день</p>
+          <p className="device-location">{location}</p>
+          <p className="device-rent-price">{`${price} грн/добу`}</p>
         </div>
       </div>
     </div>

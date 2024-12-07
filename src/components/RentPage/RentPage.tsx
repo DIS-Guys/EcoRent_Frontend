@@ -269,16 +269,15 @@ export const RentPage: React.FC = () => {
 
         <div className="devices-block">
           <div className="cards-block">
-            {/* {Array.from({ length: 12 }, (_, i) => (
-              <DeviceCard key={i} />
-            ))} */}
             {devices.map((device) => (
               <DeviceCard
                 key={device._id}
                 id={device._id}
-                mainImage={device.deviceImages[0]}
+                mainImage={device.images[0]}
                 brand={device.manufacturer}
                 model={device.deviceModel}
+                price={device.price}
+                location={device.ownerId.town}
               />
             ))}
           </div>

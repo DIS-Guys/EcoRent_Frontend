@@ -13,5 +13,13 @@ export type Device = {
   batteryType: string;
   outputSignalForm: string;
   additional: string;
-  deviceImages: string[];
+  images: string[];
+  price: number;
+  isInRent: boolean;
+  minRentTerm: number;
+  maxRentTerm: number;
+  ownerId: {
+    _id: string;
+    town: string;
+  };
 };
