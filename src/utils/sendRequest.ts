@@ -13,10 +13,14 @@ async function sendRequest<T>(
   const options: RequestInit = { method };
 
   if (data) {
-    options.body = JSON.stringify(data);
-    options.headers = {
-      'Content-Type': 'application/json; charset=UTF-8',
-    };
+    if (data instanceof FormData) {
+      options.body = data;
+    } else {
+      options.body = JSON.stringify(data);
+      options.headers = {
+        'Content-Type': 'application/json; charset=UTF-8',
+      };
+    }
   }
 
   const response = await fetch(BASE_URL + url, options);
