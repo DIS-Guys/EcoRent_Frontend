@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Support.css';
 import { createTicket } from '../../api/tickets';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Support: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,11 +12,15 @@ export const Support: React.FC = () => {
     event.preventDefault();
     try {
       await createTicket({ userEmail: email, message });
-      alert('Ticket created successfully');
+      toast.success('Ticket created successfully', {
+        position: 'bottom-right',
+      });
       setEmail('');
       setMessage('');
     } catch (error) {
-      alert('Failed to create ticket');
+      toast.error('Failed to create ticket', {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -48,6 +54,7 @@ export const Support: React.FC = () => {
           </button>
         </form>
       </div>
+      <ToastContainer />
     </div>
   );
 };
