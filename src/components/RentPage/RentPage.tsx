@@ -164,27 +164,13 @@ export const RentPage: React.FC = () => {
             <div className="filter-section">
               <h2 className="filter-subtitle">Тип акумулятора</h2>
               <div className="filter-option">
-                <input id="sla" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="sla" className="option-text">
-                  SLA
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="efb" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="efb" className="option-text">
-                  EFB
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="gel" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="gel" className="option-text">
-                  GEL
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="agm" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="agm" className="option-text">
-                  AGM
+                <input
+                  id="lifepo4"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="lifepo4" className="option-text">
+                  LiFePO4
                 </label>
               </div>
               <div className="filter-option">
@@ -205,16 +191,6 @@ export const RentPage: React.FC = () => {
                 />
                 <label htmlFor="li-pol" className="option-text">
                   Li-Pol
-                </label>
-              </div>
-              <div className="filter-option">
-                <input
-                  id="lifepo4"
-                  type="checkbox"
-                  className="filter-checkbox"
-                />
-                <label htmlFor="lifepo4" className="option-text">
-                  LiFePO4
                 </label>
               </div>
             </div>

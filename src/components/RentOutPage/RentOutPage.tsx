@@ -4,255 +4,402 @@ import '../../App.css';
 export const RentOutPage: React.FC = () => {
   return (
     <>
-      <div className="add-advert">
-        <div className="rectangle"></div>
-        <div className="polygon"></div>
-        <h1 className="add-par">Додати оголошення</h1>
+      <div className="add-announcement-block">
+        <div className="add-announcement-polygon"></div>
+        <h1 className="add-announcement-text">Додати оголошення</h1>
       </div>
-      <div className="page-container">
-        <div className="image-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">1</h1>
+      <form className="rent-out-page-form">
+        <div className="rent-out-page-main-block">
+          <div className="step-block">
+            <div className="step-number-block">
+              <span className="step-number">1</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Додайте фотографії пристрою</h1>
-            </div>
+            <p className="step-title">Додайте фотографії пристрою</p>
           </div>
-          <div className="choose-image-block">
-            <div className="step-button">
-              <button className="step-button-click main-button">
-                Обрати фото
-              </button>
-            </div>
-            <div className="step-images">
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
-              </div>
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
-              </div>
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
-              </div>
+          <div className="choose-image-block rent-out-page-secondary-block">
+            <button className="choose-image-button main-button">
+              Обрати фото
+            </button>
+            <div className="rent-out-page-images-block">
+              {Array.from({ length: 3 }, (_, i) => (
+                <div className="rent-out-page-image-placeholder" key={i}>
+                  <img
+                    src="/icons/device-placeholder.svg"
+                    alt="Device image placeholder"
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="description-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">2</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block step-block-with-tip">
+            <div className="step-number-block">
+              <span className="step-number">2</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Опис пристрою від власника</h1>
-              <h3 className="step-title-text">
+            <div className="step-title-block">
+              <p className="step-title">Опис пристрою від власника</p>
+              <p className="step-tip">
                 Додайте заголовок і короткий опис пристрою
-              </h3>
+              </p>
             </div>
           </div>
-          <div className="description-input">
-            <div className="title-input">
-              <h2 className="title-header">Заголовок оголошення</h2>
+          <div className="rent-out-page-description rent-out-page-secondary-block">
+            <div className="rent-out-page-device-info">
+              <label htmlFor="deviceTitleInput" className="rent-out-page-label">
+                Заголовок оголошення
+              </label>
               <input
+                id="deviceTitleInput"
                 type="text"
                 placeholder="Введіть назву оголошення"
-                className="title-form info-input"
+                className="rent-out-page-title-input info-input"
               />
             </div>
-            <div className="title-input">
-              <h2 className="title-header">Опис від власника</h2>
+            <div className="rent-out-page-device-info">
+              <label
+                htmlFor="deviceDescriptionTextarea"
+                className="rent-out-page-label"
+              >
+                Опис від власника
+              </label>
               <textarea
+                id="deviceDescriptionTextarea"
                 placeholder="Опишіть пристрій (Опціонально)"
-                className="description-form info-input"
+                className="rent-out-description-textarea rent-out-textarea info-input"
               ></textarea>
             </div>
           </div>
         </div>
 
-        <div className="characteristics-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">3</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block step-block-with-tip">
+            <div className="step-number-block">
+              <span className="step-number">3</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Характеристики пристрою</h1>
-              <h3 className="step-title-text">
+            <div className="step-title-block">
+              <p className="step-title">Характеристики пристрою</p>
+              <p className="step-tip">
                 Додайте фактичні характеристики пристрою
-              </h3>
+              </p>
             </div>
           </div>
-
-          <div className="charact-array-box">
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Виробник</h2>
-                <input
-                  type="text"
-                  placeholder="Назва виробника"
-                  className="char-form info-input "
-                />
+          <div className="rent-out-page-characteristics rent-out-page-secondary-block">
+            <div className="rent-out-chars-main-section">
+              <div className="rent-out-chars">
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="manufacturerSelect"
+                    className="rent-out-char-label"
+                  >
+                    Виробник
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="manufacturerSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть виробника
+                      </option>
+                      <option value="manufacturer1">Виробник 1</option>
+                      <option value="manufacturer2">Виробник 2</option>
+                      <option value="manufacturer3">Виробник 3</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="conditionSelect"
+                    className="rent-out-char-label"
+                  >
+                    Стан
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="conditionSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть стан
+                      </option>
+                      <option value="new">Новий</option>
+                      <option value="used">Вживаний</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label htmlFor="weightInput" className="rent-out-char-label">
+                    Вага
+                  </label>
+                  <input
+                    type="number"
+                    id="weightInput"
+                    className="char-input info-input"
+                    placeholder="Вкажіть вагу (кг)"
+                  />
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="usbTypeASelect"
+                    className="rent-out-char-label"
+                  >
+                    USB-Type A
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="usbTypeASelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть кількість роз'ємів
+                      </option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="socketCountSelect"
+                    className="rent-out-char-label"
+                  >
+                    Кількість розеток
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="socketCountSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть кількість розеток
+                      </option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="signalShapeSelect"
+                    className="rent-out-char-label"
+                  >
+                    Форма вихідного сигналу
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="signalShapeSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть форму сигналу
+                      </option>
+                      <option value="sine">Чиста синусоїда</option>
+                      <option value="modified">Модифікована синусоїда</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Стан</h2>
-                <input
-                  type="text"
-                  placeholder="Новий/вживаний"
-                  className="char-form info-input "
-                />
+              <div className="rent-out-chars">
+                <div className="rent-out-char-block">
+                  <label htmlFor="modelSelect" className="rent-out-char-label">
+                    Модель
+                  </label>
+                  <div className="custom-select-container">
+                    <select id="modelSelect" className="char-select info-input">
+                      <option value="" disabled selected>
+                        Оберіть модель
+                      </option>
+                      <option value="model1">Модель 1</option>
+                      <option value="model2">Модель 2</option>
+                      <option value="model3">Модель 3</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="batteryCapacityInput"
+                    className="rent-out-char-label"
+                  >
+                    Ємність батареї
+                  </label>
+                  <input
+                    type="number"
+                    id="batteryCapacityInput"
+                    className="char-input info-input"
+                    placeholder="Вкажіть ємність (кВт·год)"
+                  />
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="dimensionsInput"
+                    className="rent-out-char-label"
+                  >
+                    Розміри
+                  </label>
+                  <input
+                    type="number"
+                    id="dimensionsInput"
+                    className="char-input info-input"
+                    placeholder="Вкажіть розміри"
+                  />
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="usbTypeCSelect"
+                    className="rent-out-char-label"
+                  >
+                    USB-Type C
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="usbTypeCSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть кількість роз'ємів
+                      </option>
+                      <option value="1">1</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                      <option value="4">4</option>
+                      <option value="5">5</option>
+                      <option value="6">6</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="batteryTypeSelect"
+                    className="rent-out-char-label"
+                  >
+                    Тип акумулятора
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="batteryTypeSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть тип акумулятора
+                      </option>
+                      <option value="LiFePO4">LiFePO4</option>
+                      <option value="Li-ion">Li-ion</option>
+                      <option value="Li-pol">Li-pol</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="remoteControlSelect"
+                    className="rent-out-char-label"
+                  >
+                    Віддалене користування
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="remoteControlSelect"
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled selected>
+                        Оберіть спосіб
+                      </option>
+                      <option value="None">Немає</option>
+                      <option value="Wi-Fi">Wi-Fi</option>
+                      <option value="Bluetooth">Bluetooth</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Модель</h2>
-                <input
-                  type="text"
-                  placeholder="Модель пристрою"
-                  className="char-form info-input "
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Ємність батареї</h2>
-                <input
-                  type="text"
-                  placeholder="Вт/год"
-                  className="char-form info-input"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Розміри</h2>
-                <input
-                  type="text"
-                  placeholder="Д × Ш × В, в сантиметрах"
-                  className="char-form info-input"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Вага</h2>
-                <input
-                  type="text"
-                  placeholder="В грамах"
-                  className="char-form info-input"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">USB-Type A</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість роз'ємів"
-                  className="char-form info-input"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">USB-Type C</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість роз'ємів"
-                  className="char-form info-input"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Тип акумулятора</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: LiFePO4"
-                  className="char-form info-input"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Кількість розеток</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість розеток"
-                  className="char-form info-input"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Форма вихідного сигналу</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: чиста синусоїда"
-                  className="char-form info-input "
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Віддалене користування</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: Wi-Fi"
-                  className="char-form info-input "
-                />
-              </div>
-            </div>
-
-            <div className="charact">
-              <div className="charact-array-form">
-                <h2 className="title-header">Додатково</h2>
+            <div className="rent-out-additional-characteristics">
+              <div className="rent-out-char-block">
+                <label
+                  htmlFor="additionalCharsField"
+                  className="rent-out-char-label"
+                >
+                  Додатково
+                </label>
                 <textarea
+                  id="additionalCharsField"
                   placeholder="Поле для додаткової інформації про характеристики"
-                  className="char-text info-input "
+                  className="rent-out-additional-info-textarea rent-out-textarea info-input"
                 ></textarea>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="price-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">4</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block">
+            <div className="step-number-block">
+              <span className="step-number">4</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Вартість</h1>
+            <p className="step-title">Вартість</p>
+          </div>
+          <div className="rent-out-price-section rent-out-page-secondary-block">
+            <div className="rent-out-price-section-block">
+              <label htmlFor="priceInput" className="rent-out-page-label">
+                Ціна
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="priceInput"
+                  type="number"
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">грн/добу</p>
+              </div>
+            </div>
+            <div className="rent-out-price-section-block">
+              <label htmlFor="minRentTermInput" className="rent-out-page-label">
+                Мінімальна тривалість оренди
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="minRentTermInput"
+                  type="number"
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">діб</p>
+              </div>
+            </div>
+            <div className="rent-out-price-section-block">
+              <label htmlFor="maxRentTermInput" className="rent-out-page-label">
+                Максимальна тривалість оренди
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="maxRentTermInput"
+                  type="number"
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">діб</p>
+              </div>
             </div>
           </div>
-          <div className="price-input-block">
-            <div className="title-input">
-              <h2 className="title-header">Ціна</h2>
-              <div className="price-box">
-                <input type="text" className="price-form info-input " />
-                <h2 className="four-title-header">грн/добу</h2>
-              </div>
+          <div className="rent-out-submit-block rent-out-page-secondary-block">
+            <div className="policy-agreement-block">
+              <input type="checkbox" className="policy-agreement-checkbox" />
+              <p className="policy-agreement-text">
+                Я згоден з умовами надання послуг
+              </p>
             </div>
-            <div className="title-input">
-              <h2 className="title-header">Мінімальна тривалість оренди</h2>
-              <div className="price-box">
-                <input type="text" className="price-form info-input " />
-                <h2 className="four-title-header">діб</h2>
-              </div>
-            </div>
-            <div className="title-input">
-              <h2 className="title-header">Максимальна тривалість оренди</h2>
-              <div className="price-box">
-                <input type="text" className="price-form info-input " />
-                <h2 className="four-title-header">діб</h2>
-              </div>
-            </div>
-            <div className="submit-form-box">
-              <label className="price-header">
-                <input type="checkbox" className="submit-checkbox" />Я згоден з
-                умовами надання послуг
-              </label>
-            </div>
-            <button className="submit-step-button-click main-button">
+            <button type="submit" className="put-on-rent-button main-button">
               Розмістити оголошення
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };
