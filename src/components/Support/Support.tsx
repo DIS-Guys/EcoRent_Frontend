@@ -4,9 +4,6 @@ export const Support: React.FC = () => {
   return (
     <div className="gray-container">
       <div className="support-block">
-        <div className="support-question-background">
-          <p className="support-question">Виникли проблеми або питання?</p>
-        </div>
         <form className="support-form">
           <label htmlFor="supportEmail" className="main-label">
             Ваш E-mail
