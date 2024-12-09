@@ -1,10 +1,27 @@
+import React, { useState } from 'react';
 import './Support.css';
+import { createTicket } from '../../api/tickets';
 
 export const Support: React.FC = () => {
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await createTicket({ userEmail: email, message });
+      alert('Ticket created successfully');
+      setEmail('');
+      setMessage('');
+    } catch (error) {
+      alert('Failed to create ticket');
+    }
+  };
+
   return (
     <div className="gray-container">
       <div className="support-block">
-        <form className="support-form">
+        <form className="support-form" onSubmit={handleSubmit}>
           <label htmlFor="supportEmail" className="main-label">
             Ваш E-mail
           </label>
@@ -13,6 +30,8 @@ export const Support: React.FC = () => {
             id="supportEmail"
             className="support-email-input info-input"
             placeholder="example@gmail.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <label htmlFor="supportTextArea" className="main-label">
             Проблема або питання
@@ -21,8 +40,10 @@ export const Support: React.FC = () => {
             id="supportTextArea"
             className="support-textarea info-input"
             placeholder="Опишіть свою проблему"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
           ></textarea>
-          <button className="support-send-button main-button">
+          <button type="submit" className="support-send-button main-button">
             Відправити
           </button>
         </form>
