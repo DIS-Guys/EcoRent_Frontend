@@ -246,12 +246,29 @@ export const RentOutPage: React.FC = () => {
                   >
                     Розміри
                   </label>
-                  <input
-                    type="number"
-                    id="dimensionsInput"
-                    className="char-input info-input"
-                    placeholder="Вкажіть розміри"
-                  />
+                  <div className="rent-out-size-inputs">
+                    <input
+                      type="number"
+                      id="dimensionsInput"
+                      className="rent-out-size-input info-input"
+                      placeholder='Д'
+                    />
+                    <p className="cross">×</p>
+                    <input
+                      type="number"
+                      id="dimensionsInput2"
+                      className="rent-out-size-input info-input"
+                      placeholder='Ш'
+                    />
+                    <p className="cross">×</p>
+                    <input
+                      type="number"
+                      id="dimensionsInput3"
+                      className="rent-out-size-input info-input"
+                      placeholder='В'
+                    />
+                    <p className="rent-out-price-section-units">см</p>
+                  </div>
                 </div>
                 <div className="rent-out-char-block">
                   <label
