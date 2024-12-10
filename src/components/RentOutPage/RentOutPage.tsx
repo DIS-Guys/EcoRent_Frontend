@@ -1,7 +1,31 @@
 import './RentOutPage.css';
 import '../../App.css';
+import { useState } from 'react';
 
 export const RentOutPage: React.FC = () => {
+  const [formData, setFormData] = useState({
+    photos: [] as File[],
+    title: '',
+    description: '',
+    manufacturer: '',
+    condition: '',
+    weight: '',
+    usbTypeA: '',
+    socketCount: '',
+    signalShape: '',
+    model: '',
+    batteryCapacity: '',
+    dimensions: { length: '', width: '', height: '' },
+    usbTypeC: '',
+    batteryType: '',
+    remoteControl: '',
+    additionalInfo: '',
+    price: '',
+    minRentTerm: '',
+    maxRentTerm: '',
+    policyAgreement: false,
+  });
+
   return (
     <>
       <div className="add-announcement-block">
@@ -17,9 +41,19 @@ export const RentOutPage: React.FC = () => {
             <p className="step-title">Додайте фотографії пристрою</p>
           </div>
           <div className="choose-image-block rent-out-page-secondary-block">
-            <button className="choose-image-button main-button">
+            <label
+              htmlFor="fileInput"
+              className="choose-image-button main-button"
+            >
               Обрати фото
-            </button>
+            </label>
+            <input
+              id="fileInput"
+              type="file"
+              multiple
+              placeholder="Обрати фото"
+              className="file-input"
+            />
             <div className="rent-out-page-images-block">
               {Array.from({ length: 3 }, (_, i) => (
                 <div className="rent-out-page-image-placeholder" key={i}>
@@ -251,21 +285,21 @@ export const RentOutPage: React.FC = () => {
                       type="number"
                       id="dimensionsInput"
                       className="rent-out-size-input info-input"
-                      placeholder='Д'
+                      placeholder="Д"
                     />
                     <p className="cross">×</p>
                     <input
                       type="number"
                       id="dimensionsInput2"
                       className="rent-out-size-input info-input"
-                      placeholder='Ш'
+                      placeholder="Ш"
                     />
                     <p className="cross">×</p>
                     <input
                       type="number"
                       id="dimensionsInput3"
                       className="rent-out-size-input info-input"
-                      placeholder='В'
+                      placeholder="В"
                     />
                     <p className="rent-out-price-section-units">см</p>
                   </div>
