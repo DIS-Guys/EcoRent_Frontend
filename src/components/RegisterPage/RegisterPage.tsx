@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 import { createUser, loginUser } from '../../api/users';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const RegisterPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { setAuthorized } = useContext(AuthContext);
+  const { setAuthorized } = useContext(AuthContext) as AuthContextProps;
 
   const handleAuthForm = async (
     event: React.FormEvent,

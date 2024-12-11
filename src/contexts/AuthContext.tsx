@@ -1,6 +1,6 @@
 import React from 'react';
 
-interface AuthContextProps {
+export interface AuthContextProps {
   authorized: boolean;
   setAuthorized: (authorized: boolean) => void;
 }
