@@ -4,6 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 import { createUser, loginUser } from '../../api/users';
 import { AuthContext } from '../../contexts/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
@@ -32,10 +34,15 @@ export const RegisterPage: React.FC = () => {
     }
 
     if (errors.length > 0) {
-      alert(errors.join('\n'));
+      toast.error(`Поля заповнені невірно: ${errors.join("\n")}`, {
+        position: 'bottom-right',
+      });
       return false;
     }
 
+    toast.success('Ticket created successfully', {
+      position: 'bottom-right',
+    });
     return true;
   };
 
@@ -161,6 +168,7 @@ export const RegisterPage: React.FC = () => {
         src="/images/ecoflow.png"
         alt="EcoFlow"
       />
+      <ToastContainer />
     </div>
   );
 };
