@@ -39,12 +39,12 @@ export const RentOutPage: React.FC = () => {
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => {
-    const { id, value, type } = e.target;
+    const { name, value, type } = e.target;
     const checked =
       type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
     setFormData((prev) => ({
       ...prev,
-      [id]: type === 'checkbox' ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
@@ -108,13 +108,24 @@ export const RentOutPage: React.FC = () => {
     }));
   };
 
+  const handleRemoveImage = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  }
+
   return (
     <>
       <div className="add-announcement-block">
         <div className="add-announcement-polygon"></div>
         <h1 className="add-announcement-text">Додати оголошення</h1>
       </div>
-      <form className="rent-out-page-form">
+      <form onSubmit={handleSubmit} className="rent-out-page-form">
         <div className="rent-out-page-main-block">
           <div className="step-block">
             <div className="step-number-block">
@@ -167,6 +178,12 @@ export const RentOutPage: React.FC = () => {
                         </>
                       )}
                     </Item>
+                    <button
+                      className="remove-image-button"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <img src="/public/icons/delete-image.svg" alt="Delete image button" />
+                    </button>
                   </div>
                 ))}
               </div>
@@ -193,6 +210,9 @@ export const RentOutPage: React.FC = () => {
               </label>
               <input
                 id="deviceTitleInput"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
                 type="text"
                 placeholder="Введіть назву оголошення"
                 className="rent-out-page-title-input info-input"
@@ -207,6 +227,9 @@ export const RentOutPage: React.FC = () => {
               </label>
               <textarea
                 id="deviceDescriptionTextarea"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
                 placeholder="Опишіть пристрій (Опціонально)"
                 className="rent-out-description-textarea rent-out-textarea info-input"
               ></textarea>
