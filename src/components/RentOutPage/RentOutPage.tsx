@@ -57,7 +57,8 @@ export const RentOutPage: React.FC = () => {
         (image) =>
           !formData.images.some(
             (uploaded) =>
-              uploaded.file.name === image.name && uploaded.file.size === image.size
+              uploaded.file.name === image.name &&
+              uploaded.file.size === image.size
           )
       );
 
@@ -149,13 +150,21 @@ export const RentOutPage: React.FC = () => {
                       height={image.height}
                     >
                       {({ ref, open }) => (
-                        <img
-                          className="rent-out-page-image"
-                          ref={ref}
-                          onClick={open}
-                          src={URL.createObjectURL(image.file)}
-                          alt={`Device image ${index + 1}`}
-                        />
+                        <>
+                          <img
+                            className="rent-out-page-image"
+                            ref={ref}
+                            onClick={open}
+                            src={URL.createObjectURL(image.file)}
+                            alt={`Device image ${index + 1}`}
+                          />
+                          <div className="overlay" onClick={open}>
+                            <img
+                              src="/public/icons/zoom-in.svg"
+                              alt="Zoom in"
+                            />
+                          </div>
+                        </>
                       )}
                     </Item>
                   </div>

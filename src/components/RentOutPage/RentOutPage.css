@@ -87,11 +87,14 @@
 }
 
 .rent-out-page-images-block {
+  width: 817px;
+  flex-wrap: wrap;
   display: flex;
   gap: 48px;
 }
 
 .rent-out-page-image-placeholder {
+  position: relative;
   width: 125px;
   height: 125px;
   border-radius: 15px;
@@ -107,6 +110,39 @@
   width: 100%;
   height: 100%;
   cursor: pointer;
+}
+
+.overlay {
+  position: absolute;
+  border-radius: 15px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.overlay img {
+  display: block;
+  width: 50px;
+  height: 50px;
+  pointer-events: none;
+}
+
+.rent-out-page-image-placeholder:hover .overlay {
+  opacity: 1;
+}
+
+.zoom-icon {
+  font-size: 2rem;
+  color: white;
+  pointer-events: none;
 }
 
 .step-block-with-tip {
