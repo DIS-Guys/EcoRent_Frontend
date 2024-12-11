@@ -1,6 +1,8 @@
 import React from 'react';
 
-export const AuthContext = React.createContext({
-  authorized: false,
-  setAuthorized: (_authorized: boolean) => undefined as void,
-});
+interface AuthContextProps {
+  authorized: boolean;
+  setAuthorized: (authorized: boolean) => void;
+}
+
+export const AuthContext = React.createContext<AuthContextProps | null>(null);
