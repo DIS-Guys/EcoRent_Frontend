@@ -1,10 +1,13 @@
+import { Gallery, Item } from 'react-photoswipe-gallery';
+import 'photoswipe/dist/photoswipe.css';
+import { useEffect, useState } from 'react';
 import './RentOutPage.css';
 import '../../App.css';
-import { useState } from 'react';
+import { DeviceImage } from '../../types/DeviceImage';
 
 export const RentOutPage: React.FC = () => {
   const [formData, setFormData] = useState({
-    photos: [] as File[],
+    images: [] as DeviceImage[],
     title: '',
     description: '',
     manufacturer: '',
@@ -25,6 +28,84 @@ export const RentOutPage: React.FC = () => {
     maxRentTerm: '',
     policyAgreement: false,
   });
+
+  useEffect(() => {
+    console.log(formData);
+    console.log(formData.images);
+  }, [formData]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { id, value, type } = e.target;
+    const checked =
+      type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
+    setFormData((prev) => ({
+      ...prev,
+      [id]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newImages = Array.from(e.target.files).filter((file) =>
+        file.type.startsWith('image/')
+      );
+      const uniqueImages = newImages.filter(
+        (image) =>
+          !formData.images.some(
+            (uploaded) =>
+              uploaded.file.name === image.name && uploaded.file.size === image.size
+          )
+      );
+
+      const totalImages = formData.images.length + uniqueImages.length;
+
+      if (totalImages > 10) {
+        alert('You can only upload up to 10 images.');
+        return;
+      }
+
+      const imagesWithDimensions = await Promise.all(
+        uniqueImages.map(async (file) => {
+          const imageDimensions = await getImageDimensions(file);
+          return { file, ...imageDimensions };
+        })
+      );
+
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, ...imagesWithDimensions],
+      }));
+    }
+
+    e.target.value = '';
+  };
+
+  const getImageDimensions = (
+    file: File
+  ): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        resolve({ width: img.width, height: img.height });
+      };
+      img.onerror = reject;
+    });
+  };
+
+  const handleDimensionChange = (dimension: string, value: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      dimensions: {
+        ...prev.dimensions,
+        [dimension]: value,
+      },
+    }));
+  };
 
   return (
     <>
@@ -50,20 +131,37 @@ export const RentOutPage: React.FC = () => {
             <input
               id="fileInput"
               type="file"
+              accept="image/*"
               multiple
               placeholder="Обрати фото"
               className="file-input"
+              onChange={handleFileChange}
             />
-            <div className="rent-out-page-images-block">
-              {Array.from({ length: 3 }, (_, i) => (
-                <div className="rent-out-page-image-placeholder" key={i}>
-                  <img
-                    src="/icons/device-placeholder.svg"
-                    alt="Device image placeholder"
-                  />
-                </div>
-              ))}
-            </div>
+            <Gallery>
+              <div className="rent-out-page-images-block">
+                {formData.images.map((image, index) => (
+                  <div className="rent-out-page-image-placeholder" key={index}>
+                    <Item
+                      key={index}
+                      original={URL.createObjectURL(image.file)}
+                      thumbnail={URL.createObjectURL(image.file)}
+                      width={image.width}
+                      height={image.height}
+                    >
+                      {({ ref, open }) => (
+                        <img
+                          className="rent-out-page-image"
+                          ref={ref}
+                          onClick={open}
+                          src={URL.createObjectURL(image.file)}
+                          alt={`Device image ${index + 1}`}
+                        />
+                      )}
+                    </Item>
+                  </div>
+                ))}
+              </div>
+            </Gallery>
           </div>
         </div>
 
