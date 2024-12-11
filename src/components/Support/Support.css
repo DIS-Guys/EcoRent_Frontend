@@ -3,25 +3,6 @@
   padding: 25px 44px;
 }
 
-.support-question-background {
-  position: absolute;
-  width: 374px;
-  height: 90px;
-  background-color: #54c392;
-  border-radius: 20px;
-  display: flex;
-  text-align: center;
-  align-items: center;
-  top: 25px;
-  right: 44px;
-}
-
-.support-question {
-  font-weight: 600;
-  font-size: 24px;
-  color: #fff;
-}
-
 .support-form {
   display: flex;
   flex-direction: column;
