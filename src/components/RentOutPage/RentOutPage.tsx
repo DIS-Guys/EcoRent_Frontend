@@ -1,246 +1,665 @@
+import { Gallery, Item } from 'react-photoswipe-gallery';
+import 'photoswipe/dist/photoswipe.css';
+import { useEffect, useState } from 'react';
 import './RentOutPage.css';
+import '../../App.css';
+import { DeviceImage } from '../../types/DeviceImage';
+import brands from '../../data/brands.json';
 
 export const RentOutPage: React.FC = () => {
+  const [formData, setFormData] = useState({
+    images: [] as DeviceImage[],
+    title: '',
+    description: '',
+    manufacturer: '',
+    condition: '',
+    weight: '',
+    usbTypeA: '',
+    socketCount: '',
+    signalShape: '',
+    model: '',
+    batteryCapacity: '',
+    dimensions: { length: '', width: '', height: '' },
+    usbTypeC: '',
+    batteryType: '',
+    remoteControl: '',
+    additionalInfo: '',
+    price: '',
+    minRentTerm: '',
+    maxRentTerm: '',
+    policyAgreement: false,
+  });
+  const [chosenManufacturer, setChosenManufacturer] = useState(
+    formData.manufacturer
+  );
+
+  useEffect(() => {
+    console.log(formData);
+    setChosenManufacturer(formData.manufacturer);
+  }, [formData]);
+
+  const handleInputChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) => {
+    const { name, value, type } = e.target;
+    const checked =
+      type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value,
+    }));
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newImages = Array.from(e.target.files).filter((file) =>
+        file.type.startsWith('image/')
+      );
+      const uniqueImages = newImages.filter(
+        (image) =>
+          !formData.images.some(
+            (uploaded) =>
+              uploaded.file.name === image.name &&
+              uploaded.file.size === image.size
+          )
+      );
+
+      const totalImages = formData.images.length + uniqueImages.length;
+
+      if (totalImages > 10) {
+        alert('You can only upload up to 10 images.');
+        return;
+      }
+
+      const imagesWithDimensions = await Promise.all(
+        uniqueImages.map(async (file) => {
+          const imageDimensions = await getImageDimensions(file);
+          return { file, ...imageDimensions };
+        })
+      );
+
+      setFormData((prev) => ({
+        ...prev,
+        images: [...prev.images, ...imagesWithDimensions],
+      }));
+    }
+
+    e.target.value = '';
+  };
+
+  const getImageDimensions = (
+    file: File
+  ): Promise<{ width: number; height: number }> => {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.src = URL.createObjectURL(file);
+      img.onload = () => {
+        resolve({ width: img.width, height: img.height });
+      };
+      img.onerror = reject;
+    });
+  };
+
+  const handleDimensionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    dimension: string
+  ) => {
+    setFormData((prev) => ({
+      ...prev,
+      dimensions: {
+        ...prev.dimensions,
+        [dimension]: e.target.value,
+      },
+    }));
+  };
+
+  const handleRemoveImage = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      images: prev.images.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+  };
+
   return (
     <>
-      <div className="add-advert">
-        <div className="rectangle"></div>
-        <div className="polygon"></div>
-        <h1 className="add-par">Додати оголошення</h1>
+      <div className="add-announcement-block">
+        <div className="add-announcement-polygon"></div>
+        <h1 className="add-announcement-text">Додати оголошення</h1>
       </div>
-      <div className="page-container">
-        <div className="image-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">1</h1>
+      <form onSubmit={handleSubmit} className="rent-out-page-form">
+        <div className="rent-out-page-main-block">
+          <div className="step-block">
+            <div className="step-number-block">
+              <span className="step-number">1</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Додайте фотографії пристрою</h1>
-            </div>
+            <p className="step-title">Додайте фотографії пристрою</p>
           </div>
-          <div className="choose-image-block">
-            <div className="step-button">
-              <button className="step-button-click main-button">
-                Обрати фото
-              </button>
-            </div>
-            <div className="step-images">
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
+          <div className="choose-image-block rent-out-page-secondary-block">
+            <label
+              htmlFor="fileInput"
+              className="choose-image-button main-button"
+            >
+              Обрати фото
+            </label>
+            <input
+              id="fileInput"
+              type="file"
+              accept="image/*"
+              multiple
+              placeholder="Обрати фото"
+              className="file-input"
+              onChange={handleFileChange}
+            />
+            <Gallery>
+              <div className="rent-out-page-images-block">
+                {formData.images.map((image, index) => (
+                  <div className="rent-out-page-image-placeholder" key={index}>
+                    <Item
+                      key={index}
+                      original={URL.createObjectURL(image.file)}
+                      thumbnail={URL.createObjectURL(image.file)}
+                      width={image.width}
+                      height={image.height}
+                    >
+                      {({ ref, open }) => (
+                        <>
+                          <img
+                            className="rent-out-page-image"
+                            ref={ref}
+                            onClick={open}
+                            src={URL.createObjectURL(image.file)}
+                            alt={`Device image ${index + 1}`}
+                          />
+                          <div className="overlay" onClick={open}>
+                            <img
+                              src="/public/icons/zoom-in.svg"
+                              alt="Zoom in"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </Item>
+                    <button
+                      className="remove-image-button"
+                      onClick={() => handleRemoveImage(index)}
+                    >
+                      <img
+                        src="/public/icons/delete-image.svg"
+                        alt="Delete image button"
+                      />
+                    </button>
+                  </div>
+                ))}
               </div>
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
-              </div>
-              <div className="step-images-array">
-                <img src="/icons/device-placeholder.svg" alt="" />
-              </div>
-            </div>
+            </Gallery>
           </div>
         </div>
 
-        <div className="description-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">2</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block step-block-with-tip">
+            <div className="step-number-block">
+              <span className="step-number">2</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Опис пристрою від власника</h1>
-              <h3 className="step-title-text">
+            <div className="step-title-block">
+              <p className="step-title">Опис пристрою від власника</p>
+              <p className="step-tip">
                 Додайте заголовок і короткий опис пристрою
-              </h3>
+              </p>
             </div>
           </div>
-          <div className="description-input">
-            <div className="title-input">
-              <h2 className="title-header">Заголовок оголошення</h2>
+          <div className="rent-out-page-description rent-out-page-secondary-block">
+            <div className="rent-out-page-device-info">
+              <label htmlFor="deviceTitleInput" className="rent-out-page-label">
+                Заголовок оголошення
+              </label>
               <input
+                id="deviceTitleInput"
+                name="title"
+                value={formData.title}
+                onChange={handleInputChange}
                 type="text"
                 placeholder="Введіть назву оголошення"
-                className="title-form"
+                className="rent-out-page-title-input info-input"
               />
             </div>
-            <div className="title-input">
-              <h2 className="title-header">Опис від власника</h2>
+            <div className="rent-out-page-device-info">
+              <label
+                htmlFor="deviceDescriptionTextarea"
+                className="rent-out-page-label"
+              >
+                Опис від власника
+              </label>
               <textarea
+                id="deviceDescriptionTextarea"
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
                 placeholder="Опишіть пристрій (Опціонально)"
-                className="description-form"
+                className="rent-out-description-textarea rent-out-textarea info-input"
               ></textarea>
             </div>
           </div>
         </div>
 
-        <div className="characteristics-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">3</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block step-block-with-tip">
+            <div className="step-number-block">
+              <span className="step-number">3</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Характеристики пристрою</h1>
-              <h3 className="step-title-text">
+            <div className="step-title-block">
+              <p className="step-title">Характеристики пристрою</p>
+              <p className="step-tip">
                 Додайте фактичні характеристики пристрою
-              </h3>
+              </p>
             </div>
           </div>
-
-          <div className="charact-array-box">
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Виробник</h2>
-                <input
-                  type="text"
-                  placeholder="Назва виробника"
-                  className="char-form"
-                />
+          <div className="rent-out-page-characteristics rent-out-page-secondary-block">
+            <div className="rent-out-chars-main-section">
+              <div className="rent-out-chars">
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="manufacturerSelect"
+                    className="rent-out-char-label"
+                  >
+                    Виробник
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="manufacturerSelect"
+                      name="manufacturer"
+                      value={formData.manufacturer}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть виробника
+                      </option>
+                      {brands.map((brand, index) => (
+                        <option key={index} value={brand.name}>
+                          {brand.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="conditionSelect"
+                    className="rent-out-char-label"
+                  >
+                    Стан
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="conditionSelect"
+                      name="condition"
+                      value={formData.condition}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть стан
+                      </option>
+                      <option value="new">Новий</option>
+                      <option value="used">Вживаний</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label htmlFor="weightInput" className="rent-out-char-label">
+                    Вага
+                  </label>
+                  <input
+                    type="number"
+                    id="weightInput"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleInputChange}
+                    className="char-input info-input"
+                    placeholder="Вкажіть вагу (кг)"
+                  />
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="usbTypeASelect"
+                    className="rent-out-char-label"
+                  >
+                    USB-Type A
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="usbTypeASelect"
+                      name="usbTypeA"
+                      value={formData.usbTypeA}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть кількість роз'ємів
+                      </option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="socketCountSelect"
+                    className="rent-out-char-label"
+                  >
+                    Кількість розеток
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="socketCountSelect"
+                      name="socketCount"
+                      value={formData.socketCount}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть кількість розеток
+                      </option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="signalShapeSelect"
+                    className="rent-out-char-label"
+                  >
+                    Форма вихідного сигналу
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="signalShapeSelect"
+                      name="signalShape"
+                      value={formData.signalShape}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть форму сигналу
+                      </option>
+                      <option value="sine">Чиста синусоїда</option>
+                      <option value="modified">Модифікована синусоїда</option>
+                    </select>
+                  </div>
+                </div>
               </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Стан</h2>
-                <input
-                  type="text"
-                  placeholder="Новий/вживаний"
-                  className="char-form"
-                />
+              <div className="rent-out-chars">
+                <div className="rent-out-char-block">
+                  <label htmlFor="modelSelect" className="rent-out-char-label">
+                    Модель
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="modelSelect"
+                      name="model"
+                      value={formData.model}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть модель
+                      </option>
+                      {brands
+                        .find((brand) => brand.name === chosenManufacturer)
+                        ?.models.map((model, index) => (
+                          <option key={index} value={model}>
+                            {model}
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="batteryCapacityInput"
+                    className="rent-out-char-label"
+                  >
+                    Ємність батареї
+                  </label>
+                  <input
+                    type="number"
+                    id="batteryCapacityInput"
+                    name="batteryCapacity"
+                    value={formData.batteryCapacity}
+                    onChange={handleInputChange}
+                    className="char-input info-input"
+                    placeholder="Вкажіть ємність (кВт·год)"
+                  />
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="dimensionsInput"
+                    className="rent-out-char-label"
+                  >
+                    Розміри
+                  </label>
+                  <div className="rent-out-size-inputs">
+                    <input
+                      type="number"
+                      id="dimensionsInput"
+                      value={formData.dimensions.length}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'length')
+                      }
+                      className="rent-out-size-input info-input"
+                      placeholder="Д"
+                    />
+                    <p className="cross">×</p>
+                    <input
+                      type="number"
+                      id="dimensionsInput2"
+                      value={formData.dimensions.width}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'width')
+                      }
+                      className="rent-out-size-input info-input"
+                      placeholder="Ш"
+                    />
+                    <p className="cross">×</p>
+                    <input
+                      type="number"
+                      id="dimensionsInput3"
+                      value={formData.dimensions.height}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'height')
+                      }
+                      className="rent-out-size-input info-input"
+                      placeholder="В"
+                    />
+                    <p className="rent-out-price-section-units">см</p>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="usbTypeCSelect"
+                    className="rent-out-char-label"
+                  >
+                    USB-Type C
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="usbTypeCSelect"
+                      name="usbTypeC"
+                      value={formData.usbTypeC}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть кількість роз'ємів
+                      </option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="batteryTypeSelect"
+                    className="rent-out-char-label"
+                  >
+                    Тип акумулятора
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="batteryTypeSelect"
+                      name="batteryType"
+                      value={formData.batteryType}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть тип акумулятора
+                      </option>
+                      <option value="LiFePO4">LiFePO4</option>
+                      <option value="Li-ion">Li-ion</option>
+                      <option value="Li-pol">Li-pol</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="rent-out-char-block">
+                  <label
+                    htmlFor="remoteControlSelect"
+                    className="rent-out-char-label"
+                  >
+                    Віддалене користування
+                  </label>
+                  <div className="custom-select-container">
+                    <select
+                      id="remoteControlSelect"
+                      name="remoteControl"
+                      value={formData.remoteControl}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
+                        Оберіть спосіб
+                      </option>
+                      <option value="None">Немає</option>
+                      <option value="Wi-Fi">Wi-Fi</option>
+                      <option value="Bluetooth">Bluetooth</option>
+                    </select>
+                  </div>
+                </div>
               </div>
             </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Модель</h2>
-                <input
-                  type="text"
-                  placeholder="Модель пристрою"
-                  className="char-form"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Ємність батареї</h2>
-                <input type="text" placeholder="Вт/год" className="char-form" />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Розміри</h2>
-                <input
-                  type="text"
-                  placeholder="Д × Ш × В, в сантиметрах"
-                  className="char-form"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Вага</h2>
-                <input
-                  type="text"
-                  placeholder="В грамах"
-                  className="char-form"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">USB-Type A</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість роз'ємів"
-                  className="char-form"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">USB-Type C</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість роз'ємів"
-                  className="char-form"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Тип акумулятора</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: LiFePO4"
-                  className="char-form"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Кількість розеток</h2>
-                <input
-                  type="text"
-                  placeholder="Кількість розеток"
-                  className="char-form"
-                />
-              </div>
-            </div>
-
-            <div className="charact-array">
-              <div className="charact-array-form">
-                <h2 className="title-header">Форма вихідного сигналу</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: чиста синусоїда"
-                  className="char-form"
-                />
-              </div>
-              <div className="charact-array-form">
-                <h2 className="title-header">Віддалене користування</h2>
-                <input
-                  type="text"
-                  placeholder="Наприклад: Wi-Fi"
-                  className="char-form"
-                />
-              </div>
-            </div>
-
-            <div className="charact">
-              <div className="charact-array-form">
-                <h2 className="title-header">Додатково</h2>
+            <div className="rent-out-additional-characteristics">
+              <div className="rent-out-char-block">
+                <label
+                  htmlFor="additionalCharsField"
+                  className="rent-out-char-label"
+                >
+                  Додатково
+                </label>
                 <textarea
+                  id="additionalCharsField"
+                  name="additionalInfo"
+                  value={formData.additionalInfo}
+                  onChange={handleInputChange}
                   placeholder="Поле для додаткової інформації про характеристики"
-                  className="char-text"
+                  className="rent-out-additional-info-textarea rent-out-textarea info-input"
                 ></textarea>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="price-block">
-          <div className="step-title">
-            <div className="circle-block">
-              <h1 className="number-text">4</h1>
+        <div className="rent-out-page-main-block">
+          <div className="step-block">
+            <div className="step-number-block">
+              <span className="step-number">4</span>
             </div>
-            <div className="step-title-box">
-              <h1 className="step-title-text">Вартість</h1>
+            <p className="step-title">Вартість</p>
+          </div>
+          <div className="rent-out-price-section rent-out-page-secondary-block">
+            <div className="rent-out-price-section-block">
+              <label htmlFor="priceInput" className="rent-out-page-label">
+                Ціна
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="priceInput"
+                  type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">грн/добу</p>
+              </div>
+            </div>
+            <div className="rent-out-price-section-block">
+              <label htmlFor="minRentTermInput" className="rent-out-page-label">
+                Мінімальна тривалість оренди
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="minRentTermInput"
+                  type="number"
+                  name="minRentTerm"
+                  value={formData.minRentTerm}
+                  onChange={handleInputChange}
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">діб</p>
+              </div>
+            </div>
+            <div className="rent-out-price-section-block">
+              <label htmlFor="maxRentTermInput" className="rent-out-page-label">
+                Максимальна тривалість оренди
+              </label>
+              <div className="rent-out-price-section-box">
+                <input
+                  id="maxRentTermInput"
+                  type="number"
+                  name="maxRentTerm"
+                  value={formData.maxRentTerm}
+                  onChange={handleInputChange}
+                  className="rent-out-price-section-input info-input"
+                />
+                <p className="rent-out-price-section-units">діб</p>
+              </div>
             </div>
           </div>
-          <div className="price-input-block">
-            <div className="title-input">
-              <h2 className="title-header">Ціна</h2>
-              <div className="price-box">
-                <input type="text" className="price-form" />
-                <h2 className="four-title-header">грн/добу</h2>
-              </div>
-            </div>
-            <div className="title-input">
-              <h2 className="title-header">Мінімальна тривалість оренди</h2>
-              <div className="price-box">
-                <input type="text" className="price-form" />
-                <h2 className="four-title-header">діб</h2>
-              </div>
-            </div>
-            <div className="submit-form-box">
-              <input type="checkbox" className="submit-checkbox" />
-              <h2 className="price-header">
+          <div className="rent-out-submit-block rent-out-page-secondary-block">
+            <div className="policy-agreement-block">
+              <input
+                type="checkbox"
+                name="policyAgreement"
+                checked={formData.policyAgreement}
+                onChange={handleInputChange}
+                className="policy-agreement-checkbox"
+              />
+              <p className="policy-agreement-text">
                 Я згоден з умовами надання послуг
-              </h2>
+              </p>
             </div>
-            <button className="submit-step-button-click main-button">
+            <button type="submit" className="put-on-rent-button main-button">
               Розмістити оголошення
             </button>
           </div>
         </div>
-      </div>
+      </form>
     </>
   );
 };

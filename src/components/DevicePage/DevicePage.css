@@ -80,7 +80,7 @@
   justify-content: space-between;
   gap: 20px;
   padding: 20px;
-  background: linear-gradient(135deg, #ffffff, #f7f7f7);
+  background-color: linear-gradient(135deg, #ffffff, #f7f7f7);
   border: 1px solid #e5e5e5;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
