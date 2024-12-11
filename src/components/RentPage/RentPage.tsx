@@ -12,8 +12,12 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     const getDevices = async () => {
-      const devs = await getAllDevices();
-      setDevices(devs);
+      try {
+        const devs = await getAllDevices();
+        setDevices(devs);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getDevices();
   }, []);
