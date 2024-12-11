@@ -27,7 +27,14 @@ export const RegisterPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
 
-    if (password.length < 6) errors.push('Пароль має містити щонайменше 6 символів.');
+    if (password.length < 6) {
+      errors.push('Пароль має містити щонайменше 6 символів.');
+    }
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+    if (!passwordRegex.test(password)) {
+      errors.push('Пароль має містити щонайменше одну літеру та одну цифру.');
+    }
 
     if (!isSignedUp && password !== repeatPassword) {
       errors.push('Паролі не співпадають.');
@@ -40,11 +47,12 @@ export const RegisterPage: React.FC = () => {
       return false;
     }
 
-    toast.success('Ticket created successfully', {
+    toast.success('Валідація пройшла успішно!', {
       position: 'bottom-right',
     });
     return true;
   };
+
 
   const handleAuthForm = async (
     event: React.FormEvent,
