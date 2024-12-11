@@ -16,11 +16,36 @@ export const RegisterPage: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const { setAuthorized } = useContext(AuthContext);
 
+  const validateFields = () => {
+    const errors = [];
+
+    if (!isSignedUp && !name.trim()) errors.push("Ім'я обов'язкове.");
+    if (!isSignedUp && !surname.trim()) errors.push("Прізвище обов'язкове.");
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
+
+    if (password.length < 6) errors.push('Пароль має містити щонайменше 6 символів.');
+
+    if (!isSignedUp && password !== repeatPassword) {
+      errors.push('Паролі не співпадають.');
+    }
+
+    if (errors.length > 0) {
+      alert(errors.join('\n'));
+      return false;
+    }
+
+    return true;
+  };
+
   const handleAuthForm = async (
     event: React.FormEvent,
     isRegistration: boolean
   ) => {
     event.preventDefault();
+
+    if (!validateFields()) return;
 
     try {
       if (isRegistration) await createUser({ name, surname, email, password });
@@ -45,9 +70,9 @@ export const RegisterPage: React.FC = () => {
   return (
     <div className="register-block gray-container">
       <div
-        className={`authentication-block ${
-          isSignedUp ? 'log-in-block' : 'sign-up-block'
-        }`}
+        className={
+          `authentication-block ${isSignedUp ? 'log-in-block' : 'sign-up-block'}`
+        }
       >
         <div className="authentication-buttons">
           <button
@@ -69,6 +94,7 @@ export const RegisterPage: React.FC = () => {
         </div>
         <form
           className="register-form"
+          noValidate
           onSubmit={!isSignedUp ? handleRegister : handleLogin}
         >
           {!isSignedUp && (
@@ -125,11 +151,13 @@ export const RegisterPage: React.FC = () => {
         </form>
       </div>
       <img
-        className={`register-block-image ${
-          isSignedUp
-            ? 'register-block-image-left'
-            : 'register-block-image-right'
-        }`}
+        className={
+          `register-block-image ${
+            isSignedUp
+              ? 'register-block-image-left'
+              : 'register-block-image-right'
+          }`
+        }
         src="/images/ecoflow.png"
         alt="EcoFlow"
       />
