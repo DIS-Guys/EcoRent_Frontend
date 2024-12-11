@@ -60,7 +60,7 @@ export const RentPage: React.FC = () => {
               {brands
                 .filter((brand) => chosenBrands.includes(brand.name))
                 .map((brand) =>
-                  brand.model.map((model) => (
+                  brand.models.map((model) => (
                     <div className="filter-option" key={model}>
                       <input
                         id={`${model}`}

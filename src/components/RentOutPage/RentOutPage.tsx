@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import './RentOutPage.css';
 import '../../App.css';
 import { DeviceImage } from '../../types/DeviceImage';
+import brands from '../../data/brands.json';
 
 export const RentOutPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -28,10 +29,13 @@ export const RentOutPage: React.FC = () => {
     maxRentTerm: '',
     policyAgreement: false,
   });
+  const [chosenManufacturer, setChosenManufacturer] = useState(
+    formData.manufacturer
+  );
 
   useEffect(() => {
     console.log(formData);
-    console.log(formData.images);
+    setChosenManufacturer(formData.manufacturer);
   }, [formData]);
 
   const handleInputChange = (
@@ -98,12 +102,15 @@ export const RentOutPage: React.FC = () => {
     });
   };
 
-  const handleDimensionChange = (dimension: string, value: string) => {
+  const handleDimensionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    dimension: string
+  ) => {
     setFormData((prev) => ({
       ...prev,
       dimensions: {
         ...prev.dimensions,
-        [dimension]: value,
+        [dimension]: e.target.value,
       },
     }));
   };
@@ -117,7 +124,7 @@ export const RentOutPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-  }
+  };
 
   return (
     <>
@@ -182,7 +189,10 @@ export const RentOutPage: React.FC = () => {
                       className="remove-image-button"
                       onClick={() => handleRemoveImage(index)}
                     >
-                      <img src="/public/icons/delete-image.svg" alt="Delete image button" />
+                      <img
+                        src="/public/icons/delete-image.svg"
+                        alt="Delete image button"
+                      />
                     </button>
                   </div>
                 ))}
@@ -262,14 +272,19 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="manufacturerSelect"
+                      name="manufacturer"
+                      value={formData.manufacturer}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть виробника
                       </option>
-                      <option value="manufacturer1">Виробник 1</option>
-                      <option value="manufacturer2">Виробник 2</option>
-                      <option value="manufacturer3">Виробник 3</option>
+                      {brands.map((brand, index) => (
+                        <option key={index} value={brand.name}>
+                          {brand.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -283,9 +298,12 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="conditionSelect"
+                      name="condition"
+                      value={formData.condition}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть стан
                       </option>
                       <option value="new">Новий</option>
@@ -300,6 +318,9 @@ export const RentOutPage: React.FC = () => {
                   <input
                     type="number"
                     id="weightInput"
+                    name="weight"
+                    value={formData.weight}
+                    onChange={handleInputChange}
                     className="char-input info-input"
                     placeholder="Вкажіть вагу (кг)"
                   />
@@ -314,17 +335,19 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="usbTypeASelect"
+                      name="usbTypeA"
+                      value={formData.usbTypeA}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть кількість роз'ємів
                       </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -338,17 +361,19 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="socketCountSelect"
+                      name="socketCount"
+                      value={formData.socketCount}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть кількість розеток
                       </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -362,9 +387,12 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="signalShapeSelect"
+                      name="signalShape"
+                      value={formData.signalShape}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть форму сигналу
                       </option>
                       <option value="sine">Чиста синусоїда</option>
@@ -379,13 +407,23 @@ export const RentOutPage: React.FC = () => {
                     Модель
                   </label>
                   <div className="custom-select-container">
-                    <select id="modelSelect" className="char-select info-input">
-                      <option value="" disabled selected>
+                    <select
+                      id="modelSelect"
+                      name="model"
+                      value={formData.model}
+                      onChange={handleInputChange}
+                      className="char-select info-input"
+                    >
+                      <option value="" disabled>
                         Оберіть модель
                       </option>
-                      <option value="model1">Модель 1</option>
-                      <option value="model2">Модель 2</option>
-                      <option value="model3">Модель 3</option>
+                      {brands
+                        .find((brand) => brand.name === chosenManufacturer)
+                        ?.models.map((model, index) => (
+                          <option key={index} value={model}>
+                            {model}
+                          </option>
+                        ))}
                     </select>
                   </div>
                 </div>
@@ -399,6 +437,9 @@ export const RentOutPage: React.FC = () => {
                   <input
                     type="number"
                     id="batteryCapacityInput"
+                    name="batteryCapacity"
+                    value={formData.batteryCapacity}
+                    onChange={handleInputChange}
                     className="char-input info-input"
                     placeholder="Вкажіть ємність (кВт·год)"
                   />
@@ -414,6 +455,10 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput"
+                      value={formData.dimensions.length}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'length')
+                      }
                       className="rent-out-size-input info-input"
                       placeholder="Д"
                     />
@@ -421,6 +466,10 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput2"
+                      value={formData.dimensions.width}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'width')
+                      }
                       className="rent-out-size-input info-input"
                       placeholder="Ш"
                     />
@@ -428,6 +477,10 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput3"
+                      value={formData.dimensions.height}
+                      onChange={(event) =>
+                        handleDimensionChange(event, 'height')
+                      }
                       className="rent-out-size-input info-input"
                       placeholder="В"
                     />
@@ -444,17 +497,19 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="usbTypeCSelect"
+                      name="usbTypeC"
+                      value={formData.usbTypeC}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть кількість роз'ємів
                       </option>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
-                      <option value="5">5</option>
-                      <option value="6">6</option>
+                      {Array.from({ length: 6 }, (_, i) => (
+                        <option key={i} value={i + 1}>
+                          {i + 1}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
@@ -468,9 +523,12 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="batteryTypeSelect"
+                      name="batteryType"
+                      value={formData.batteryType}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть тип акумулятора
                       </option>
                       <option value="LiFePO4">LiFePO4</option>
@@ -489,9 +547,12 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="remoteControlSelect"
+                      name="remoteControl"
+                      value={formData.remoteControl}
+                      onChange={handleInputChange}
                       className="char-select info-input"
                     >
-                      <option value="" disabled selected>
+                      <option value="" disabled>
                         Оберіть спосіб
                       </option>
                       <option value="None">Немає</option>
@@ -512,6 +573,9 @@ export const RentOutPage: React.FC = () => {
                 </label>
                 <textarea
                   id="additionalCharsField"
+                  name="additionalInfo"
+                  value={formData.additionalInfo}
+                  onChange={handleInputChange}
                   placeholder="Поле для додаткової інформації про характеристики"
                   className="rent-out-additional-info-textarea rent-out-textarea info-input"
                 ></textarea>
@@ -536,6 +600,9 @@ export const RentOutPage: React.FC = () => {
                 <input
                   id="priceInput"
                   type="number"
+                  name="price"
+                  value={formData.price}
+                  onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
                 <p className="rent-out-price-section-units">грн/добу</p>
@@ -549,6 +616,9 @@ export const RentOutPage: React.FC = () => {
                 <input
                   id="minRentTermInput"
                   type="number"
+                  name="minRentTerm"
+                  value={formData.minRentTerm}
+                  onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
                 <p className="rent-out-price-section-units">діб</p>
@@ -562,6 +632,9 @@ export const RentOutPage: React.FC = () => {
                 <input
                   id="maxRentTermInput"
                   type="number"
+                  name="maxRentTerm"
+                  value={formData.maxRentTerm}
+                  onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
                 <p className="rent-out-price-section-units">діб</p>
@@ -570,7 +643,13 @@ export const RentOutPage: React.FC = () => {
           </div>
           <div className="rent-out-submit-block rent-out-page-secondary-block">
             <div className="policy-agreement-block">
-              <input type="checkbox" className="policy-agreement-checkbox" />
+              <input
+                type="checkbox"
+                name="policyAgreement"
+                checked={formData.policyAgreement}
+                onChange={handleInputChange}
+                className="policy-agreement-checkbox"
+              />
               <p className="policy-agreement-text">
                 Я згоден з умовами надання послуг
               </p>
