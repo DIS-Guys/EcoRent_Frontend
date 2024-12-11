@@ -5,25 +5,42 @@ const BASE_URL = 'http://localhost:3000';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
+type AuthData = {
+  token: string;
+  navigate: (path: string) => void;
+};
+
 async function sendRequest<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: any = null
+  authData?: AuthData,
+  data?: any
 ): Promise<T> {
-  const options: RequestInit = { method };
+  const headers: HeadersInit = {};
 
-  if (data) {
-    if (data instanceof FormData) {
-      options.body = data;
-    } else {
-      options.body = JSON.stringify(data);
-      options.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
-      };
-    }
+  if (data && !(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json; charset=UTF-8';
   }
 
+  if (authData?.token) {
+    headers['Authorization'] = `Bearer ${authData.token}`;
+  }
+
+  const options: RequestInit = {
+    method,
+    headers,
+    body:
+      data instanceof FormData ? data : data ? JSON.stringify(data) : undefined,
+  };
+
   const response = await fetch(BASE_URL + url, options);
+
+  if (authData && response.status === 401) {
+    localStorage.removeItem('jwt');
+    authData.navigate('/login');
+    throw new Error('Unauthorized');
+  }
+
   if (!response.ok) {
     const errorResponse: ErrorResponse = await response.json();
     throw new Error(errorResponse.message);
@@ -33,8 +50,12 @@ async function sendRequest<T>(
 }
 
 export const client = {
-  get: async <T>(url: string) => sendRequest<T>(url),
-  post: async <T>(url: string, data: any) => sendRequest<T>(url, 'POST', data),
-  patch: async <T>(url: string, data: any) => sendRequest<T>(url, 'PUT', data),
-  delete: async (url: string) => sendRequest(url, 'DELETE'),
+  get: async <T>(url: string, authData?: AuthData) =>
+    sendRequest<T>(url, 'GET', authData),
+  post: async <T>(url: string, data: any, authData?: AuthData) =>
+    sendRequest<T>(url, 'POST', authData, data),
+  put: async <T>(url: string, data: any, authData?: AuthData) =>
+    sendRequest<T>(url, 'PUT', authData, data),
+  delete: async <T>(url: string, authData?: AuthData) =>
+    sendRequest<T>(url, 'DELETE', authData),
 };
