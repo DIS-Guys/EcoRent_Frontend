@@ -179,6 +179,7 @@
 }
 
 .char-name {
+  height: 70px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -190,6 +191,7 @@
 }
 
 .char-value {
+  height: 70px;
   font-size: 20px;
 }
 
