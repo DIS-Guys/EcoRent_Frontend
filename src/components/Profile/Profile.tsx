@@ -1,6 +1,12 @@
+import React from 'react';
 import './Profile.css';
 
 export const Profile: React.FC = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('jwt');
+    window.location.href = '/';
+  };
+
   return (
     <>
       <div className="profile-fullname-block">
@@ -65,9 +71,22 @@ export const Profile: React.FC = () => {
           placeholder="380951083747"
         />
       </div>
-      <div className="edit-buttons-block">
-        <button className="cancel-button secondary-button">Скасувати</button>
-        <button className="save-button main-button">Зберегти</button>
+      <div className="cabinet-buttons-block">
+        <button
+          className="logout-button cancel-button secondary-button"
+          onClick={handleLogout}
+        >
+          <img
+            src="/icons/logout.svg"
+            alt="Logout icon"
+            className="logout-icon"
+          />
+          Вийти
+        </button>
+        <div className="edit-buttons-block">
+          <button className="cancel-button secondary-button">Скасувати</button>
+          <button className="save-button main-button">Зберегти</button>
+        </div>
       </div>
     </>
   );
