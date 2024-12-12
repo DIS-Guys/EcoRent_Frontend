@@ -6,6 +6,8 @@ import '../../App.css';
 import { DeviceImage } from '../../types/DeviceImage';
 import brands from '../../data/brands.json';
 import { postDevice } from '../../api/devices';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const RentOutPage: React.FC = () => {
   const [deviceInfo, setDeviceInfo] = useState({
@@ -122,8 +124,93 @@ export const RentOutPage: React.FC = () => {
     }));
   };
 
+  const validateForm = () => {
+    const errors: string[] = [];
+
+    if (deviceInfo.images.length === 0) {
+      errors.push('Додайте принаймні одне зображення.');
+    }
+
+    if (!deviceInfo.title.trim()) {
+      errors.push('Введіть назву оголошення.');
+    }
+
+    const requiredSelectors = [
+      { field: 'manufacturer', message: 'Оберіть виробника.' },
+      { field: 'condition', message: 'Оберіть стан пристрою.' },
+      { field: 'deviceModel', message: 'Оберіть модель.' },
+      { field: 'typeA', message: 'Оберіть кількість USB Type-A.' },
+      { field: 'typeC', message: 'Оберіть кількість USB Type-C.' },
+      { field: 'sockets', message: 'Оберіть кількість розеток.' },
+      { field: 'signalShape', message: 'Оберіть форму вихідного сигналу.' },
+      { field: 'batteryType', message: 'Оберіть тип акумулятора.' },
+      { field: 'remoteUse', message: 'Оберіть спосіб віддаленого керування.' }
+    ];
+
+    requiredSelectors.forEach(selector => {
+      if (!deviceInfo[selector.field as keyof typeof deviceInfo]) {
+        errors.push(selector.message);
+      }
+    });
+
+    const numericFields = [
+      { field: 'batteryCapacity', message: 'Введіть коректну ємність батареї.' },
+      { field: 'weight', message: 'Введіть коректну вагу.' },
+      { field: 'price', message: 'Введіть ціну за добу.' },
+      { field: 'minRentTerm', message: 'Введіть мінімальну тривалість оренди.' },
+      { field: 'maxRentTerm', message: 'Введіть максимальну тривалість оренди.' }
+    ];
+
+    numericFields.forEach(field => {
+      const value = deviceInfo[field.field as keyof typeof deviceInfo];
+      if (!value || isNaN(Number(value)) || Number(value) <= 0) {
+        errors.push(field.message);
+      }
+    });
+
+    const dimensionFields = ['length', 'width', 'height'];
+    if (dimensionFields.some(dim =>
+      !deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions] ||
+      isNaN(Number(deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions])) ||
+      Number(deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions]) <= 0
+    )) {
+      errors.push('Введіть коректні розміри.');
+    }
+
+    if (Number(deviceInfo.minRentTerm) > Number(deviceInfo.maxRentTerm)) {
+      errors.push('Мінімальна тривалість оренди не може бути більшою за максимальну.');
+    }
+
+    if (!deviceInfo.policyAgreement) {
+      errors.push('Необхідно погодитися з умовами надання послуг.');
+    }
+
+    return errors;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const validationErrors = validateForm();
+
+    if ( validationErrors.length > 9 ) {
+      toast.error('Заповніть обов\'язкові поля!', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+    if (validationErrors.length > 0) {
+      validationErrors.forEach((error) => {
+        toast.error(error, {
+          position: 'bottom-right',
+        });
+      });
+      return;
+    }
+
+    toast.success('Валідація пройшла успішно!', {
+      position: 'bottom-right',
+    });
 
     const formData = new FormData();
 
@@ -678,6 +765,7 @@ export const RentOutPage: React.FC = () => {
           </div>
         </div>
       </form>
+      <ToastContainer />
     </>
   );
 };
