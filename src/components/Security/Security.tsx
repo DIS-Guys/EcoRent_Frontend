@@ -1,18 +1,17 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import React, { useContext } from 'react';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { deleteUser } from '../../api/users';
 import './Security.css';
+import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 
 export const Security: React.FC = () => {
-  const navigate = useNavigate();
-
+  const { logout } = useContext(AuthContext) as AuthContextProps;
   const handleDeleteUser = async () => {
     try {
       await deleteUser();
+      logout();
       toast.success('User deleted successfully');
-      navigate('/login');
     } catch (error) {
       console.error('Failed to delete account', error);
       toast.error('Failed to delete account');
@@ -83,7 +82,6 @@ export const Security: React.FC = () => {
           <button className="save-button main-button">Зберегти</button>
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };
