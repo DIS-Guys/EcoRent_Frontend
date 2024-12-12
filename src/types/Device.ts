@@ -15,7 +15,7 @@ export type Device = {
   batteryType: string;
   signalShape: string;
   additional: string;
-  images: string[];
+  images: { url: string; width: number; height: number }[];
   price: number;
   minRentTerm: number;
   maxRentTerm: number;

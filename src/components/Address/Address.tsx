@@ -3,7 +3,7 @@ import './Address.css';
 export const Address: React.FC = () => {
   return (
     <>
-      <div className="address-block">
+      <div className="address-page-block">
         <div className="profile-edit-block">
           <img src="/icons/edit.svg" alt="Edit icon" className="edit-icon" />
           <label
@@ -32,7 +32,7 @@ export const Address: React.FC = () => {
           />
         </div>
       </div>
-      <div className="address-block">
+      <div className="address-page-block">
         <div className="profile-edit-block">
           <img src="/icons/edit.svg" alt="Edit icon" className="edit-icon" />
           <label
@@ -64,7 +64,7 @@ export const Address: React.FC = () => {
           />
         </div>
       </div>
-      <div className="address-block">
+      <div className="address-page-block">
         <div className="profile-edit-block">
           <img src="/icons/edit.svg" alt="Edit icon" className="edit-icon" />
           <label

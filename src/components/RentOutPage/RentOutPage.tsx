@@ -6,8 +6,10 @@ import '../../App.css';
 import { DeviceImage } from '../../types/DeviceImage';
 import brands from '../../data/brands.json';
 import { postDevice } from '../../api/devices';
+import { useNavigate } from 'react-router-dom';
 
 export const RentOutPage: React.FC = () => {
+  const navigate = useNavigate();
   const [deviceInfo, setDeviceInfo] = useState({
     title: '',
     description: '',
@@ -141,7 +143,17 @@ export const RentOutPage: React.FC = () => {
       }
     }
 
-    await postDevice(formData);
+    try {
+      await postDevice(formData);
+      navigate('/personal-page/my-devices', { replace: true });
+    } catch (e) {
+      if (e instanceof Error) {
+        if (e.message === 'Unauthorized') {
+          navigate('/login', { replace: true });
+        }
+        alert(e.message);
+      }
+    }
   };
 
   return (
@@ -195,10 +207,7 @@ export const RentOutPage: React.FC = () => {
                             alt={`Device image ${index + 1}`}
                           />
                           <div className="overlay" onClick={open}>
-                            <img
-                              src="/icons/zoom-in.svg"
-                              alt="Zoom in"
-                            />
+                            <img src="/icons/zoom-in.svg" alt="Zoom in" />
                           </div>
                         </>
                       )}
