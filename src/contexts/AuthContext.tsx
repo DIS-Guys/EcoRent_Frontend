@@ -9,6 +9,7 @@ export interface AuthContextProps {
     email: string,
     password: string
   ) => void;
+  logout: () => void;
 }
 
 export const AuthContext = React.createContext<AuthContextProps | null>(null);

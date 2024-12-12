@@ -1,11 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './Profile.css';
+import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 
 export const Profile: React.FC = () => {
-  const handleLogout = () => {
-    localStorage.removeItem('jwt');
-    window.location.href = '/';
-  };
+  const { logout } = useContext(AuthContext) as AuthContextProps;
 
   return (
     <>
@@ -74,7 +72,7 @@ export const Profile: React.FC = () => {
       <div className="cabinet-buttons-block">
         <button
           className="logout-button cancel-button secondary-button"
-          onClick={handleLogout}
+          onClick={logout}
         >
           <img
             src="/icons/logout.svg"
