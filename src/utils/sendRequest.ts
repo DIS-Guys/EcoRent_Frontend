@@ -8,22 +8,33 @@ type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 async function sendRequest<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data: any = null
+  data?: any
 ): Promise<T> {
-  const options: RequestInit = { method };
+  const token = localStorage.getItem('jwt');
+  const headers: HeadersInit = {};
 
-  if (data) {
-    if (data instanceof FormData) {
-      options.body = data;
-    } else {
-      options.body = JSON.stringify(data);
-      options.headers = {
-        'Content-Type': 'application/json; charset=UTF-8',
-      };
-    }
+  if (data && !(data instanceof FormData)) {
+    headers['Content-Type'] = 'application/json; charset=UTF-8';
   }
 
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const options: RequestInit = {
+    method,
+    headers,
+    body:
+      data instanceof FormData ? data : data ? JSON.stringify(data) : undefined,
+  };
+
   const response = await fetch(BASE_URL + url, options);
+
+  if (token && response.status === 401) {
+    localStorage.removeItem('jwt');
+    throw new Error('Unauthorized');
+  }
+
   if (!response.ok) {
     const errorResponse: ErrorResponse = await response.json();
     throw new Error(errorResponse.message);
@@ -33,8 +44,8 @@ async function sendRequest<T>(
 }
 
 export const client = {
-  get: async <T>(url: string) => sendRequest<T>(url),
+  get: async <T>(url: string) => sendRequest<T>(url, 'GET'),
   post: async <T>(url: string, data: any) => sendRequest<T>(url, 'POST', data),
-  patch: async <T>(url: string, data: any) => sendRequest<T>(url, 'PUT', data),
-  delete: async (url: string) => sendRequest(url, 'DELETE'),
+  put: async <T>(url: string, data: any) => sendRequest<T>(url, 'PUT', data),
+  delete: async <T>(url: string) => sendRequest<T>(url, 'DELETE'),
 };

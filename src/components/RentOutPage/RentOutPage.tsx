@@ -5,38 +5,38 @@ import './RentOutPage.css';
 import '../../App.css';
 import { DeviceImage } from '../../types/DeviceImage';
 import brands from '../../data/brands.json';
+import { postDevice } from '../../api/devices';
 
 export const RentOutPage: React.FC = () => {
-  const [formData, setFormData] = useState({
-    images: [] as DeviceImage[],
+  const [deviceInfo, setDeviceInfo] = useState({
     title: '',
     description: '',
     manufacturer: '',
+    deviceModel: '',
     condition: '',
-    weight: '',
-    usbTypeA: '',
-    socketCount: '',
-    signalShape: '',
-    model: '',
     batteryCapacity: '',
+    weight: '',
+    typeC: '',
+    typeA: '',
+    sockets: '',
+    remoteUse: '',
     dimensions: { length: '', width: '', height: '' },
-    usbTypeC: '',
     batteryType: '',
-    remoteControl: '',
-    additionalInfo: '',
+    signalShape: '',
+    additional: '',
+    images: [] as DeviceImage[],
     price: '',
     minRentTerm: '',
     maxRentTerm: '',
     policyAgreement: false,
   });
   const [chosenManufacturer, setChosenManufacturer] = useState(
-    formData.manufacturer
+    deviceInfo.manufacturer
   );
 
   useEffect(() => {
-    console.log(formData);
-    setChosenManufacturer(formData.manufacturer);
-  }, [formData]);
+    setChosenManufacturer(deviceInfo.manufacturer);
+  }, [deviceInfo]);
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -46,7 +46,7 @@ export const RentOutPage: React.FC = () => {
     const { name, value, type } = e.target;
     const checked =
       type === 'checkbox' ? (e.target as HTMLInputElement).checked : undefined;
-    setFormData((prev) => ({
+    setDeviceInfo((prev) => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value,
     }));
@@ -59,14 +59,14 @@ export const RentOutPage: React.FC = () => {
       );
       const uniqueImages = newImages.filter(
         (image) =>
-          !formData.images.some(
+          !deviceInfo.images.some(
             (uploaded) =>
               uploaded.file.name === image.name &&
               uploaded.file.size === image.size
           )
       );
 
-      const totalImages = formData.images.length + uniqueImages.length;
+      const totalImages = deviceInfo.images.length + uniqueImages.length;
 
       if (totalImages > 10) {
         alert('You can only upload up to 10 images.');
@@ -80,7 +80,7 @@ export const RentOutPage: React.FC = () => {
         })
       );
 
-      setFormData((prev) => ({
+      setDeviceInfo((prev) => ({
         ...prev,
         images: [...prev.images, ...imagesWithDimensions],
       }));
@@ -106,7 +106,7 @@ export const RentOutPage: React.FC = () => {
     e: React.ChangeEvent<HTMLInputElement>,
     dimension: string
   ) => {
-    setFormData((prev) => ({
+    setDeviceInfo((prev) => ({
       ...prev,
       dimensions: {
         ...prev.dimensions,
@@ -116,14 +116,32 @@ export const RentOutPage: React.FC = () => {
   };
 
   const handleRemoveImage = (index: number) => {
-    setFormData((prev) => ({
+    setDeviceInfo((prev) => ({
       ...prev,
       images: prev.images.filter((_, i) => i !== index),
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(deviceInfo)) {
+      if (value instanceof Array) {
+        value.map((image) => formData.append('images', image.file));
+        formData.append(
+          'imageDimensions',
+          JSON.stringify(
+            value.map((image) => ({ width: image.width, height: image.height }))
+          )
+        );
+      } else {
+        formData.append(key, JSON.stringify(value));
+      }
+    }
+
+    await postDevice(formData);
   };
 
   return (
@@ -158,7 +176,7 @@ export const RentOutPage: React.FC = () => {
             />
             <Gallery>
               <div className="rent-out-page-images-block">
-                {formData.images.map((image, index) => (
+                {deviceInfo.images.map((image, index) => (
                   <div className="rent-out-page-image-placeholder" key={index}>
                     <Item
                       key={index}
@@ -178,7 +196,7 @@ export const RentOutPage: React.FC = () => {
                           />
                           <div className="overlay" onClick={open}>
                             <img
-                              src="/public/icons/zoom-in.svg"
+                              src="/icons/zoom-in.svg"
                               alt="Zoom in"
                             />
                           </div>
@@ -190,7 +208,7 @@ export const RentOutPage: React.FC = () => {
                       onClick={() => handleRemoveImage(index)}
                     >
                       <img
-                        src="/public/icons/delete-image.svg"
+                        src="/icons/delete-image.svg"
                         alt="Delete image button"
                       />
                     </button>
@@ -221,7 +239,7 @@ export const RentOutPage: React.FC = () => {
               <input
                 id="deviceTitleInput"
                 name="title"
-                value={formData.title}
+                value={deviceInfo.title}
                 onChange={handleInputChange}
                 type="text"
                 placeholder="Введіть назву оголошення"
@@ -238,7 +256,7 @@ export const RentOutPage: React.FC = () => {
               <textarea
                 id="deviceDescriptionTextarea"
                 name="description"
-                value={formData.description}
+                value={deviceInfo.description}
                 onChange={handleInputChange}
                 placeholder="Опишіть пристрій (Опціонально)"
                 className="rent-out-description-textarea rent-out-textarea info-input"
@@ -273,7 +291,7 @@ export const RentOutPage: React.FC = () => {
                     <select
                       id="manufacturerSelect"
                       name="manufacturer"
-                      value={formData.manufacturer}
+                      value={deviceInfo.manufacturer}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -299,7 +317,7 @@ export const RentOutPage: React.FC = () => {
                     <select
                       id="conditionSelect"
                       name="condition"
-                      value={formData.condition}
+                      value={deviceInfo.condition}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -319,7 +337,7 @@ export const RentOutPage: React.FC = () => {
                     type="number"
                     id="weightInput"
                     name="weight"
-                    value={formData.weight}
+                    value={deviceInfo.weight}
                     onChange={handleInputChange}
                     className="char-input info-input"
                     placeholder="Вкажіть вагу (кг)"
@@ -335,8 +353,8 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="usbTypeASelect"
-                      name="usbTypeA"
-                      value={formData.usbTypeA}
+                      name="typeA"
+                      value={deviceInfo.typeA}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -361,8 +379,8 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="socketCountSelect"
-                      name="socketCount"
-                      value={formData.socketCount}
+                      name="sockets"
+                      value={deviceInfo.sockets}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -388,7 +406,7 @@ export const RentOutPage: React.FC = () => {
                     <select
                       id="signalShapeSelect"
                       name="signalShape"
-                      value={formData.signalShape}
+                      value={deviceInfo.signalShape}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -409,8 +427,8 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="modelSelect"
-                      name="model"
-                      value={formData.model}
+                      name="deviceModel"
+                      value={deviceInfo.deviceModel}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -438,7 +456,7 @@ export const RentOutPage: React.FC = () => {
                     type="number"
                     id="batteryCapacityInput"
                     name="batteryCapacity"
-                    value={formData.batteryCapacity}
+                    value={deviceInfo.batteryCapacity}
                     onChange={handleInputChange}
                     className="char-input info-input"
                     placeholder="Вкажіть ємність (кВт·год)"
@@ -455,7 +473,7 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput"
-                      value={formData.dimensions.length}
+                      value={deviceInfo.dimensions.length}
                       onChange={(event) =>
                         handleDimensionChange(event, 'length')
                       }
@@ -466,7 +484,7 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput2"
-                      value={formData.dimensions.width}
+                      value={deviceInfo.dimensions.width}
                       onChange={(event) =>
                         handleDimensionChange(event, 'width')
                       }
@@ -477,7 +495,7 @@ export const RentOutPage: React.FC = () => {
                     <input
                       type="number"
                       id="dimensionsInput3"
-                      value={formData.dimensions.height}
+                      value={deviceInfo.dimensions.height}
                       onChange={(event) =>
                         handleDimensionChange(event, 'height')
                       }
@@ -497,8 +515,8 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="usbTypeCSelect"
-                      name="usbTypeC"
-                      value={formData.usbTypeC}
+                      name="typeC"
+                      value={deviceInfo.typeC}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -524,7 +542,7 @@ export const RentOutPage: React.FC = () => {
                     <select
                       id="batteryTypeSelect"
                       name="batteryType"
-                      value={formData.batteryType}
+                      value={deviceInfo.batteryType}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -547,8 +565,8 @@ export const RentOutPage: React.FC = () => {
                   <div className="custom-select-container">
                     <select
                       id="remoteControlSelect"
-                      name="remoteControl"
-                      value={formData.remoteControl}
+                      name="remoteUse"
+                      value={deviceInfo.remoteUse}
                       onChange={handleInputChange}
                       className="char-select info-input"
                     >
@@ -573,8 +591,8 @@ export const RentOutPage: React.FC = () => {
                 </label>
                 <textarea
                   id="additionalCharsField"
-                  name="additionalInfo"
-                  value={formData.additionalInfo}
+                  name="additional"
+                  value={deviceInfo.additional}
                   onChange={handleInputChange}
                   placeholder="Поле для додаткової інформації про характеристики"
                   className="rent-out-additional-info-textarea rent-out-textarea info-input"
@@ -601,7 +619,7 @@ export const RentOutPage: React.FC = () => {
                   id="priceInput"
                   type="number"
                   name="price"
-                  value={formData.price}
+                  value={deviceInfo.price}
                   onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
@@ -617,7 +635,7 @@ export const RentOutPage: React.FC = () => {
                   id="minRentTermInput"
                   type="number"
                   name="minRentTerm"
-                  value={formData.minRentTerm}
+                  value={deviceInfo.minRentTerm}
                   onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
@@ -633,7 +651,7 @@ export const RentOutPage: React.FC = () => {
                   id="maxRentTermInput"
                   type="number"
                   name="maxRentTerm"
-                  value={formData.maxRentTerm}
+                  value={deviceInfo.maxRentTerm}
                   onChange={handleInputChange}
                   className="rent-out-price-section-input info-input"
                 />
@@ -646,7 +664,7 @@ export const RentOutPage: React.FC = () => {
               <input
                 type="checkbox"
                 name="policyAgreement"
-                checked={formData.policyAgreement}
+                checked={deviceInfo.policyAgreement}
                 onChange={handleInputChange}
                 className="policy-agreement-checkbox"
               />

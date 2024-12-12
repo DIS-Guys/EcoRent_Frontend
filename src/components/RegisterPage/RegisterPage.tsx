@@ -1,46 +1,26 @@
 import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
-import { useLocation, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
-import { createUser, loginUser } from '../../api/users';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 
 export const RegisterPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { state } = useLocation();
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { setAuthorized } = useContext(AuthContext);
+  const { login, register } = useContext(AuthContext) as AuthContextProps;
 
-  const handleAuthForm = async (
-    event: React.FormEvent,
-    isRegistration: boolean
-  ) => {
+  const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-
-    try {
-      if (isRegistration) await createUser({ name, surname, email, password });
-      const { token } = await loginUser({ email, password });
-      localStorage.setItem('jwt', token);
-      setAuthorized(true);
-      navigate(state?.pathname || '/', { replace: true });
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        console.error('Unknown error:', error);
-      }
-    }
+    login(email, password);
   };
 
-  const handleLogin = async (event: React.FormEvent) =>
-    handleAuthForm(event, false);
-  const handleRegister = async (event: React.FormEvent) =>
-    handleAuthForm(event, true);
+  const handleRegister = (event: React.FormEvent) => {
+    event.preventDefault();
+    register(name, surname, email, password);
+  };
 
   return (
     <div className="register-block gray-container">
