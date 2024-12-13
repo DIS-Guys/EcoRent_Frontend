@@ -37,7 +37,7 @@ export const RegisterPage: React.FC = () => {
     }
 
     if (errors.length > 0) {
-      toast.error(`Поля заповнені невірно: ${errors.join("\n")}`, {
+      toast.error(`Поля заповнені невірно: ${errors.join('\n')}`, {
         position: 'bottom-right',
       });
       return false;
@@ -56,7 +56,7 @@ export const RegisterPage: React.FC = () => {
     if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
 
     if (errors.length > 0) {
-      toast.error(`Поля заповнені невірно: ${errors.join("\n")}`, {
+      toast.error(`Поля заповнені невірно: ${errors.join('\n')}`, {
         position: 'bottom-right',
       });
       return false;
@@ -66,7 +66,7 @@ export const RegisterPage: React.FC = () => {
       position: 'bottom-right',
     });
     return true;
-  }
+  };
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
