@@ -333,8 +333,8 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть стан
                       </option>
-                      <option value="new">Новий</option>
-                      <option value="used">Вживаний</option>
+                      <option value="Новий">Новий</option>
+                      <option value="Вживаний">Вживаний</option>
                     </select>
                   </div>
                 </div>
@@ -422,8 +422,8 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть форму сигналу
                       </option>
-                      <option value="sine">Чиста синусоїда</option>
-                      <option value="modified">Модифікована синусоїда</option>
+                      <option value="Чиста синусоїда">Чиста синусоїда</option>
+                      <option value="Модифікована синусоїда">Модифікована синусоїда</option>
                     </select>
                   </div>
                 </div>
@@ -582,7 +582,7 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть спосіб
                       </option>
-                      <option value="None">Немає</option>
+                      <option value="Немає">Немає</option>
                       <option value="Wi-Fi">Wi-Fi</option>
                       <option value="Bluetooth">Bluetooth</option>
                     </select>

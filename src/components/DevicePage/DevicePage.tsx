@@ -72,6 +72,12 @@ export const DevicePage: React.FC = () => {
                 </span>
               </button>
             </div>
+            <div className="device-page-description">
+              <h1 className="device-page-description-title">Короткий опис</h1>
+              <p className="device-page-description-info">
+                {device.description || 'Опису від власника немає'}
+              </p>
+            </div>
             <div className="device-page-location">
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
@@ -81,7 +87,9 @@ export const DevicePage: React.FC = () => {
                 <p className="district location-info">
                   {device.ownerId.street || 'Вулиця не вказана'}
                 </p>
-                <p className="region location-info">{device.ownerId.region || 'Область не вказана'}</p>
+                <p className="region location-info">
+                  {device.ownerId.region || 'Область не вказана'}
+                </p>
               </div>
             </div>
             <div className="device-page-owner">
@@ -135,7 +143,7 @@ export const DevicePage: React.FC = () => {
         </div>
         <div className="device-additional-info">
           <h2 className="additional-info-title">Додатково</h2>
-          <p className="additional-info-text">{device.additional}</p>
+          <p className="additional-info-text">{device.additional || 'Без додаткових характеристик'}</p>
         </div>
       </div>
     </div>
