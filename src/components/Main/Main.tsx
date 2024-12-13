@@ -48,10 +48,10 @@ export const Main: React.FC = () => {
           </article>
         </section>
         <section className="rent">
-          <Link to="rent" className="rent-button">
+          <Link to="/rent" className="rent-button">
             Хочу орендувати!
           </Link>
-          <Link to="rent-out" className="rent-button">
+          <Link to="/personal-page/my-devices" className="rent-button">
             Здати в оренду!
           </Link>
         </section>

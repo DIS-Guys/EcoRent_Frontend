@@ -1,5 +1,6 @@
-export type Device = {
-  _id: string;
+import { DeviceImage } from './DeviceImage';
+
+export type UserDeviceInfo = {
   title: string;
   description: string;
   manufacturer: string;
@@ -15,18 +16,9 @@ export type Device = {
   batteryType: string;
   signalShape: string;
   additional: string;
-  images: { url: string; width: number; height: number }[];
+  images: DeviceImage[];
   price: number;
   minRentTerm: number;
   maxRentTerm: number;
   policyAgreement: boolean;
-  isInRent: boolean;
-  ownerId: {
-    _id: string;
-    name: string;
-    surname: string;
-    region: string;
-    street: string;
-    town: string;
-  };
 };

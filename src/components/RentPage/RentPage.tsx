@@ -12,8 +12,12 @@ export const RentPage: React.FC = () => {
 
   useEffect(() => {
     const getDevices = async () => {
-      const devs = await getAllDevices();
-      setDevices(devs);
+      try {
+        const devs = await getAllDevices();
+        setDevices(devs);
+      } catch (error) {
+        console.error(error);
+      }
     };
     getDevices();
   }, []);
@@ -60,7 +64,7 @@ export const RentPage: React.FC = () => {
               {brands
                 .filter((brand) => chosenBrands.includes(brand.name))
                 .map((brand) =>
-                  brand.model.map((model) => (
+                  brand.models.map((model) => (
                     <div className="filter-option" key={model}>
                       <input
                         id={`${model}`}
@@ -164,27 +168,13 @@ export const RentPage: React.FC = () => {
             <div className="filter-section">
               <h2 className="filter-subtitle">Тип акумулятора</h2>
               <div className="filter-option">
-                <input id="sla" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="sla" className="option-text">
-                  SLA
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="efb" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="efb" className="option-text">
-                  EFB
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="gel" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="gel" className="option-text">
-                  GEL
-                </label>
-              </div>
-              <div className="filter-option">
-                <input id="agm" type="checkbox" className="filter-checkbox" />
-                <label htmlFor="agm" className="option-text">
-                  AGM
+                <input
+                  id="lifepo4"
+                  type="checkbox"
+                  className="filter-checkbox"
+                />
+                <label htmlFor="lifepo4" className="option-text">
+                  LiFePO4
                 </label>
               </div>
               <div className="filter-option">
@@ -205,16 +195,6 @@ export const RentPage: React.FC = () => {
                 />
                 <label htmlFor="li-pol" className="option-text">
                   Li-Pol
-                </label>
-              </div>
-              <div className="filter-option">
-                <input
-                  id="lifepo4"
-                  type="checkbox"
-                  className="filter-checkbox"
-                />
-                <label htmlFor="lifepo4" className="option-text">
-                  LiFePO4
                 </label>
               </div>
             </div>
@@ -273,7 +253,7 @@ export const RentPage: React.FC = () => {
               <DeviceCard
                 key={device._id}
                 id={device._id}
-                mainImage={device.images[0]}
+                mainImage={device.images[0].url}
                 brand={device.manufacturer}
                 model={device.deviceModel}
                 price={device.price}

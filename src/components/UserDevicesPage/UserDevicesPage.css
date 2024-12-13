@@ -1,4 +1,8 @@
 .user-devices-block {
   height: 550px;
   padding: 44px;
+  display: flex;
+  gap: 78px;
+  flex-wrap: wrap;
+  overflow-y: auto;
 }

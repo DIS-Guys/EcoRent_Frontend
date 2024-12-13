@@ -1,12 +1,36 @@
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Device } from '../../types/Device';
+import { getDevice } from '../../api/devices';
 import './DevicePage.css';
 
 export const DevicePage: React.FC = () => {
   const navigate = useNavigate();
+  const { deviceId } = useParams();
+  const [device, setDevice] = useState<Device | null>(null);
+
+  useEffect(() => {
+    if (!deviceId) return;
+
+    const getDeviceData = async () => {
+      try {
+        const device = await getDevice(deviceId);
+        setDevice(device);
+      } catch {
+        throw new Error('Failed to load device');
+      }
+    };
+
+    getDeviceData();
+  }, [deviceId]);
 
   const handleGoBack = () => {
     navigate(-1);
   };
+
+  if (!device) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="device-page-container">
@@ -18,59 +42,63 @@ export const DevicePage: React.FC = () => {
         <div className="device-main-info-block">
           <div className="device-picture-block">
             <div className="device-side-pictures">
-              <img
-                className="device-side-picture"
-                src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
-                alt="Device picture 1"
-              />
-              <img
-                className="device-side-picture"
-                src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
-                alt="Device picture 2"
-              />
-              <img
-                className="device-side-picture"
-                src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
-                alt="Device picture 3"
-              />
-              <img
-                className="device-side-picture"
-                src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
-                alt="Device picture 4"
-              />
-              <div className="view-all-pictures">+3</div>
+              {device.images.slice(0, 4).map((image, index) => (
+                <img
+                  key={index}
+                  className="device-side-picture"
+                  src={image.url}
+                  alt={`Device picture ${index + 1}`}
+                />
+              ))}
+              <div className="view-all-pictures">
+                {device.images.length > 4
+                  ? `+${device.images.length - 5}`
+                  : `+0`}
+              </div>
             </div>
             <img
               className="main-device-picture"
-              src="https://avatars.akamai.steamstatic.com/adeb470d4165233694b0640595999b5764a7f4d1_full.jpg"
-              alt="Device picture 1"
+              src={device.images[0].url}
+              alt="Main device picture"
             />
           </div>
           <div className="device-short-info">
             <div className="device-page-name">
-              <h1 className="device-page-name-title">Назва пристрою</h1>
+              <h1 className="device-page-name-title">{device.title}</h1>
               <button className="lessor-info-button main-button">
                 <span className="lessor-info-button-title">Орендувати</span>
-                <span className="lessor-info-button-price">1500 грн/міс</span>
+                <span className="lessor-info-button-price">
+                  {device.price} грн/міс
+                </span>
               </button>
+            </div>
+            <div className="device-page-description">
+              <h1 className="device-page-description-title">Короткий опис</h1>
+              <p className="device-page-description-info">
+                {device.description || 'Опису від власника немає'}
+              </p>
             </div>
             <div className="device-page-location">
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
-                <p className="settlement location-info">м. Полтава,</p>
-                <p className="district location-info">Полтавський район,</p>
-                <p className="region location-info">Полтавська область</p>
+                <p className="settlement location-info">
+                  {device.ownerId.town || 'Місто не вказане'}
+                </p>
+                <p className="district location-info">
+                  {device.ownerId.street || 'Вулиця не вказана'}
+                </p>
+                <p className="region location-info">
+                  {device.ownerId.region || 'Область не вказана'}
+                </p>
               </div>
             </div>
             <div className="device-page-owner">
               <h1 className="device-page-owner-title">Власник пристрою</h1>
               <div className="device-page-owner-info">
                 <h2 className="device-page-owner-fullname">
-                  Абобус Абобусович
+                  {device.ownerId.name} {device.ownerId.surname}
                 </h2>
-                <p className="owner-registration-date">
-                  Користується сервісом з жовтня 1488 року
-                </p>
+                <p className="owner-registration-date">Користується сервісом</p>
               </div>
             </div>
           </div>
@@ -95,29 +123,27 @@ export const DevicePage: React.FC = () => {
               <p className="char-name">Форма вихідного сигналу:</p>
             </div>
             <div className="char-value-block">
-              <p className="char-value">EcoFlow</p>
-              <p className="char-value">River 2</p>
-              <p className="char-value">100x100x300 см</p>
-              <p className="char-value">Вживаний</p>
-              <p className="char-value">1500 квт/год</p>
-              <p className="char-value">2200 грамів</p>
-              <p className="char-value">2 розетки</p>
-              <p className="char-value">1 роз’єм</p>
-              <p className="char-value">2 роз’єми</p>
-              <p className="char-value">Літієвий</p>
-              <p className="char-value">Wi-Fi</p>
-              <p className="char-value">Постійний</p>
+              <p className="char-value">{device.manufacturer}</p>
+              <p className="char-value">{device.deviceModel}</p>
+              <p className="char-value">
+                {device.dimensions.length}x{device.dimensions.width}x
+                {device.dimensions.height} см
+              </p>
+              <p className="char-value">{device.condition}</p>
+              <p className="char-value">{device.batteryCapacity} кВт/год</p>
+              <p className="char-value">{device.weight} кг</p>
+              <p className="char-value">{device.sockets} розеток</p>
+              <p className="char-value">{device.typeA} роз’єми</p>
+              <p className="char-value">{device.typeC} роз’єми</p>
+              <p className="char-value">{device.batteryType}</p>
+              <p className="char-value">{device.remoteUse}</p>
+              <p className="char-value">{device.signalShape}</p>
             </div>
           </div>
         </div>
         <div className="device-additional-info">
           <h2 className="additional-info-title">Додатково</h2>
-          <p className="additional-info-text">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero
-            cupiditate accusamus ex? Porro harum laboriosam, similique cum,
-            voluptas, doloremque fugiat dignissimos in ratione esse id placeat
-            aliquid sit iste maiores!
-          </p>
+          <p className="additional-info-text">{device.additional || 'Без додаткових характеристик'}</p>
         </div>
       </div>
     </div>

@@ -66,6 +66,7 @@
 }
 
 .filter-checkbox {
+  accent-color: #1d9951;
   width: 20px;
   height: 20px;
   cursor: pointer;

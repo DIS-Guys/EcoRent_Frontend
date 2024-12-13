@@ -39,6 +39,12 @@
   cursor: pointer;
 }
 
+.cabinet-buttons-block {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
 .edit-buttons-block {
   display: flex;
   margin-top: auto;
