@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import './Support.css';
 import { createTicket } from '../../api/tickets';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 export const Support: React.FC = () => {
   const [email, setEmail] = useState('');

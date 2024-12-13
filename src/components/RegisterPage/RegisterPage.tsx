@@ -2,7 +2,6 @@ import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
 import './RegisterPage.css';
 import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
-import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 
 export const RegisterPage: React.FC = () => {

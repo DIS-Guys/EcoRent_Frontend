@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { deleteUser } from '../../api/users';
 import './Security.css';
 import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
