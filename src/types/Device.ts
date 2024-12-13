@@ -1,32 +1,25 @@
 export type Device = {
   _id: string;
-  title: string;
-  description: string;
   manufacturer: string;
   deviceModel: string;
-  condition: string;
+  state: string;
   batteryCapacity: number;
   weight: number;
   typeC: number;
   typeA: number;
   sockets: number;
   remoteUse: string;
-  dimensions: { length: string; width: string; height: string };
+  sizeXYZ: number[];
   batteryType: string;
-  signalShape: string;
+  outputSignalForm: string;
   additional: string;
-  images: { url: string; width: number; height: number }[];
+  images: string[];
   price: number;
+  isInRent: boolean;
   minRentTerm: number;
   maxRentTerm: number;
-  policyAgreement: boolean;
-  isInRent: boolean;
   ownerId: {
     _id: string;
-    name: string;
-    surname: string;
-    region: string;
-    street: string;
     town: string;
   };
 };

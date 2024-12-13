@@ -1,11 +1,11 @@
 [
   {
     "name": "Anker",
-    "models": ["PowerHouse 767", "SOLIX"]
+    "model": ["PowerHouse 767", "SOLIX"]
   },
   {
     "name": "Bluetti",
-    "models": [
+    "model": [
       "AC180",
       "AC180P",
       "AC200 MAX",
@@ -23,15 +23,15 @@
   },
   {
     "name": "Choetech",
-    "models": ["BS005", "BS006"]
+    "model": ["BS005", "BS006"]
   },
   {
     "name": "CTECHi",
-    "models": ["GT1500", "GT200", "GT200 Pro", "GT500", "ST2000"]
+    "model": ["GT1500", "GT200", "GT200 Pro", "GT500", "ST2000"]
   },
   {
     "name": "EcoFlow",
-    "models": [
+    "model": [
       "Delta",
       "Delta 2",
       "Delta Max",
@@ -44,7 +44,7 @@
   },
   {
     "name": "Flashfish",
-    "models": [
+    "model": [
       "A101",
       "A201",
       "A301",
@@ -58,11 +58,11 @@
   },
   {
     "name": "Fossibot",
-    "models": ["F800", "F1200", "F2400", "F3600"]
+    "model": ["F800", "F1200", "F2400", "F3600"]
   },
   {
     "name": "Jackery",
-    "models": [
+    "model": [
       "Explorer 1000",
       "Explorer 1000 Plus",
       "Explorer 1000 Pro",
@@ -75,15 +75,15 @@
   },
   {
     "name": "Oukitel",
-    "models": ["BP2000", "P1201", "P2001", "P5000", "P501"]
+    "model": ["BP2000", "P1201", "P2001", "P5000", "P501"]
   },
   {
     "name": "S&O LAB",
-    "models": ["G1200"]
+    "model": ["G1200"]
   },
   {
     "name": "Zendure",
-    "models": [
+    "model": [
       "SuperBase 600M",
       "SuperBase Pro 1500",
       "SuperBase V4600",

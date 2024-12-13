@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
 import { createUser, loginUser } from '../../api/users';
 import { AuthContext } from '../../contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 
 export const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { login, register } = useContext(AuthContext) as AuthContextProps;
-
+  const { setAuthorized } = useContext(AuthContext);
 
   const validateFields = () => {
     const errors = [];
@@ -74,16 +75,12 @@ export const RegisterPage: React.FC = () => {
         console.error('Unknown error:', error);
       }
     }
-
-  const handleLogin = (event: React.FormEvent) => {
-    event.preventDefault();
-    login(email, password);
   };
 
-  const handleRegister = (event: React.FormEvent) => {
-    event.preventDefault();
-    register(name, surname, email, password);
-  };
+  const handleLogin = async (event: React.FormEvent) =>
+    handleAuthForm(event, false);
+  const handleRegister = async (event: React.FormEvent) =>
+    handleAuthForm(event, true);
 
   return (
     <div className="register-block gray-container">

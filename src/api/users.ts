@@ -12,7 +12,3 @@ export const loginUser = async ({
 }: Omit<User, 'name' | 'surname'>) => {
   return client.post<LoginResponse>('/api/auth/login', { email, password });
 };
-
-export const deleteUser = async () => {
-  return client.delete('/api/auth/deleteUser');
-};

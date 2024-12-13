@@ -1,9 +1,9 @@
 import { useContext } from 'react';
-import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 export const RequireAuth: React.FC = () => {
-  const { authorized } = useContext(AuthContext) as AuthContextProps;
+  const { authorized } = useContext(AuthContext);
   const { pathname } = useLocation();
 
   if (!authorized) {
