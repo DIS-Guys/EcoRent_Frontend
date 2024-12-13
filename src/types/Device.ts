@@ -23,6 +23,10 @@ export type Device = {
   isInRent: boolean;
   ownerId: {
     _id: string;
+    name: string;
+    surname: string;
+    region: string;
+    street: string;
     town: string;
   };
 };

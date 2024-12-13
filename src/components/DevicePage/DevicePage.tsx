@@ -6,57 +6,31 @@ import './DevicePage.css';
 
 export const DevicePage: React.FC = () => {
   const navigate = useNavigate();
-
-  const handleGoBack = () => {
-    navigate(-1);
-  };
-
-  const [device, setDevice] = useState<Device | null>(null);
-  const [error, setError] = useState<string | null>(null);
   const { deviceId } = useParams();
+  const [device, setDevice] = useState<Device | null>(null);
 
   useEffect(() => {
     if (!deviceId) return;
 
     const getDeviceData = async () => {
       try {
-        const data = await getDevice(deviceId);
-        setDevice(data.device); // Парсим устройство из JSON
-      } catch (error) {
-        setError('Не удалось загрузить устройство');
+        const device = await getDevice(deviceId);
+        setDevice(device);
+      } catch {
+        throw new Error('Failed to load device');
       }
     };
 
     getDeviceData();
   }, [deviceId]);
 
-  if (error) {
-    return <div className="error-message">{error}</div>;
-  }
+  const handleGoBack = () => {
+    navigate(-1);
+  };
 
   if (!device) {
-    return <div className="loading-message">Загрузка...</div>;
+    return <div>Loading...</div>;
   }
-
-  const {
-    title,
-    manufacturer,
-    deviceModel,
-    condition,
-    batteryCapacity,
-    weight,
-    typeC,
-    typeA,
-    sockets,
-    remoteUse,
-    batteryType,
-    signalShape,
-    additional,
-    images,
-    price,
-    ownerId,
-    dimensions,
-  } = device;
 
   return (
     <div className="device-page-container">
@@ -68,47 +42,53 @@ export const DevicePage: React.FC = () => {
         <div className="device-main-info-block">
           <div className="device-picture-block">
             <div className="device-side-pictures">
-              {images.map((image, index) => (
+              {device.images.slice(0, 4).map((image, index) => (
                 <img
-                  key={image._id}
+                  key={index}
                   className="device-side-picture"
                   src={image.url}
                   alt={`Device picture ${index + 1}`}
                 />
               ))}
               <div className="view-all-pictures">
-                {images.length > 4 && `+${images.length - 4}`}
+                {device.images.length > 4
+                  ? `+${device.images.length - 5}`
+                  : `+0`}
               </div>
             </div>
             <img
               className="main-device-picture"
-              src={images[0]?.url || '/images/default.jpg'}
+              src={device.images[0].url}
               alt="Main device picture"
             />
           </div>
           <div className="device-short-info">
             <div className="device-page-name">
-              <h1 className="device-page-name-title">{title}</h1>
+              <h1 className="device-page-name-title">{device.title}</h1>
               <button className="lessor-info-button main-button">
                 <span className="lessor-info-button-title">Орендувати</span>
                 <span className="lessor-info-button-price">
-                  {price} грн/міс
+                  {device.price} грн/міс
                 </span>
               </button>
             </div>
             <div className="device-page-location">
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
-                <p className="settlement location-info">Не вказано</p>
-                <p className="district location-info">Не вказано</p>
-                <p className="region location-info">Не вказано</p>
+                <p className="settlement location-info">
+                  {device.ownerId.town}
+                </p>
+                <p className="district location-info">
+                  {device.ownerId.street}
+                </p>
+                <p className="region location-info">{device.ownerId.region}</p>
               </div>
             </div>
             <div className="device-page-owner">
               <h1 className="device-page-owner-title">Власник пристрою</h1>
               <div className="device-page-owner-info">
                 <h2 className="device-page-owner-fullname">
-                  {ownerId.name} {ownerId.surname}
+                  {device.ownerId.name} {device.ownerId.surname}
                 </h2>
                 <p className="owner-registration-date">Користується сервісом</p>
               </div>
@@ -135,26 +115,27 @@ export const DevicePage: React.FC = () => {
               <p className="char-name">Форма вихідного сигналу:</p>
             </div>
             <div className="char-value-block">
-              <p className="char-value">{manufacturer}</p>
-              <p className="char-value">{deviceModel}</p>
+              <p className="char-value">{device.manufacturer}</p>
+              <p className="char-value">{device.deviceModel}</p>
               <p className="char-value">
-                {dimensions.length}x{dimensions.width}x{dimensions.height} см
+                {device.dimensions.length}x{device.dimensions.width}x
+                {device.dimensions.height} см
               </p>
-              <p className="char-value">{condition}</p>
-              <p className="char-value">{batteryCapacity} кВт/год</p>
-              <p className="char-value">{weight} грамів</p>
-              <p className="char-value">{sockets} розеток</p>
-              <p className="char-value">{typeA} роз’єми</p>
-              <p className="char-value">{typeC} роз’єми</p>
-              <p className="char-value">{batteryType}</p>
-              <p className="char-value">{remoteUse}</p>
-              <p className="char-value">{signalShape}</p>
+              <p className="char-value">{device.condition}</p>
+              <p className="char-value">{device.batteryCapacity} кВт/год</p>
+              <p className="char-value">{device.weight} кг</p>
+              <p className="char-value">{device.sockets} розеток</p>
+              <p className="char-value">{device.typeA} роз’єми</p>
+              <p className="char-value">{device.typeC} роз’єми</p>
+              <p className="char-value">{device.batteryType}</p>
+              <p className="char-value">{device.remoteUse}</p>
+              <p className="char-value">{device.signalShape}</p>
             </div>
           </div>
         </div>
         <div className="device-additional-info">
           <h2 className="additional-info-title">Додатково</h2>
-          <p className="additional-info-text">{additional}</p>
+          <p className="additional-info-text">{device.additional}</p>
         </div>
       </div>
     </div>
