@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { createUser, loginUser } from '../api/users';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -44,8 +44,14 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     await login(email, password);
   };
 
+  const logout = () => {
+    localStorage.removeItem('jwt');
+    setAuthorized(false);
+    navigate('/login');
+  };
+
   return (
-    <AuthContext.Provider value={{ authorized, login, register }}>
+    <AuthContext.Provider value={{ authorized, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

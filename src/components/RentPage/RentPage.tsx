@@ -253,7 +253,7 @@ export const RentPage: React.FC = () => {
               <DeviceCard
                 key={device._id}
                 id={device._id}
-                mainImage={device.images[0]}
+                mainImage={device.images[0].url}
                 brand={device.manufacturer}
                 model={device.deviceModel}
                 price={device.price}

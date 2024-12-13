@@ -8,8 +8,10 @@ import brands from '../../data/brands.json';
 import { postDevice } from '../../api/devices';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 export const RentOutPage: React.FC = () => {
+  const navigate = useNavigate();
   const [deviceInfo, setDeviceInfo] = useState({
     title: '',
     description: '',
@@ -228,7 +230,17 @@ export const RentOutPage: React.FC = () => {
       }
     }
 
-    await postDevice(formData);
+    try {
+      await postDevice(formData);
+      navigate('/personal-page/my-devices', { replace: true });
+    } catch (e) {
+      if (e instanceof Error) {
+        if (e.message === 'Unauthorized') {
+          navigate('/login', { replace: true });
+        }
+        alert(e.message);
+      }
+    }
   };
 
   return (
@@ -282,10 +294,7 @@ export const RentOutPage: React.FC = () => {
                             alt={`Device image ${index + 1}`}
                           />
                           <div className="overlay" onClick={open}>
-                            <img
-                              src="/icons/zoom-in.svg"
-                              alt="Zoom in"
-                            />
+                            <img src="/icons/zoom-in.svg" alt="Zoom in" />
                           </div>
                         </>
                       )}
@@ -411,8 +420,8 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть стан
                       </option>
-                      <option value="new">Новий</option>
-                      <option value="used">Вживаний</option>
+                      <option value="Новий">Новий</option>
+                      <option value="Вживаний">Вживаний</option>
                     </select>
                   </div>
                 </div>
@@ -500,8 +509,8 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть форму сигналу
                       </option>
-                      <option value="sine">Чиста синусоїда</option>
-                      <option value="modified">Модифікована синусоїда</option>
+                      <option value="Чиста синусоїда">Чиста синусоїда</option>
+                      <option value="Модифікована синусоїда">Модифікована синусоїда</option>
                     </select>
                   </div>
                 </div>
@@ -660,7 +669,7 @@ export const RentOutPage: React.FC = () => {
                       <option value="" disabled>
                         Оберіть спосіб
                       </option>
-                      <option value="None">Немає</option>
+                      <option value="Немає">Немає</option>
                       <option value="Wi-Fi">Wi-Fi</option>
                       <option value="Bluetooth">Bluetooth</option>
                     </select>

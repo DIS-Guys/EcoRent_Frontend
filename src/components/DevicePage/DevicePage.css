@@ -10,6 +10,7 @@
 
 .device-main-section {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 20px;
 }
@@ -43,6 +44,9 @@
 }
 
 .device-side-picture {
+  object-fit: cover;
+  width: 100px;
+  height: 100px;
   border-radius: 15px;
   background-color: #d9d9d9;
   cursor: pointer;
@@ -62,6 +66,7 @@
 }
 
 .main-device-picture {
+  object-fit: cover;
   width: 600px;
   height: 600px;
   border-radius: 15px;
@@ -76,6 +81,7 @@
 .device-short-info {
   align-self: center;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
@@ -84,7 +90,6 @@
   border: 1px solid #e5e5e5;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
 }
 
 .device-page-name {
@@ -119,7 +124,8 @@
 }
 
 .device-page-location,
-.device-page-owner {
+.device-page-owner,
+.device-page-description {
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -130,7 +136,8 @@
 }
 
 .device-page-location-title,
-.device-page-owner-title {
+.device-page-owner-title,
+.device-page-description-title {
   font-size: 20px;
   font-weight: 600;
   color: #444;
@@ -140,15 +147,17 @@
 
 .device-page-location-info p,
 .device-page-owner-info h2,
-.device-page-owner-info p {
+.device-page-owner-info p,
+.device-page-description-info p {
   font-size: 14px;
   color: #555;
   margin: 4px 0;
 }
 
 .device-extended-info-block {
+  width: 100%;
   display: flex;
-  gap: 64px;
+  gap: 44px;
 }
 
 .device-characteristics {
@@ -159,7 +168,6 @@
   gap: 20px;
   border-top: 2px solid #54c392;
   border-bottom: 2px solid #54c392;
-  flex: 1;
 }
 
 .characteristics-title {
@@ -211,5 +219,6 @@
 }
 
 .additional-info-text {
+  text-align: center;
   font-size: 20px;
 }
