@@ -8,19 +8,33 @@ import { getAllDevices } from '../../api/devices';
 
 export const RentPage: React.FC = () => {
   const [devices, setDevices] = useState<Device[]>([]);
-  const [chosenBrands, setChosenBrands] = useState(['EcoFlow']);
+  const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [chosenBrands, setChosenBrands] = useState<string[]>([]);
 
   useEffect(() => {
     const getDevices = async () => {
       try {
         const devs = await getAllDevices();
         setDevices(devs);
+        setFilteredDevices(devs);
       } catch (error) {
         console.error(error);
       }
     };
     getDevices();
   }, []);
+
+  useEffect(() => {
+    const filtered = devices.filter(device =>
+      device.manufacturer.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredDevices(filtered);
+  }, [searchQuery, devices]);
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
 
   return (
     <div className="rent-container">
@@ -32,6 +46,8 @@ export const RentPage: React.FC = () => {
               className="main-search"
               type="text"
               placeholder="Який зарядний пристрій шукаєте?"
+              value={searchQuery}
+              onChange={handleSearchChange}
             />
             <button className="search-button main-button">
               <p className="search-button-text">Пошук</p>
@@ -249,7 +265,7 @@ export const RentPage: React.FC = () => {
 
         <div className="devices-block">
           <div className="cards-block">
-            {devices.map((device) => (
+            {filteredDevices.map((device) => (
               <DeviceCard
                 key={device._id}
                 id={device._id}
@@ -257,7 +273,7 @@ export const RentPage: React.FC = () => {
                 brand={device.manufacturer}
                 model={device.deviceModel}
                 price={device.price}
-                location={device.ownerId.town}
+                location={device.ownerId.town || 'Без локації'}
               />
             ))}
           </div>
