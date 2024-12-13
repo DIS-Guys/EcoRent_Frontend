@@ -1,22 +1,18 @@
 import React, { useContext, useState } from 'react';
 import classNames from 'classnames';
-import { useLocation, useNavigate } from 'react-router-dom';
 import './RegisterPage.css';
-import { createUser, loginUser } from '../../api/users';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const RegisterPage: React.FC = () => {
-  const navigate = useNavigate();
-  const { state } = useLocation();
   const [isSignedUp, setIsSignedUp] = useState(false);
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-  const { setAuthorized } = useContext(AuthContext);
+  const { login, register } = useContext(AuthContext) as AuthContextProps;
 
   const validateFields = () => {
     const errors = [];
@@ -53,41 +49,24 @@ export const RegisterPage: React.FC = () => {
     return true;
   };
 
-
-  const handleAuthForm = async (
-    event: React.FormEvent,
-    isRegistration: boolean
-  ) => {
+  const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-
     if (!validateFields()) return;
-
-    try {
-      if (isRegistration) await createUser({ name, surname, email, password });
-      const { token } = await loginUser({ email, password });
-      localStorage.setItem('jwt', token);
-      setAuthorized(true);
-      navigate(state?.pathname || '/', { replace: true });
-    } catch (error) {
-      if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        console.error('Unknown error:', error);
-      }
-    }
+    login(email, password);
   };
 
-  const handleLogin = async (event: React.FormEvent) =>
-    handleAuthForm(event, false);
-  const handleRegister = async (event: React.FormEvent) =>
-    handleAuthForm(event, true);
+  const handleRegister = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!validateFields()) return;
+    register(name, surname, email, password);
+  };
 
   return (
     <div className="register-block gray-container">
       <div
-        className={
-          `authentication-block ${isSignedUp ? 'log-in-block' : 'sign-up-block'}`
-        }
+        className={`authentication-block ${
+          isSignedUp ? 'log-in-block' : 'sign-up-block'
+        }`}
       >
         <div className="authentication-buttons">
           <button
@@ -109,7 +88,6 @@ export const RegisterPage: React.FC = () => {
         </div>
         <form
           className="register-form"
-          noValidate
           onSubmit={!isSignedUp ? handleRegister : handleLogin}
         >
           {!isSignedUp && (
@@ -166,17 +144,15 @@ export const RegisterPage: React.FC = () => {
         </form>
       </div>
       <img
-        className={
-          `register-block-image ${
-            isSignedUp
-              ? 'register-block-image-left'
-              : 'register-block-image-right'
-          }`
-        }
+        className={`register-block-image ${
+          isSignedUp
+            ? 'register-block-image-left'
+            : 'register-block-image-right'
+        }`}
         src="/images/ecoflow.png"
         alt="EcoFlow"
       />
-      <ToastContainer />
+      <ToastContainer/>
     </div>
   );
 };
