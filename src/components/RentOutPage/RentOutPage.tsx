@@ -146,24 +146,33 @@ export const RentOutPage: React.FC = () => {
       { field: 'sockets', message: 'Оберіть кількість розеток.' },
       { field: 'signalShape', message: 'Оберіть форму вихідного сигналу.' },
       { field: 'batteryType', message: 'Оберіть тип акумулятора.' },
-      { field: 'remoteUse', message: 'Оберіть спосіб віддаленого керування.' }
+      { field: 'remoteUse', message: 'Оберіть спосіб віддаленого керування.' },
     ];
 
-    requiredSelectors.forEach(selector => {
+    requiredSelectors.forEach((selector) => {
       if (!deviceInfo[selector.field as keyof typeof deviceInfo]) {
         errors.push(selector.message);
       }
     });
 
     const numericFields = [
-      { field: 'batteryCapacity', message: 'Введіть коректну ємність батареї.' },
+      {
+        field: 'batteryCapacity',
+        message: 'Введіть коректну ємність батареї.',
+      },
       { field: 'weight', message: 'Введіть коректну вагу.' },
       { field: 'price', message: 'Введіть ціну за добу.' },
-      { field: 'minRentTerm', message: 'Введіть мінімальну тривалість оренди.' },
-      { field: 'maxRentTerm', message: 'Введіть максимальну тривалість оренди.' }
+      {
+        field: 'minRentTerm',
+        message: 'Введіть мінімальну тривалість оренди.',
+      },
+      {
+        field: 'maxRentTerm',
+        message: 'Введіть максимальну тривалість оренди.',
+      },
     ];
 
-    numericFields.forEach(field => {
+    numericFields.forEach((field) => {
       const value = deviceInfo[field.field as keyof typeof deviceInfo];
       if (!value || isNaN(Number(value)) || Number(value) <= 0) {
         errors.push(field.message);
@@ -171,16 +180,27 @@ export const RentOutPage: React.FC = () => {
     });
 
     const dimensionFields = ['length', 'width', 'height'];
-    if (dimensionFields.some(dim =>
-      !deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions] ||
-      isNaN(Number(deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions])) ||
-      Number(deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions]) <= 0
-    )) {
+    if (
+      dimensionFields.some(
+        (dim) =>
+          !deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions] ||
+          isNaN(
+            Number(
+              deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions]
+            )
+          ) ||
+          Number(
+            deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions]
+          ) <= 0
+      )
+    ) {
       errors.push('Введіть коректні розміри.');
     }
 
     if (Number(deviceInfo.minRentTerm) > Number(deviceInfo.maxRentTerm)) {
-      errors.push('Мінімальна тривалість оренди не може бути більшою за максимальну.');
+      errors.push(
+        'Мінімальна тривалість оренди не може бути більшою за максимальну.'
+      );
     }
 
     if (!deviceInfo.policyAgreement) {
@@ -195,8 +215,8 @@ export const RentOutPage: React.FC = () => {
 
     const validationErrors = validateForm();
 
-    if ( validationErrors.length > 9 ) {
-      toast.error('Заповніть обов\'язкові поля!', {
+    if (validationErrors.length > 9) {
+      toast.error("Заповніть обов'язкові поля!", {
         position: 'bottom-right',
       });
       return;
@@ -510,7 +530,9 @@ export const RentOutPage: React.FC = () => {
                         Оберіть форму сигналу
                       </option>
                       <option value="Чиста синусоїда">Чиста синусоїда</option>
-                      <option value="Модифікована синусоїда">Модифікована синусоїда</option>
+                      <option value="Модифікована синусоїда">
+                        Модифікована синусоїда
+                      </option>
                     </select>
                   </div>
                 </div>
