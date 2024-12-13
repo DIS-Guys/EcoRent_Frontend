@@ -76,12 +76,12 @@ export const DevicePage: React.FC = () => {
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
                 <p className="settlement location-info">
-                  {device.ownerId.town}
+                  {device.ownerId.town || 'Місто не вказане'}
                 </p>
                 <p className="district location-info">
-                  {device.ownerId.street}
+                  {device.ownerId.street || 'Вулиця не вказана'}
                 </p>
-                <p className="region location-info">{device.ownerId.region}</p>
+                <p className="region location-info">{device.ownerId.region || 'Область не вказана'}</p>
               </div>
             </div>
             <div className="device-page-owner">

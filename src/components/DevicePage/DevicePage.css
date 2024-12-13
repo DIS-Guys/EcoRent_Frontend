@@ -10,6 +10,7 @@
 
 .device-main-section {
   display: flex;
+  width: 100%;
   flex-direction: column;
   gap: 20px;
 }
@@ -43,6 +44,7 @@
 }
 
 .device-side-picture {
+  object-fit: cover;
   width: 100px;
   height: 100px;
   border-radius: 15px;
@@ -64,6 +66,7 @@
 }
 
 .main-device-picture {
+  object-fit: cover;
   width: 600px;
   height: 600px;
   border-radius: 15px;
@@ -78,6 +81,7 @@
 .device-short-info {
   align-self: center;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
@@ -86,7 +90,6 @@
   border: 1px solid #e5e5e5;
   border-radius: 16px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  height: 100%;
 }
 
 .device-page-name {
