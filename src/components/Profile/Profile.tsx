@@ -11,7 +11,7 @@ export const Profile: React.FC = () => {
     name: '',
     surname: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     password: '',
   });
 
@@ -19,7 +19,7 @@ export const Profile: React.FC = () => {
     name: '',
     surname: '',
     email: '',
-    phone: '',
+    phoneNumber: '',
     password: '',
   });
 
@@ -29,14 +29,14 @@ export const Profile: React.FC = () => {
     name: false,
     surname: false,
     email: false,
-    phone: false,
+    phoneNumber: false,
   });
 
   const inputRefs = {
     name: useRef<HTMLInputElement>(null),
     surname: useRef<HTMLInputElement>(null),
     email: useRef<HTMLInputElement>(null),
-    phone: useRef<HTMLInputElement>(null),
+    phoneNumber: useRef<HTMLInputElement>(null),
   };
 
   useEffect(() => {
@@ -45,7 +45,7 @@ export const Profile: React.FC = () => {
         const response = await getUser();
         const fetchedProfile = {
           ...response,
-          phone: response.phone || '',
+          phoneNumber: response.phoneNumber || '',
         };
         setUserProfile(fetchedProfile);
         setInitialProfile(fetchedProfile);
@@ -87,7 +87,7 @@ export const Profile: React.FC = () => {
       name: false,
       surname: false,
       email: false,
-      phone: false,
+      phoneNumber: false,
     });
   };
 
@@ -99,7 +99,7 @@ export const Profile: React.FC = () => {
         name: false,
         surname: false,
         email: false,
-        phone: false,
+        phoneNumber: false,
       });
       console.log('Профіль успішно оновлено:', response);
     } catch (error) {
@@ -188,7 +188,7 @@ export const Profile: React.FC = () => {
           src="/icons/edit.svg"
           alt="Edit icon"
           className="edit-icon"
-          onClick={() => toggleEditable('phone')}
+          onClick={() => toggleEditable('phoneNumber')}
         />
         <label
           htmlFor="profilePhoneInput"
@@ -200,11 +200,11 @@ export const Profile: React.FC = () => {
           type="tel"
           id="profilePhoneInput"
           className="profile-edit-input info-input"
-          ref={inputRefs.phone}
-          value={userProfile.phone}
-          onChange={(e) => handleChange('phone', e.target.value)}
-          disabled={!editableFields.phone}
-          onBlur={() => handleBlur('phone')}
+          ref={inputRefs.phoneNumber}
+          value={userProfile.phoneNumber}
+          onChange={(e) => handleChange('phoneNumber', e.target.value)}
+          disabled={!editableFields.phoneNumber}
+          onBlur={() => handleBlur('phoneNumber')}
         />
       </div>
       <div className="cabinet-buttons-block">
