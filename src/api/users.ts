@@ -17,7 +17,7 @@ export const getUser = async () => {
   return client.get<User>('/api/auth/getUser');
 };
 
-export const updateUser = async ({
+export const updateUserProfile = async ({
   name,
   surname,
   email,
@@ -28,6 +28,24 @@ export const updateUser = async ({
     surname,
     email,
     phoneNumber,
+  });
+};
+
+export const updateUserAddress = async ({
+  region,
+  town,
+  street,
+  houseNumber,
+  apartmentNumber,
+  floorNumber,
+}: Omit<User, 'name' | 'surname' | 'email' | 'password'>) => {
+  return client.put<User>('/api/auth/updateUser', {
+    region,
+    town,
+    street,
+    houseNumber,
+    apartmentNumber,
+    floorNumber,
   });
 };
 
