@@ -50,7 +50,7 @@ export const Profile: React.FC = () => {
         setUserProfile(fetchedProfile);
         setInitialProfile(fetchedProfile);
       } catch {
-        toast.error('Помилка при завантаженні профілю', {
+        toast.error('Помилка при завантаженні профілю.', {
           position: 'bottom-right',
         });
       }
@@ -114,11 +114,11 @@ export const Profile: React.FC = () => {
         email: false,
         phoneNumber: false,
       });
-      toast.success('Профіль успішно оновлено', {
+      toast.success('Профіль успішно оновлено.', {
         position: 'bottom-right',
       });
     } catch {
-      toast.error('Помилка при оновленні профілю', {
+      toast.error('Помилка при оновленні профілю.', {
         position: 'bottom-right',
       });
     }
