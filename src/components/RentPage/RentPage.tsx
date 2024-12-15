@@ -11,6 +11,7 @@ export const RentPage: React.FC = () => {
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [chosenBrands, setChosenBrands] = useState<string[]>([]);
+  const [isBrandsChosen, setIsBrandsChosen] = useState(false);
 
   useEffect(() => {
     const getDevices = async () => {
@@ -26,14 +27,27 @@ export const RentPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = devices.filter(device =>
-      device.manufacturer.toLowerCase().includes(searchQuery.toLowerCase())
+    setIsBrandsChosen(chosenBrands.length !== 0);
+  }, [chosenBrands]);
+
+  const handleSearch = () => {
+    const filteredDevs = devices.filter(
+      ({ manufacturer, deviceModel }) =>
+        `${manufacturer} ${deviceModel}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase().trim())
     );
-    setFilteredDevices(filtered);
-  }, [searchQuery, devices]);
+    setFilteredDevices(filteredDevs);
+  };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleCheckboxChange = (brand: string) => {
+    setChosenBrands((prev) =>
+      prev.includes(brand) ? prev.filter((b) => b !== brand) : [...prev, brand]
+    );
   };
 
   return (
@@ -46,11 +60,13 @@ export const RentPage: React.FC = () => {
               className="main-search"
               type="text"
               placeholder="Який зарядний пристрій шукаєте?"
-              value={searchQuery}
               onChange={handleSearchChange}
             />
-            <button className="search-button main-button">
-              <p className="search-button-text">Пошук</p>
+            <button
+              className="search-button main-button"
+              onClick={handleSearch}
+            >
+              <span className="search-button-text">Пошук</span>
               <img src="/icons/white-search.svg" alt="Search" />
             </button>
           </div>
@@ -66,33 +82,45 @@ export const RentPage: React.FC = () => {
                 <div className="filter-option" key={brand.name}>
                   <input
                     type="checkbox"
+                    id={brand.name.split(' ').join('-')}
                     className="filter-checkbox"
-                    id={`${brand.name}`}
+                    checked={chosenBrands.includes(brand.name)}
+                    onChange={() => handleCheckboxChange(brand.name)}
                   />
-                  <label htmlFor={`${brand.name}`} className="option-text">
-                    {`${brand.name}`}
+                  <label
+                    htmlFor={brand.name.split(' ').join('-')}
+                    className="option-text"
+                  >
+                    {brand.name}
                   </label>
                 </div>
               ))}
             </div>
             <div className="filter-section">
               <h2 className="filter-subtitle">Модель</h2>
-              {brands
-                .filter((brand) => chosenBrands.includes(brand.name))
-                .map((brand) =>
-                  brand.models.map((model) => (
-                    <div className="filter-option" key={model}>
-                      <input
-                        id={`${model}`}
-                        type="checkbox"
-                        className="filter-checkbox"
-                      />
-                      <label htmlFor={`${model}`} className="option-text">
-                        {model}
-                      </label>
-                    </div>
-                  ))
-                )}
+              {isBrandsChosen ? (
+                brands
+                  .filter((brand) => chosenBrands.includes(brand.name))
+                  .map((brand) =>
+                    brand.models.map((model) => (
+                      <div className="filter-option" key={model}>
+                        <input
+                          id={model.split(' ').join('-')}
+                          type="checkbox"
+                          className="filter-checkbox"
+                        />
+                        <label
+                          htmlFor={model.split(' ').join('-')}
+                          className="option-text"
+                        >
+                          {model}
+                        </label>
+                      </div>
+                    ))
+                  )
+              ) : (
+                <p className="option-text">Оберіть виробника</p>
+              )}
             </div>
             <div className="filter-section">
               <h2 className="filter-subtitle">Розмір</h2>
