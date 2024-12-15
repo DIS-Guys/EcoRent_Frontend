@@ -133,11 +133,11 @@ export const Address: React.FC = () => {
         apartmentNumber: false,
         floorNumber: false,
       });
-      toast.success('Адреса успішно оновлена', {
+      toast.success('Адреса успішно оновлена.', {
         position: 'bottom-right',
       });
     } catch {
-      toast.error('Помилка при оновленні адреси', {
+      toast.error('Помилка при оновленні адреси.', {
         position: 'bottom-right',
       });
     }
