@@ -1,5 +1,1 @@
-export type DeviceImage = {
-  file: File;
-  width: number;
-  height: number;
-};
+export type DeviceImage = { url: string; width: number; height: number };

@@ -13,7 +13,7 @@ export const RegisterPage: React.FC = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const { login, register } = useContext(AuthContext) as AuthContextProps;
 
-  const validateRegisterFields = () => {
+  const validateFields = () => {
     const errors = [];
 
     if (!isSignedUp && !name.trim()) errors.push("Ім'я обов'язкове.");
@@ -22,12 +22,12 @@ export const RegisterPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
 
-    if (password.length < 6) {
+    if (!isSignedUp && password.length < 6) {
       errors.push('Пароль має містити щонайменше 6 символів.');
     }
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
-    if (!passwordRegex.test(password)) {
+    if (!isSignedUp && !passwordRegex.test(password)) {
       errors.push('Пароль має містити щонайменше одну літеру та одну цифру.');
     }
 
@@ -36,46 +36,26 @@ export const RegisterPage: React.FC = () => {
     }
 
     if (errors.length > 0) {
-      toast.error(`Поля заповнені невірно: ${errors.join('\n')}`, {
-        position: 'bottom-right',
-      });
+      errors.map((error) =>
+        toast.error(error, {
+          position: 'bottom-right',
+        })
+      );
       return false;
     }
 
-    toast.success('Валідація пройшла успішно!', {
-      position: 'bottom-right',
-    });
-    return true;
-  };
-
-  const validateLoginFields = () => {
-    const errors = [];
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
-
-    if (errors.length > 0) {
-      toast.error(`Поля заповнені невірно: ${errors.join('\n')}`, {
-        position: 'bottom-right',
-      });
-      return false;
-    }
-
-    toast.success('Валідація пройшла успішно!', {
-      position: 'bottom-right',
-    });
     return true;
   };
 
   const handleLogin = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!validateLoginFields()) return;
+    if (!validateFields()) return;
     login(email, password);
   };
 
   const handleRegister = (event: React.FormEvent) => {
     event.preventDefault();
-    if (!validateRegisterFields()) return;
+    if (!validateFields()) return;
     register(name, surname, email, password);
   };
 
@@ -107,6 +87,7 @@ export const RegisterPage: React.FC = () => {
         <form
           className="register-form"
           onSubmit={!isSignedUp ? handleRegister : handleLogin}
+          noValidate
         >
           {!isSignedUp && (
             <div className="fullname-block">

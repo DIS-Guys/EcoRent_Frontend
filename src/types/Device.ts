@@ -1,3 +1,5 @@
+import { DeviceImage } from "./DeviceImage";
+
 export type Device = {
   _id: string;
   title: string;
@@ -15,7 +17,7 @@ export type Device = {
   batteryType: string;
   signalShape: string;
   additional: string;
-  images: { url: string; width: number; height: number }[];
+  images: DeviceImage[];
   price: number;
   minRentTerm: number;
   maxRentTerm: number;
@@ -23,10 +25,10 @@ export type Device = {
   isInRent: boolean;
   ownerId: {
     _id: string;
-    name: string;
-    surname: string;
-    region: string;
-    street: string;
-    town: string;
+    name?: string;
+    surname?: string;
+    region?: string;
+    street?: string;
+    town?: string;
   };
 };

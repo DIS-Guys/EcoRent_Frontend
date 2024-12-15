@@ -3,7 +3,7 @@ import 'photoswipe/dist/photoswipe.css';
 import { useEffect, useState } from 'react';
 import './RentOutPage.css';
 import '../../App.css';
-import { DeviceImage } from '../../types/DeviceImage';
+import { UploadedImage } from '../../types/UploadedImage';
 import brands from '../../data/brands.json';
 import { postDevice } from '../../api/devices';
 import { toast } from 'react-toastify';
@@ -27,7 +27,7 @@ export const RentOutPage: React.FC = () => {
     batteryType: '',
     signalShape: '',
     additional: '',
-    images: [] as DeviceImage[],
+    images: [] as UploadedImage[],
     price: '',
     minRentTerm: '',
     maxRentTerm: '',

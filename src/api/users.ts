@@ -17,7 +17,12 @@ export const getUser = async () => {
   return client.get<User>('/api/auth/getUser');
 };
 
-export const updateUser = async ({ name, surname, email, phoneNumber }: User) => {
+export const updateUser = async ({
+  name,
+  surname,
+  email,
+  phoneNumber,
+}: Omit<User, 'password'>) => {
   return client.put<User>('/api/auth/updateUser', {
     name,
     surname,

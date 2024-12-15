@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { Device } from '../../types/Device';
 import { getDevice } from '../../api/devices';
 import './DevicePage.css';
@@ -17,7 +18,7 @@ export const DevicePage: React.FC = () => {
         const device = await getDevice(deviceId);
         setDevice(device);
       } catch {
-        throw new Error('Failed to load device');
+        toast.error('Failed to load device', { position: 'bottom-right' });
       }
     };
 
@@ -143,7 +144,9 @@ export const DevicePage: React.FC = () => {
         </div>
         <div className="device-additional-info">
           <h2 className="additional-info-title">Додатково</h2>
-          <p className="additional-info-text">{device.additional || 'Без додаткових характеристик'}</p>
+          <p className="additional-info-text">
+            {device.additional || 'Без додаткових характеристик'}
+          </p>
         </div>
       </div>
     </div>

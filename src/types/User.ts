@@ -3,5 +3,11 @@ export type User = {
   surname: string;
   email: string;
   password: string;
-  phoneNumber: string;
+  phoneNumber?: string;
+  region?: string;
+  town?: string;
+  street?: string;
+  houseNumber?: number;
+  apartmentNumber?: number;
+  floorNumber?: number;
 };

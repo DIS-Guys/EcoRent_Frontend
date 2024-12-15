@@ -3,24 +3,23 @@ import './Profile.css';
 import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
 import { getUser, updateUser } from '../../api/users';
 import { User } from '../../types/User';
+import { toast } from 'react-toastify';
 
 export const Profile: React.FC = () => {
   const { logout } = useContext(AuthContext) as AuthContextProps;
 
-  const [userProfile, setUserProfile] = useState<User>({
+  const [userProfile, setUserProfile] = useState<Omit<User, 'password'>>({
     name: '',
     surname: '',
     email: '',
     phoneNumber: '',
-    password: '',
   });
 
-  const [initialProfile, setInitialProfile] = useState<User>({
+  const [initialProfile, setInitialProfile] = useState<Omit<User, 'password'>>({
     name: '',
     surname: '',
     email: '',
     phoneNumber: '',
-    password: '',
   });
 
   const [editableFields, setEditableFields] = useState<{
@@ -42,22 +41,36 @@ export const Profile: React.FC = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await getUser();
+        const user = await getUser();
+        const { password, ...restData } = user;
         const fetchedProfile = {
-          ...response,
-          phoneNumber: response.phoneNumber || '',
+          ...restData,
+          phoneNumber: user.phoneNumber || '',
         };
         setUserProfile(fetchedProfile);
         setInitialProfile(fetchedProfile);
-      } catch (error) {
-        console.error('Помилка при завантаженні профілю:', error);
+      } catch {
+        toast.error('Помилка при завантаженні профілю', {
+          position: 'bottom-right',
+        });
       }
     };
 
     fetchUserProfile();
   }, []);
 
-  const toggleEditable = (field: keyof Omit<User, 'password'>) => {
+  const toggleEditable = (
+    field: keyof Omit<
+      User,
+      | 'password'
+      | 'region'
+      | 'town'
+      | 'street'
+      | 'houseNumber'
+      | 'apartmentNumber'
+      | 'floorNumber'
+    >
+  ) => {
     setEditableFields((prev) => {
       const updatedFields = { ...prev, [field]: true };
 
@@ -93,7 +106,7 @@ export const Profile: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      const response = await updateUser(userProfile);
+      await updateUser(userProfile);
       setInitialProfile(userProfile);
       setEditableFields({
         name: false,
@@ -101,9 +114,13 @@ export const Profile: React.FC = () => {
         email: false,
         phoneNumber: false,
       });
-      console.log('Профіль успішно оновлено:', response);
-    } catch (error) {
-      console.error('Помилка при оновленні профілю:', error);
+      toast.success('Профіль успішно оновлено', {
+        position: 'bottom-right',
+      });
+    } catch {
+      toast.error('Помилка при оновленні профілю', {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -173,7 +190,7 @@ export const Profile: React.FC = () => {
           Ваш E-mail
         </label>
         <input
-          type="email"
+          type="text"
           id="profileEmailInput"
           className="profile-edit-input info-input"
           ref={inputRefs.email}
