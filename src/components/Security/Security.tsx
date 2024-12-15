@@ -12,11 +12,11 @@ export const Security: React.FC = () => {
     try {
       await deleteUser();
       logout();
-      toast.success('User deleted successfully');
+      toast.success('Акаунт видалено успішно.');
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Failed to delete account', error);
-      toast.error('Failed to delete account');
+      console.error('Помилка при видаленні акаунту.', error);
+      toast.error('Помилка при видаленні акаунту.');
     }
   };
 

@@ -72,7 +72,7 @@ export const RentOutPage: React.FC = () => {
       const totalImages = deviceInfo.images.length + uniqueImages.length;
 
       if (totalImages > 10) {
-        alert('You can only upload up to 10 images.');
+        toast.error('Ви можете завантажити лише до 10 зображень.');
         return;
       }
 

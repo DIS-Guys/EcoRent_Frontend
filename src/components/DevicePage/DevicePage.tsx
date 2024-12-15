@@ -18,7 +18,7 @@ export const DevicePage: React.FC = () => {
         const device = await getDevice(deviceId);
         setDevice(device);
       } catch {
-        toast.error('Failed to load device', { position: 'bottom-right' });
+        toast.error('Помилка при завантаженні пристрою.', { position: 'bottom-right' });
       }
     };
 
