@@ -1,5 +1,3 @@
-import { ErrorResponse } from '../types/ErrorResponse';
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 const BASE_URL = 'http://localhost:3000';
 
@@ -30,13 +28,14 @@ async function sendRequest<T>(
 
   const response = await fetch(BASE_URL + url, options);
 
-  if (token && response.status === 401) {
+  if (token && response.status === 403) {
     localStorage.removeItem('jwt');
+    window.location.href = '/login';
     throw new Error('Unauthorized');
   }
 
   if (!response.ok) {
-    const errorResponse: ErrorResponse = await response.json();
+    const errorResponse: Error = await response.json();
     throw new Error(errorResponse.message);
   }
 

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { AuthContext } from '../contexts/AuthContext';
 import { createUser, loginUser } from '../api/users';
-import { useLocation, useNavigate } from 'react-router-dom';
 
 type Props = {
   children: React.ReactNode;
@@ -27,9 +28,9 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
       navigate(state?.pathname || '/', { replace: true });
     } catch (error) {
       if (error instanceof Error) {
-        alert(error.message);
-      } else {
-        console.error('Unknown error:', error);
+        toast.error(error.message, {
+          position: 'bottom-right',
+        });
       }
     }
   };

@@ -136,7 +136,7 @@ export const RentOutPage: React.FC = () => {
       errors.push('Введіть назву оголошення.');
     }
 
-    const requiredSelectors = [
+    const requiredCharFields = [
       { field: 'manufacturer', message: 'Оберіть виробника.' },
       { field: 'condition', message: 'Оберіть стан пристрою.' },
       { field: 'deviceModel', message: 'Оберіть модель.' },
@@ -148,13 +148,13 @@ export const RentOutPage: React.FC = () => {
       { field: 'remoteUse', message: 'Оберіть спосіб віддаленого керування.' },
     ];
 
-    requiredSelectors.forEach((selector) => {
-      if (!deviceInfo[selector.field as keyof typeof deviceInfo]) {
-        errors.push(selector.message);
+    requiredCharFields.map(({ field, message }) => {
+      if (!deviceInfo[field as keyof typeof deviceInfo]) {
+        errors.push(message);
       }
     });
 
-    const numericFields = [
+    const requiredNumFields = [
       {
         field: 'batteryCapacity',
         message: 'Введіть коректну ємність батареї.',
@@ -171,10 +171,10 @@ export const RentOutPage: React.FC = () => {
       },
     ];
 
-    numericFields.forEach((field) => {
-      const value = deviceInfo[field.field as keyof typeof deviceInfo];
+    requiredNumFields.map(({ field, message }) => {
+      const value = deviceInfo[field as keyof typeof deviceInfo];
       if (!value || isNaN(Number(value)) || Number(value) <= 0) {
-        errors.push(field.message);
+        errors.push(message);
       }
     });
 
@@ -190,7 +190,7 @@ export const RentOutPage: React.FC = () => {
           ) ||
           Number(
             deviceInfo.dimensions[dim as keyof typeof deviceInfo.dimensions]
-          ) <= 0
+          ) < 0
       )
     ) {
       errors.push('Введіть коректні розміри.');
@@ -214,24 +214,21 @@ export const RentOutPage: React.FC = () => {
 
     const validationErrors = validateForm();
 
-    if (validationErrors.length > 9) {
+    if (validationErrors.length > 6) {
       toast.error("Заповніть обов'язкові поля!", {
         position: 'bottom-right',
       });
       return;
     }
+
     if (validationErrors.length > 0) {
-      validationErrors.forEach((error) => {
+      validationErrors.map((error) => {
         toast.error(error, {
           position: 'bottom-right',
         });
       });
       return;
     }
-
-    toast.success('Валідація пройшла успішно!', {
-      position: 'bottom-right',
-    });
 
     const formData = new FormData();
 
@@ -248,18 +245,9 @@ export const RentOutPage: React.FC = () => {
         formData.append(key, JSON.stringify(value));
       }
     }
-
-    try {
-      await postDevice(formData);
-      navigate('/personal-page/my-devices', { replace: true });
-    } catch (e) {
-      if (e instanceof Error) {
-        if (e.message === 'Unauthorized') {
-          navigate('/login', { replace: true });
-        }
-        alert(e.message);
-      }
-    }
+    
+    await postDevice(formData);
+    navigate('/personal-page/my-devices', { replace: true });
   };
 
   return (
