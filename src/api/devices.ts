@@ -16,3 +16,7 @@ export const getUserDevices = async () => {
 export const postDevice = async (deviceInfo: FormData) => {
   return client.post('/api/devices/addDevice', deviceInfo);
 };
+
+export const deleteDeviceById = async (id: string) => {
+  return client.delete(`/api/devices/deleteDevice/${id}`);
+};

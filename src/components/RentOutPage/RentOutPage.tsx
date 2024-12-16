@@ -564,7 +564,7 @@ export const RentOutPage: React.FC = () => {
                     value={deviceInfo.batteryCapacity}
                     onChange={handleInputChange}
                     className="char-input info-input"
-                    placeholder="Вкажіть ємність (кВт·год)"
+                    placeholder="Вкажіть ємність (Вт·год)"
                   />
                 </div>
                 <div className="rent-out-char-block">
