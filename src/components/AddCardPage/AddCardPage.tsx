@@ -1,5 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import './AddCardPage.css';
+import { toast } from 'react-toastify';
+import { createPaymentCard } from '../../api/paymentCards.ts';
 
 export const AddCardPage: React.FC = () => {
   const navigate = useNavigate();
@@ -7,6 +9,20 @@ export const AddCardPage: React.FC = () => {
   const handleCancel = () => {
     navigate(-1);
   };
+
+  const handleSave = async () => {
+    alert("Була зроблена спроба зберегти картку")
+    try {
+      await createPaymentCard({ cardNumber, expiryDate, ownerName });
+      toast.success('Запит відправлено.', {
+        position: 'bottom-right',
+      });
+    } catch (error) {
+      toast.error('Помилка при відправленні запиту.', {
+        position: 'bottom-right',
+      });
+    }
+  }
 
   return (
     <>
@@ -70,6 +86,7 @@ export const AddCardPage: React.FC = () => {
               className="payment-card-input payment-card-small-input info-input"
               type="text"
               placeholder="328"
+              disabled
             />
           </div>
         </div>
@@ -81,7 +98,12 @@ export const AddCardPage: React.FC = () => {
         >
           Скасувати
         </button>
-        <button className="save-button main-button">Зберегти</button>
+        <button
+          className="save-button main-button"
+          onClick={handleSave}
+        >
+          Зберегти
+        </button>
       </div>
     </>
   );
