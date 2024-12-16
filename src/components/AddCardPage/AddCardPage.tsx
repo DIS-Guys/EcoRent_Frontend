@@ -33,7 +33,7 @@ export const AddCardPage: React.FC = () => {
 
     try {
       const [month, year] = expiryParts.map(Number); // Перетворюємо в числа
-      await createPaymentCard({ ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
+      await createPaymentCard({ _id: '', ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
       toast.success('Запит відправлено.', {
         position: 'bottom-right',
       });
