@@ -1,0 +1,11 @@
+.payment-block {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.payment-cards-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
