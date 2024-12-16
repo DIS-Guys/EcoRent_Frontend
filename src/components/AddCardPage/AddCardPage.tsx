@@ -18,7 +18,6 @@ export const AddCardPage: React.FC = () => {
   const handleSave = async () => {
     alert('Була зроблена спроба зберегти картку');
 
-    // Розділення expiryDate на масив [місяць, рік]
     const expiryParts = expiryDate.split('/');
     if (
       expiryParts.length !== 2 ||
@@ -32,7 +31,7 @@ export const AddCardPage: React.FC = () => {
     }
 
     try {
-      const [month, year] = expiryParts.map(Number); // Перетворюємо в числа
+      const [month, year] = expiryParts.map(Number);
       await createPaymentCard({ _id: '', ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
       toast.success('Запит відправлено.', {
         position: 'bottom-right',
@@ -63,7 +62,7 @@ export const AddCardPage: React.FC = () => {
                   className="payment-card-input payment-card-big-input info-input"
                   placeholder="4441 8034 1488 2167"
                   value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)} // Оновлення state
+                  onChange={(e) => setCardNumber(e.target.value)}
                 />
               </div>
               <div className="payment-card-input-block">
@@ -78,7 +77,7 @@ export const AddCardPage: React.FC = () => {
                   className="payment-card-input payment-card-big-input info-input"
                   placeholder="Taras Shevchenko"
                   value={ownerName}
-                  onChange={(e) => setOwnerName(e.target.value)} // Оновлення state
+                  onChange={(e) => setOwnerName(e.target.value)}
                 />
               </div>
             </div>
