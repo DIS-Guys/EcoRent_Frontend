@@ -97,13 +97,13 @@ export const DevicePage: React.FC = () => {
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
                 <p className="settlement location-info">
-                  {device.ownerId.town || 'Місто не вказане'}
+                  Місто: {device.ownerId.town || 'Місто не вказане'}
                 </p>
                 <p className="district location-info">
-                  {device.ownerId.street || 'Вулиця не вказана'}
+                  Вулиця: {device.ownerId.street || 'Вулиця не вказана'}
                 </p>
                 <p className="region location-info">
-                  {device.ownerId.region || 'Область не вказана'}
+                  Область: {device.ownerId.region || 'Область не вказана'}
                 </p>
               </div>
             </div>
@@ -166,10 +166,7 @@ export const DevicePage: React.FC = () => {
 
       {isModalOpen && (
         <div className="modal-overlay" onClick={closeModal}>
-          <div
-            className="modal-content"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <div className="modal-content-sections">
               <div className="modal-section">
                 <h2>Дані про пристрій</h2>
