@@ -131,7 +131,7 @@ export const DevicePage: React.FC = () => {
                 {device.dimensions.height} см
               </p>
               <p className="char-value">{device.condition}</p>
-              <p className="char-value">{device.batteryCapacity} кВт/год</p>
+              <p className="char-value">{device.batteryCapacity} Вт·год</p>
               <p className="char-value">{device.weight} кг</p>
               <p className="char-value">{device.sockets} розеток</p>
               <p className="char-value">{device.typeA} роз’єми</p>
