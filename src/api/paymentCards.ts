@@ -9,6 +9,6 @@ export const getUserPaymentCards = async () => {
   return client.get<PaymentCard[]>('/api/paymentCards/getPaymentCardsByOwnerId');
 };
 
-export const deleteUser = async (id: string) => {
+export const deleteCard = async (id: string) => {
   return client.delete(`/api/paymentCards/deletePaymentCard/${id}`);
 };
