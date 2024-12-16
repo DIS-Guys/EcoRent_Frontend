@@ -49,6 +49,16 @@ export const updateUserAddress = async ({
   });
 };
 
+export const updatePassword = async ({
+  oldPassword,
+  newPassword,
+}: {
+  oldPassword: string;
+  newPassword: string;
+}) => {
+  return client.put('/api/auth/updatePassword', { oldPassword, newPassword });
+};
+
 export const deleteUser = async () => {
   return client.delete('/api/auth/deleteUser');
 };
