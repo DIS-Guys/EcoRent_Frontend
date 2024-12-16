@@ -54,6 +54,12 @@
   margin: 0;
 }
 
+.about-us {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
 .about-us-header {
   display: flex;
   gap: 108px;
@@ -70,7 +76,7 @@
   display: flex;
   height: 732px;
   background-color: #e3e6ec;
-  border-radius: 0 0 100px 100px;
+  border-radius: 100px;
   align-items: center;
   gap: 58px;
 }
