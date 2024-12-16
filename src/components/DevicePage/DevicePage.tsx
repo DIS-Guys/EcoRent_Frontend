@@ -33,12 +33,10 @@ export const DevicePage: React.FC = () => {
   };
 
   const handleRentClick = () => {
-    console.log('Открытие модального окна');
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
-    console.log('Закрытие модального окна');
     setIsModalOpen(false);
   };
 
@@ -170,7 +168,7 @@ export const DevicePage: React.FC = () => {
         <div className="modal-overlay" onClick={closeModal}>
           <div
             className="modal-content"
-            onClick={(e) => e.stopPropagation()} // Prevent modal close on inner click
+            onClick={(e) => e.stopPropagation()}
           >
             <div className="modal-content-sections">
               <div className="modal-section">
