@@ -2,8 +2,9 @@ import { Link } from 'react-router-dom';
 import './UserDevicesPage.css';
 import { useEffect, useState } from 'react';
 import { Device } from '../../types/Device';
-import { getUserDevices } from '../../api/devices';
+import { getUserDevices, deleteDeviceById } from '../../api/devices';
 import { PersonalPageDeviceCard } from '../PersonalPageDeviceCard';
+import { toast } from 'react-toastify';
 
 export const UserDevicesPage: React.FC = () => {
   const [userDevices, setUserDevices] = useState<Device[]>([]);
@@ -16,6 +17,23 @@ export const UserDevicesPage: React.FC = () => {
     getDevices();
   }, []);
 
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteDeviceById(id);
+      setUserDevices((prevDevices) =>
+        prevDevices.filter((device) => device._id !== id)
+      );
+      toast.success('Пристрій видалено успішно.', {
+        position: 'bottom-right',
+      });
+    } catch (error) {
+      toast.error('Помилка при видаленні пристрою.', {
+        position: 'bottom-right',
+      });
+      console.error('Помилка при видаленні пристрою:', error);
+    }
+  };
+
   return (
     <div className="user-devices-block main-block">
       <Link to="/rent-out" className="add-button add-device-button" replace>
@@ -25,10 +43,12 @@ export const UserDevicesPage: React.FC = () => {
       {userDevices.map((device) => (
         <PersonalPageDeviceCard
           key={device._id}
+          id={device._id}
           mainImage={device.images[0].url}
           brand={device.manufacturer}
           model={device.deviceModel}
           isInRent={device.isInRent}
+          onDelete={handleDelete}
         />
       ))}
     </div>
