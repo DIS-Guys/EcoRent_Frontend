@@ -26,7 +26,7 @@ export const AddCardPage: React.FC = () => {
     if (expiryParts.length !== 2) return false;
 
     const [month, year] = expiryParts.map(Number);
-    const currentYear = new Date().getFullYear() % 100; // Get last 2 digits of the current year
+    const currentYear = new Date().getFullYear() % 100;
     return month >= 1 && month <= 12 && year >= currentYear;
   };
 
