@@ -1,11 +1,73 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './AddCardPage.css';
+import { toast } from 'react-toastify';
+import { createPaymentCard } from '../../api/paymentCards.ts';
 
 export const AddCardPage: React.FC = () => {
   const navigate = useNavigate();
 
+  const [cardNumber, setCardNumber] = useState('');
+  const [expiryDate, setExpiryDate] = useState('');
+  const [ownerName, setOwnerName] = useState('');
+
   const handleCancel = () => {
     navigate(-1);
+  };
+
+  const validateCardNumber = (cardNumber: string) => {
+    const cardNumberRegex = /^\d{16}$/;
+    const cleanedCardNumber = cardNumber.replace(/\s+/g, '');
+    return cardNumberRegex.test(cleanedCardNumber);
+  };
+
+  const validateExpiryDate = (expiryDate: string) => {
+    const expiryParts = expiryDate.split('/');
+    if (expiryParts.length !== 2) return false;
+
+    const [month, year] = expiryParts.map(Number);
+    const currentYear = new Date().getFullYear() % 100;
+    return month >= 1 && month <= 12 && year >= currentYear;
+  };
+
+  const validateOwnerName = (ownerName: string) => {
+    return ownerName.trim().length > 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateCardNumber(cardNumber)) {
+      toast.error('Номер картки повинен містити 16 цифр.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (!validateExpiryDate(expiryDate)) {
+      toast.error('Неправильний формат дати або термін картки минув.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (!validateOwnerName(ownerName)) {
+      toast.error('Ім\'я власника не може бути порожнім.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    try {
+      const expiryParts = expiryDate.split('/');
+      const [month, year] = expiryParts.map(Number);
+      await createPaymentCard({ _id: '', ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
+      toast.success('Запит відправлено.', {
+        position: 'bottom-right',
+      });
+    } catch (error) {
+      toast.error('Помилка при відправленні запиту.', {
+        position: 'bottom-right',
+      });
+    }
   };
 
   return (
@@ -26,6 +88,8 @@ export const AddCardPage: React.FC = () => {
                   id="cardNumberInput"
                   className="payment-card-input payment-card-big-input info-input"
                   placeholder="4441 8034 1488 2167"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(e.target.value)}
                 />
               </div>
               <div className="payment-card-input-block">
@@ -39,6 +103,8 @@ export const AddCardPage: React.FC = () => {
                   id="ownerNameInput"
                   className="payment-card-input payment-card-big-input info-input"
                   placeholder="Taras Shevchenko"
+                  value={ownerName}
+                  onChange={(e) => setOwnerName(e.target.value)}
                 />
               </div>
             </div>
@@ -53,7 +119,9 @@ export const AddCardPage: React.FC = () => {
                 <input
                   id="expirationDateInput"
                   className="payment-card-input payment-card-small-input info-input"
-                  placeholder="09/26"
+                  placeholder="MM/YY"
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(e.target.value)}
                 />
               </div>
             </div>
@@ -69,7 +137,7 @@ export const AddCardPage: React.FC = () => {
               id="cvvInput"
               className="payment-card-input payment-card-small-input info-input"
               type="text"
-              placeholder="328"
+              placeholder="***"
             />
           </div>
         </div>
@@ -81,7 +149,9 @@ export const AddCardPage: React.FC = () => {
         >
           Скасувати
         </button>
-        <button className="save-button main-button">Зберегти</button>
+        <button className="save-button main-button" onClick={handleSave}>
+          Зберегти
+        </button>
       </div>
     </>
   );
