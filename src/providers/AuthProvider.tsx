@@ -9,7 +9,7 @@ type Props = {
 };
 
 export const AuthProvider: React.FC<Props> = ({ children }) => {
-  const [authorized, setAuthorized] = useState(false);
+  const [authorized, setAuthorized] = useState<boolean | null>(null);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -17,6 +17,8 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     const token = localStorage.getItem('jwt');
     if (token) {
       setAuthorized(true);
+    } else {
+      setAuthorized(false);
     }
   }, []);
 
@@ -50,6 +52,10 @@ export const AuthProvider: React.FC<Props> = ({ children }) => {
     setAuthorized(false);
     navigate('/login');
   };
+
+  if (authorized === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <AuthContext.Provider value={{ authorized, login, register, logout }}>
