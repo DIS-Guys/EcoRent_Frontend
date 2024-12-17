@@ -111,10 +111,22 @@ export const Address: React.FC = () => {
   const validateAddress = () => {
     const errors: string[] = [];
 
-    if (!userAddress.region.trim()) errors.push('Поле "Область" не може бути порожнім.');
-    if (!userAddress.town.trim()) errors.push('Поле "Місто" не може бути порожнім.');
-    if (!userAddress.street.trim()) errors.push('Поле "Вулиця" не може бути порожнім.');
-    if (!userAddress.houseNumber.trim() || isNaN(Number(userAddress.houseNumber))) {
+    // Поля можуть бути порожніми, але не можуть починатися з цифри
+    const startsWithNumber = (value: string) => /^[0-9]/.test(value);
+
+    if (userAddress.region && startsWithNumber(userAddress.region)) {
+      errors.push('Поле "Область" не може починатися з цифри.');
+    }
+
+    if (userAddress.town && startsWithNumber(userAddress.town)) {
+      errors.push('Поле "Місто" не може починатися з цифри.');
+    }
+
+    if (userAddress.street && startsWithNumber(userAddress.street)) {
+      errors.push('Поле "Вулиця" не може починатися з цифри.');
+    }
+
+    if (!userAddress.houseNumber.trim() && isNaN(Number(userAddress.houseNumber))) {
       errors.push('Поле "Номер будинку" повинно бути числом.');
     }
     if (userAddress.apartmentNumber && isNaN(Number(userAddress.apartmentNumber))) {
