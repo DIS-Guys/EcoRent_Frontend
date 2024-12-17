@@ -1,4 +1,4 @@
-import { DeviceImage } from "./DeviceImage";
+import { DeviceImage } from './DeviceImage';
 
 export type Device = {
   _id: string;
@@ -27,6 +27,7 @@ export type Device = {
     _id: string;
     name?: string;
     surname?: string;
+    phoneNumber?: string;
     region?: string;
     street?: string;
     town?: string;

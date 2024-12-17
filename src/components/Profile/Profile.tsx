@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import './Profile.css';
 import { AuthContext, AuthContextProps } from '../../contexts/AuthContext';
-import { getUser, updateUser } from '../../api/users';
+import { getUser, updateUserProfile } from '../../api/users';
 import { User } from '../../types/User';
 import { toast } from 'react-toastify';
 
@@ -50,7 +50,7 @@ export const Profile: React.FC = () => {
         setUserProfile(fetchedProfile);
         setInitialProfile(fetchedProfile);
       } catch {
-        toast.error('Помилка при завантаженні профілю', {
+        toast.error('Помилка при завантаженні профілю.', {
           position: 'bottom-right',
         });
       }
@@ -106,7 +106,7 @@ export const Profile: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      await updateUser(userProfile);
+      await updateUserProfile(userProfile);
       setInitialProfile(userProfile);
       setEditableFields({
         name: false,
@@ -114,11 +114,11 @@ export const Profile: React.FC = () => {
         email: false,
         phoneNumber: false,
       });
-      toast.success('Профіль успішно оновлено', {
+      toast.success('Профіль успішно оновлено.', {
         position: 'bottom-right',
       });
     } catch {
-      toast.error('Помилка при оновленні профілю', {
+      toast.error('Помилка при оновленні профілю.', {
         position: 'bottom-right',
       });
     }

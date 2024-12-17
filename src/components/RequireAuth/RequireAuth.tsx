@@ -6,6 +6,10 @@ export const RequireAuth: React.FC = () => {
   const { authorized } = useContext(AuthContext) as AuthContextProps;
   const { pathname } = useLocation();
 
+  if (authorized === null) {
+    return <div>Loading...</div>;
+  }
+
   if (!authorized) {
     return <Navigate to="/login" state={{ pathname }} replace />;
   }

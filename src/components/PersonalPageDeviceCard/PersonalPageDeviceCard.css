@@ -1,4 +1,5 @@
 .personal-page-device-card {
+  position: relative;
   outline: 1px solid #54c392;
   outline-offset: -1px;
   border-radius: 20px;
@@ -11,7 +12,7 @@
   text-align: center;
 }
 
-.personal-page-device-card img {
+.personal-page-device-image img {
   width: 150px;
   height: 150px;
   border-radius: 10px;
@@ -26,7 +27,28 @@
   font-size: 12px;
 }
 
+.delete-device-button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  top: 20px;
+  right: 10px;
+}
+
+.delete-device-button:hover {
+  cursor: pointer;
+}
+
 .review-device-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
   height: 32px;
   color: #54c392;
   font-weight: 600;

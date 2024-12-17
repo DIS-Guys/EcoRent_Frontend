@@ -9,6 +9,7 @@ export const DevicePage: React.FC = () => {
   const navigate = useNavigate();
   const { deviceId } = useParams();
   const [device, setDevice] = useState<Device | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (!deviceId) return;
@@ -18,7 +19,9 @@ export const DevicePage: React.FC = () => {
         const device = await getDevice(deviceId);
         setDevice(device);
       } catch {
-        toast.error('Failed to load device', { position: 'bottom-right' });
+        toast.error('Помилка при завантаженні пристрою.', {
+          position: 'bottom-right',
+        });
       }
     };
 
@@ -27,6 +30,14 @@ export const DevicePage: React.FC = () => {
 
   const handleGoBack = () => {
     navigate(-1);
+  };
+
+  const handleRentClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
   };
 
   if (!device) {
@@ -66,7 +77,10 @@ export const DevicePage: React.FC = () => {
           <div className="device-short-info">
             <div className="device-page-name">
               <h1 className="device-page-name-title">{device.title}</h1>
-              <button className="lessor-info-button main-button">
+              <button
+                className="lessor-info-button main-button"
+                onClick={handleRentClick}
+              >
                 <span className="lessor-info-button-title">Орендувати</span>
                 <span className="lessor-info-button-price">
                   {device.price} грн/міс
@@ -83,13 +97,13 @@ export const DevicePage: React.FC = () => {
               <h1 className="device-page-location-title">Місцезнаходження</h1>
               <div className="device-page-location-info">
                 <p className="settlement location-info">
-                  {device.ownerId.town || 'Місто не вказане'}
+                  Місто: {device.ownerId.town || 'Місто не вказане'}
                 </p>
                 <p className="district location-info">
-                  {device.ownerId.street || 'Вулиця не вказана'}
+                  Вулиця: {device.ownerId.street || 'Вулиця не вказана'}
                 </p>
                 <p className="region location-info">
-                  {device.ownerId.region || 'Область не вказана'}
+                  Область: {device.ownerId.region || 'Область не вказана'}
                 </p>
               </div>
             </div>
@@ -131,7 +145,7 @@ export const DevicePage: React.FC = () => {
                 {device.dimensions.height} см
               </p>
               <p className="char-value">{device.condition}</p>
-              <p className="char-value">{device.batteryCapacity} Вт·год</p>
+              <p className="char-value">{device.batteryCapacity} Вт/год</p>
               <p className="char-value">{device.weight} кг</p>
               <p className="char-value">{device.sockets} розеток</p>
               <p className="char-value">{device.typeA} роз’єми</p>
@@ -149,6 +163,60 @@ export const DevicePage: React.FC = () => {
           </p>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={closeModal}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-content-sections">
+              <div className="modal-section">
+                <h2>Дані про пристрій</h2>
+                <p>
+                  <strong>Назва:</strong> {device.title}
+                </p>
+                <p>
+                  <strong>Ціна:</strong> {device.price} грн/міс
+                </p>
+                <p>
+                  <strong>Мінімальний термін оренди:</strong>{' '}
+                  {device.minRentTerm || 'Не вказано'} міс.
+                </p>
+                <p>
+                  <strong>Максимальний термін оренди:</strong>{' '}
+                  {device.maxRentTerm || 'Не вказано'} міс.
+                </p>
+              </div>
+              <div className="modal-section">
+                <h2>Дані про власника</h2>
+                <p>
+                  <strong>Ім'я:</strong> {device.ownerId.name}{' '}
+                  {device.ownerId.surname}
+                </p>
+                <p>
+                  <strong>Телефон:</strong>{' '}
+                  {device.ownerId.phoneNumber || 'Не вказано'}
+                </p>
+                <p>
+                  <strong>Область:</strong>{' '}
+                  {device.ownerId.region || 'Не вказано'}
+                </p>
+                <p>
+                  <strong>Місто:</strong> {device.ownerId.town || 'Не вказано'}
+                </p>
+                <p>
+                  <strong>Вулиця:</strong>{' '}
+                  {device.ownerId.street || 'Не вказано'}
+                </p>
+              </div>
+            </div>
+            <button
+              className="close-modal-button main-button"
+              onClick={closeModal}
+            >
+              Закрити
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

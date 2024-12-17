@@ -11,13 +11,13 @@ export const Support: React.FC = () => {
     event.preventDefault();
     try {
       await createTicket({ userEmail: email, message });
-      toast.success('Ticket created successfully', {
+      toast.success('Запит відправлено.', {
         position: 'bottom-right',
       });
       setEmail('');
       setMessage('');
     } catch (error) {
-      toast.error('Failed to create ticket', {
+      toast.error('Помилка при відправленні запиту.', {
         position: 'bottom-right',
       });
     }
