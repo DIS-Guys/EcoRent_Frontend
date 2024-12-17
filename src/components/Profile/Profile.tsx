@@ -60,12 +60,13 @@ export const Profile: React.FC = () => {
 
   const validateFields = () => {
     const errors: string[] = [];
+    const phoneNumberRegex = /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
 
     if (!userProfile.name.trim()) errors.push("Ім'я є обов'язковим.");
     if (!userProfile.surname.trim()) errors.push('Прізвище є обовʼязковим.');
     if (!userProfile.email.trim() || !/^\S+@\S+\.\S+$/.test(userProfile.email))
       errors.push('Некоректний формат E-mail.');
-    if (userProfile.phoneNumber && !/^\+?\d{10,15}$/.test(userProfile.phoneNumber))
+    if (userProfile.phoneNumber && !(phoneNumberRegex.test(userProfile.phoneNumber)))
       errors.push('Некоректний формат номера телефону.');
 
     if (errors.length > 0) {
