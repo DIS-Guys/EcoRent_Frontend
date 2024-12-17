@@ -108,7 +108,34 @@ export const Address: React.FC = () => {
     });
   };
 
+  const validateAddress = () => {
+    const errors: string[] = [];
+
+    if (!userAddress.region.trim()) errors.push('Поле "Область" не може бути порожнім.');
+    if (!userAddress.town.trim()) errors.push('Поле "Місто" не може бути порожнім.');
+    if (!userAddress.street.trim()) errors.push('Поле "Вулиця" не може бути порожнім.');
+    if (!userAddress.houseNumber.trim() || isNaN(Number(userAddress.houseNumber))) {
+      errors.push('Поле "Номер будинку" повинно бути числом.');
+    }
+    if (userAddress.apartmentNumber && isNaN(Number(userAddress.apartmentNumber))) {
+      errors.push('Поле "Номер квартири" повинно бути числом.');
+    }
+    if (userAddress.floorNumber && isNaN(Number(userAddress.floorNumber))) {
+      errors.push('Поле "Поверх" повинно бути числом.');
+    }
+
+    return errors;
+  };
+
   const handleSave = async () => {
+    const errors = validateAddress();
+    if (errors.length > 0) {
+      toast.error(`Помилка при завантаженні адреси: ${errors.join('\n- ')}`, {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     try {
       await updateUserAddress({
         region: userAddress.region,

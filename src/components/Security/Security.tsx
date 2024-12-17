@@ -51,6 +51,14 @@ export const Security: React.FC = () => {
   const handleSave = async () => {
     const { oldPassword, newPassword, repeatPassword } = passwords;
 
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      toast.error('Пароль повинен містити від 6 символів, пароль має містити щонайменше одну літеру та одну цифру.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     if (newPassword !== repeatPassword) {
       toast.error('Паролі не збігаються.', {
         position: 'bottom-right',
