@@ -15,22 +15,49 @@ export const AddCardPage: React.FC = () => {
     navigate(-1);
   };
 
-  const handleSave = async () => {
-    alert('Була зроблена спроба зберегти картку');
+  const validateCardNumber = (cardNumber: string) => {
+    const cardNumberRegex = /^\d{16}$/;
+    const cleanedCardNumber = cardNumber.replace(/\s+/g, '');
+    return cardNumberRegex.test(cleanedCardNumber);
+  };
 
+  const validateExpiryDate = (expiryDate: string) => {
     const expiryParts = expiryDate.split('/');
-    if (
-      expiryParts.length !== 2 ||
-      !/^\d{2}$/.test(expiryParts[0]) ||
-      !/^\d{2}$/.test(expiryParts[1])
-    ) {
-      toast.error('Неправильний формат дати. Використовуйте MM/YY.', {
+    if (expiryParts.length !== 2) return false;
+
+    const [month, year] = expiryParts.map(Number);
+    const currentYear = new Date().getFullYear() % 100; // Get last 2 digits of the current year
+    return month >= 1 && month <= 12 && year >= currentYear;
+  };
+
+  const validateOwnerName = (ownerName: string) => {
+    return ownerName.trim().length > 0;
+  };
+
+  const handleSave = async () => {
+    if (!validateCardNumber(cardNumber)) {
+      toast.error('Номер картки повинен містити 16 цифр.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (!validateExpiryDate(expiryDate)) {
+      toast.error('Неправильний формат дати або термін картки минув.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (!validateOwnerName(ownerName)) {
+      toast.error('Ім\'я власника не може бути порожнім.', {
         position: 'bottom-right',
       });
       return;
     }
 
     try {
+      const expiryParts = expiryDate.split('/');
       const [month, year] = expiryParts.map(Number);
       await createPaymentCard({ _id: '', ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
       toast.success('Запит відправлено.', {
