@@ -111,8 +111,13 @@ export const Address: React.FC = () => {
   const validateAddress = () => {
     const errors: string[] = [];
 
-    // Поля можуть бути порожніми, але не можуть починатися з цифри
+
     const startsWithNumber = (value: string) => /^[0-9]/.test(value);
+    const containsNumbers = (value: string) => /\d/.test(value);
+
+    if (userAddress.region && containsNumbers(userAddress.region)) {
+      errors.push('Поле "Область" не може містити чисел.');
+    }
 
     if (userAddress.region && startsWithNumber(userAddress.region)) {
       errors.push('Поле "Область" не може починатися з цифри.');
@@ -126,14 +131,12 @@ export const Address: React.FC = () => {
       errors.push('Поле "Вулиця" не може починатися з цифри.');
     }
 
-    if (!userAddress.houseNumber.trim() && isNaN(Number(userAddress.houseNumber))) {
-      errors.push('Поле "Номер будинку" повинно бути числом.');
+    if (userAddress.houseNumber && !startsWithNumber(userAddress.houseNumber)) {
+      errors.push('Поле "Номер будинку" повинно починатися з цифри.');
     }
-    if (userAddress.apartmentNumber && isNaN(Number(userAddress.apartmentNumber))) {
-      errors.push('Поле "Номер квартири" повинно бути числом.');
-    }
-    if (userAddress.floorNumber && isNaN(Number(userAddress.floorNumber))) {
-      errors.push('Поле "Поверх" повинно бути числом.');
+
+    if (userAddress.apartmentNumber && !startsWithNumber(userAddress.apartmentNumber)) {
+      errors.push('Поле "Номер квартири" повинно починатися з цифри.');
     }
 
     return errors;
