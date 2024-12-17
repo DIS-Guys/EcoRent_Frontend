@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './RentPage.css';
 import { DeviceCard } from '../DeviceCard';
 import brands from '../../data/brands.json';
 import sockets from '../../data/sockets.json';
 import { Device } from '../../types/Device';
 import { getAllDevices } from '../../api/devices';
+import { useLocation } from 'react-router-dom';
 
 export const RentPage: React.FC = () => {
+  const { state } = useLocation();
   const [devices, setDevices] = useState<Device[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -46,14 +48,34 @@ export const RentPage: React.FC = () => {
     setIsBrandsChosen(chosenBrands.length !== 0);
   }, [chosenBrands]);
 
-  const handleSearch = () => {
-    const searchedDevs = devices.filter(({ manufacturer, deviceModel }) =>
-      `${manufacturer} ${deviceModel}`
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase().trim())
-    );
-    setFilteredDevices(searchedDevs);
-  };
+  const handleSearch = useCallback(
+    (query: string) => {
+      if (!query.trim()) return;
+
+      const searchedDevs = devices.filter(({ manufacturer, deviceModel }) =>
+        `${manufacturer} ${deviceModel}`
+          .toLowerCase()
+          .includes(query.toLowerCase().trim())
+      );
+      setFilteredDevices(searchedDevs);
+    },
+    [devices]
+  );
+
+  useEffect(() => {
+    if (state?.searchQuery) {
+      setSearchQuery(state.searchQuery);
+      setTimeout(() => {
+        handleSearch(state.searchQuery);
+      }, 0);
+    }
+  }, [state?.searchQuery, devices, handleSearch]);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setFilteredDevices(devices);
+    }
+  }, [devices, searchQuery]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -191,11 +213,12 @@ export const RentPage: React.FC = () => {
               className="main-search"
               type="text"
               placeholder="Який зарядний пристрій шукаєте?"
+              value={searchQuery}
               onChange={handleSearchChange}
             />
             <button
               className="search-button main-button"
-              onClick={handleSearch}
+              onClick={() => handleSearch(searchQuery)}
             >
               <span className="search-button-text">Пошук</span>
               <img src="/icons/white-search.svg" alt="Search" />

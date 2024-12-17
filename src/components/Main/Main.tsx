@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import './Main.css';
+import { useState } from 'react';
 
 export const Main: React.FC = () => {
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
     <main className="main">
       <div className="container">
@@ -11,11 +14,17 @@ export const Main: React.FC = () => {
               className="main-search"
               type="text"
               placeholder="Який зарядний пристрій шукаєте?"
+              value={searchQuery}
+              onChange={(event) => setSearchQuery(event.target.value)}
             />
-            <button className="search-button main-button">
+            <Link
+              to={searchQuery.trim() ? '/rent' : '.'}
+              className="search-button main-button"
+              state={{ searchQuery: searchQuery.trim() }}
+            >
               <p className="search-button-text">Пошук</p>
               <img src="/icons/white-search.svg" alt="Search" />
-            </button>
+            </Link>
           </div>
         </section>
         <section className="about-us">
