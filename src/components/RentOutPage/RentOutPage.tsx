@@ -1,5 +1,4 @@
 import { Gallery, Item } from 'react-photoswipe-gallery';
-import 'photoswipe/dist/photoswipe.css';
 import { useEffect, useState } from 'react';
 import './RentOutPage.css';
 import '../../App.css';

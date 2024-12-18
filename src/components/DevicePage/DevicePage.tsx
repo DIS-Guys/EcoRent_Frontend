@@ -1,14 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import { Device } from '../../types/Device';
 import { getDevice } from '../../api/devices';
 import './DevicePage.css';
 
+type LightboxPicture = {
+  src: string;
+  width: number;
+  height: number;
+};
+
 export const DevicePage: React.FC = () => {
   const navigate = useNavigate();
   const { deviceId } = useParams();
+  const lightboxRef = useRef<PhotoSwipeLightbox | null>(null);
   const [device, setDevice] = useState<Device | null>(null);
+  const [devicePictures, setDevicePictures] = useState<LightboxPicture[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -18,6 +27,12 @@ export const DevicePage: React.FC = () => {
       try {
         const device = await getDevice(deviceId);
         setDevice(device);
+        const pictures = device.images.map((image) => ({
+          src: image.url,
+          width: image.width,
+          height: image.height,
+        }));
+        setDevicePictures(pictures);
       } catch {
         toast.error('Помилка при завантаженні пристрою.', {
           position: 'bottom-right',
@@ -27,6 +42,29 @@ export const DevicePage: React.FC = () => {
 
     getDeviceData();
   }, [deviceId]);
+
+  useEffect(() => {
+    const lightbox = new PhotoSwipeLightbox({
+      dataSource: devicePictures,
+      pswpModule: () => import('photoswipe'),
+    });
+
+    lightbox.init();
+    lightboxRef.current = lightbox;
+
+    console.log(devicePictures);
+
+    return () => {
+      lightbox.destroy();
+      lightboxRef.current = null;
+    };
+  }, [devicePictures]);
+
+  const openLightbox = (index: number) => {
+    if (lightboxRef.current) {
+      lightboxRef.current.loadAndOpen(index);
+    }
+  };
 
   const handleGoBack = () => {
     navigate(-1);
@@ -63,6 +101,7 @@ export const DevicePage: React.FC = () => {
                   className="device-side-picture"
                   src={image.url}
                   alt={`Device picture ${index + 1}`}
+                  onClick={() => openLightbox(index + 1)}
                 />
               ))}
               {sidePictures.length < 4 &&
@@ -74,7 +113,10 @@ export const DevicePage: React.FC = () => {
                     />
                   </div>
                 ))}
-              <div className="view-all-pictures">
+              <div
+                className="view-all-pictures"
+                onClick={() => sidePictures.length > 4 && openLightbox(5)}
+              >
                 {sidePictures.length > 4 ? `+${sidePictures.length - 4}` : `+0`}
               </div>
             </div>
@@ -82,6 +124,7 @@ export const DevicePage: React.FC = () => {
               className="main-device-picture"
               src={mainPicture.url}
               alt="Main device picture"
+              onClick={() => openLightbox(0)}
             />
           </div>
           <div className="device-short-info">
