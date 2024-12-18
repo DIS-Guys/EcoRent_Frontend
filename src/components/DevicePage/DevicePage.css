@@ -50,6 +50,11 @@
   border-radius: 15px;
   background-color: #d9d9d9;
   cursor: pointer;
+  transition: filter 0.5s ease;
+}
+
+.device-side-picture:hover {
+  filter: brightness(0.7);
 }
 
 .device-image-placeholder {
@@ -83,6 +88,11 @@
   height: 600px;
   border-radius: 15px;
   cursor: pointer;
+  transition: filter 0.5s ease;
+}
+
+.main-device-picture:hover {
+  filter: brightness(0.7);
 }
 
 .device-main-info-block {
