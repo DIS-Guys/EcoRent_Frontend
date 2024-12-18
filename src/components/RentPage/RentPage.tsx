@@ -13,7 +13,7 @@ export const RentPage: React.FC = () => {
   const [devices, setDevices] = useState<Device[]>([]);
   const [searchedDevices, setSearchedDevices] = useState<Device[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
-  const [searchQuery, setSearchQuery] = useState(state?.searchQuery || '');
+  const [searchQuery, setSearchQuery] = useState<string>(state?.searchQuery || '');
   const [chosenBrands, setChosenBrands] = useState<string[]>([]);
   const [isBrandsChosen, setIsBrandsChosen] = useState(false);
   const [chosenModels, setChosenModels] = useState<string[]>([]);
@@ -78,8 +78,9 @@ export const RentPage: React.FC = () => {
   useEffect(() => {
     if (!searchQuery.trim()) {
       navigate('.', { replace: true, state: {} });
+      setSearchedDevices(devices);
     }
-  }, [navigate, searchQuery]);
+  }, [devices, navigate, searchQuery]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
