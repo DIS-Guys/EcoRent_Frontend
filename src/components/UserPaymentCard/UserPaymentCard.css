@@ -1,9 +1,9 @@
 .user-payment-card {
   display: flex;
-  gap: 25px;
-  justify-content: center;
+  padding-inline: 30px;
+  justify-content: space-between;
   align-items: center;
-  width: 435px;
+  width: 414px;
   height: 70px;
   border-radius: 20px;
   border: 1px solid #54c392;

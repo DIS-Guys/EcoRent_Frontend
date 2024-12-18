@@ -245,7 +245,7 @@ export const RentOutPage: React.FC = () => {
         formData.append(key, JSON.stringify(value));
       }
     }
-    
+
     await postDevice(formData);
     navigate('/personal-page/my-devices', { replace: true });
   };
