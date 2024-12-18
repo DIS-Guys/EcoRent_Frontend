@@ -52,7 +52,20 @@
   cursor: pointer;
 }
 
+.device-image-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  background-color: #d9d9d9;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
 .view-all-pictures {
+  width: 100px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -60,7 +73,6 @@
   font-weight: 600;
   border-radius: 15px;
   cursor: pointer;
-  flex: 1;
   user-select: none;
   background-color: #d9d9d9;
 }
@@ -81,7 +93,7 @@
 .device-short-info {
   align-self: center;
   display: flex;
-  flex: 1;
+  width: 426px;
   flex-direction: column;
   justify-content: space-between;
   gap: 20px;
@@ -126,6 +138,7 @@
 .device-page-location,
 .device-page-owner,
 .device-page-description {
+  overflow-wrap: break-word;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 12px;

@@ -44,6 +44,9 @@ export const DevicePage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  const mainPicture = device.images[0];
+  const sidePictures = device.images.slice(1, device.images.length);
+
   return (
     <div className="device-page-container">
       <div className="device-main-section">
@@ -54,7 +57,7 @@ export const DevicePage: React.FC = () => {
         <div className="device-main-info-block">
           <div className="device-picture-block">
             <div className="device-side-pictures">
-              {device.images.slice(0, 4).map((image, index) => (
+              {sidePictures.slice(0, 4).map((image, index) => (
                 <img
                   key={index}
                   className="device-side-picture"
@@ -62,15 +65,22 @@ export const DevicePage: React.FC = () => {
                   alt={`Device picture ${index + 1}`}
                 />
               ))}
+              {sidePictures.length < 4 &&
+                Array.from({ length: 4 - sidePictures.length }, (_, i) => (
+                  <div className="device-image-placeholder" key={i}>
+                    <img
+                      src="/icons/device-placeholder.svg"
+                      alt="Device picture placeholder"
+                    />
+                  </div>
+                ))}
               <div className="view-all-pictures">
-                {device.images.length > 4
-                  ? `+${device.images.length - 5}`
-                  : `+0`}
+                {sidePictures.length > 4 ? `+${sidePictures.length - 4}` : `+0`}
               </div>
             </div>
             <img
               className="main-device-picture"
-              src={device.images[0].url}
+              src={mainPicture.url}
               alt="Main device picture"
             />
           </div>
