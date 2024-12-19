@@ -19,7 +19,7 @@ export const Support: React.FC = () => {
       setEmail('');
       setMessage('');
     } catch (error) {
-      toast.error('Помилка при відправленні запиту.', {
+      toast.error('Помилка при відправленні повідомлення.', {
         position: 'bottom-right',
       });
     }

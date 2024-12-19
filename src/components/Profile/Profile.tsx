@@ -15,16 +15,9 @@ export const Profile: React.FC = () => {
     phoneNumber: '',
   });
 
-  const [initialProfile, setInitialProfile] = useState<Omit<User, 'password'>>({
-    name: '',
-    surname: '',
-    email: '',
-    phoneNumber: '',
-  });
+  const [initialProfile, setInitialProfile] = useState(userProfile);
 
-  const [editableFields, setEditableFields] = useState<{
-    [key in keyof Omit<User, 'password'>]: boolean;
-  }>({
+  const [editableFields, setEditableFields] = useState({
     name: false,
     surname: false,
     email: false,
@@ -43,68 +36,62 @@ export const Profile: React.FC = () => {
       try {
         const user = await getUser();
         const { password, ...restData } = user;
-        const fetchedProfile = {
-          ...restData,
-          phoneNumber: user.phoneNumber || '',
-        };
-        setUserProfile(fetchedProfile);
-        setInitialProfile(fetchedProfile);
+        setUserProfile({ ...restData, phoneNumber: user.phoneNumber || '' });
+        setInitialProfile({ ...restData, phoneNumber: user.phoneNumber || '' });
       } catch {
         toast.error('Помилка при завантаженні профілю.', {
           position: 'bottom-right',
         });
       }
     };
-
     fetchUserProfile();
   }, []);
 
-  const toggleEditable = (
-    field: keyof Omit<
-      User,
-      | 'password'
-      | 'region'
-      | 'town'
-      | 'street'
-      | 'houseNumber'
-      | 'apartmentNumber'
-      | 'floorNumber'
-    >
-  ) => {
-    setEditableFields((prev) => {
-      const updatedFields = { ...prev, [field]: true };
-
-      if (inputRefs[field].current) {
-        setTimeout(() => {
-          const input = inputRefs[field].current;
-          input?.focus();
-          input?.setSelectionRange(input.value.length, input.value.length);
-        }, 0);
-      }
-
-      return updatedFields;
-    });
+  const toggleEditable = (field: keyof typeof editableFields) => {
+    setEditableFields((prev) => ({ ...prev, [field]: true }));
+    setTimeout(() => inputRefs[field]?.current?.focus(), 0);
   };
 
-  const handleBlur = (field: keyof Omit<User, 'password'>) => {
+  const handleBlur = (field: keyof typeof editableFields) => {
     setEditableFields((prev) => ({ ...prev, [field]: false }));
   };
 
-  const handleChange = (field: keyof Omit<User, 'password'>, value: string) => {
+  const handleChange = (field: keyof typeof userProfile, value: string) => {
     setUserProfile((prevProfile) => ({ ...prevProfile, [field]: value }));
+  };
+
+  const validateFields = () => {
+    const errors: string[] = [];
+    const phoneNumberRegex =
+      /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
+
+    if (!userProfile.name.trim()) errors.push("Ім'я є обов'язковим.");
+    if (!userProfile.surname.trim()) errors.push('Прізвище є обовʼязковим.');
+    if (!userProfile.email.trim() || !/^\S+@\S+\.\S+$/.test(userProfile.email))
+      errors.push('Некоректний формат E-mail.');
+    if (
+      userProfile.phoneNumber &&
+      !phoneNumberRegex.test(userProfile.phoneNumber)
+    )
+      errors.push('Некоректний формат номера телефону.');
+
+    if (errors.length > 0) {
+      toast.error(`Поля заповнені невірно: \n ${errors.join('\n')}`, {
+        position: 'bottom-right',
+      });
+      return false;
+    }
+
+    return true;
   };
 
   const handleCancel = () => {
     setUserProfile(initialProfile);
-    setEditableFields({
-      name: false,
-      surname: false,
-      email: false,
-      phoneNumber: false,
-    });
   };
 
   const handleSave = async () => {
+    if (!validateFields()) return;
+
     try {
       await updateUserProfile(userProfile);
       setInitialProfile(userProfile);
@@ -114,9 +101,7 @@ export const Profile: React.FC = () => {
         email: false,
         phoneNumber: false,
       });
-      toast.success('Профіль успішно оновлено.', {
-        position: 'bottom-right',
-      });
+      toast.success('Профіль успішно оновлено.', { position: 'bottom-right' });
     } catch {
       toast.error('Помилка при оновленні профілю.', {
         position: 'bottom-right',

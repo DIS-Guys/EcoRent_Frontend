@@ -108,7 +108,49 @@ export const Address: React.FC = () => {
     });
   };
 
+  const validateAddress = () => {
+    const errors: string[] = [];
+
+
+    const startsWithNumber = (value: string) => /^[0-9]/.test(value);
+    const containsNumbers = (value: string) => /\d/.test(value);
+
+    if (userAddress.region && containsNumbers(userAddress.region)) {
+      errors.push('Поле "Область" не може містити чисел.');
+    }
+
+    if (userAddress.region && startsWithNumber(userAddress.region)) {
+      errors.push('Поле "Область" не може починатися з цифри.');
+    }
+
+    if (userAddress.town && startsWithNumber(userAddress.town)) {
+      errors.push('Поле "Місто" не може починатися з цифри.');
+    }
+
+    if (userAddress.street && startsWithNumber(userAddress.street)) {
+      errors.push('Поле "Вулиця" не може починатися з цифри.');
+    }
+
+    if (userAddress.houseNumber && !startsWithNumber(userAddress.houseNumber)) {
+      errors.push('Поле "Номер будинку" повинно починатися з цифри.');
+    }
+
+    if (userAddress.apartmentNumber && !startsWithNumber(userAddress.apartmentNumber)) {
+      errors.push('Поле "Номер квартири" повинно починатися з цифри.');
+    }
+
+    return errors;
+  };
+
   const handleSave = async () => {
+    const errors = validateAddress();
+    if (errors.length > 0) {
+      toast.error(`Помилка при завантаженні адреси: ${errors.join('\n- ')}`, {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     try {
       await updateUserAddress({
         region: userAddress.region,

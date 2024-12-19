@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { UserPaymentCard } from '../UserPaymentCard';
 import { getUserPaymentCards } from '../../api/paymentCards.ts';
 import { PaymentCard } from '../../types/PaymentCard.ts';
 import './Payment.css';
-import { toast } from 'react-toastify';
 
 export const Payment: React.FC = () => {
   const [paymentCards, setPaymentCards] = useState<PaymentCard[]>([]);

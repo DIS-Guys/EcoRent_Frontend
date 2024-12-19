@@ -12,6 +12,7 @@ export const Security: React.FC = () => {
     newPassword: '',
     repeatPassword: '',
   });
+
   const [editableFields, setEditableFields] = useState({
     oldPassword: false,
     newPassword: false,
@@ -51,6 +52,20 @@ export const Security: React.FC = () => {
   const handleSave = async () => {
     const { oldPassword, newPassword, repeatPassword } = passwords;
 
+    if (newPassword.length < 6) {
+      toast.error('Пароль повинен містити від 6 символів.', {
+        position: 'bottom-right',
+      });
+    }
+
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).*$/;
+    if (!passwordRegex.test(newPassword)) {
+      toast.error('Пароль має містити щонайменше одну літеру та одну цифру.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     if (newPassword !== repeatPassword) {
       toast.error('Паролі не збігаються.', {
         position: 'bottom-right',
@@ -73,11 +88,6 @@ export const Security: React.FC = () => {
 
   const handleCancel = () => {
     setPasswords({ oldPassword: '', newPassword: '', repeatPassword: '' });
-    setEditableFields({
-      oldPassword: false,
-      newPassword: false,
-      repeatPassword: false,
-    });
   };
 
   const handleDeleteUser = async () => {
@@ -89,10 +99,10 @@ export const Security: React.FC = () => {
       });
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Помилка при видаленні акаунту.', error);
       toast.error('Помилка при видаленні акаунту.', {
         position: 'bottom-right',
       });
+      console.error('Помилка при видаленні акаунту.', error);
     }
   };
 

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './RentPage.css';
 import { DeviceCard } from '../DeviceCard';
 import brands from '../../data/brands.json';
@@ -51,6 +52,9 @@ export const RentPage: React.FC = () => {
         }
         setDevices(devs);
       } catch (error) {
+        toast.error('Виникла помилка при завантаженні пристроїв.', {
+          position: 'bottom-right',
+        });
         console.error(error);
       }
     };
