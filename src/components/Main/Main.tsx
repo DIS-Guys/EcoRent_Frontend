@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import './Main.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Main: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   return (
     <main className="main">
@@ -57,11 +59,15 @@ export const Main: React.FC = () => {
           </article>
         </section>
         <section className="rent">
-          <Link to="/rent" className="rent-button">
-            Хочу орендувати!
-          </Link>
-          <Link to="/personal-page/my-devices" className="rent-button">
+          <Link
+            to="/personal-page/my-devices"
+            className="rent-button"
+            state={{ from: '/' }}
+          >
             Здати в оренду!
+          </Link>
+          <Link to="/rent" className="rent-button" state={{ from: '/' }}>
+            Хочу орендувати!
           </Link>
         </section>
       </div>

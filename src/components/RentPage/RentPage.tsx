@@ -33,6 +33,8 @@ export const RentPage: React.FC = () => {
   const [chosenBatteryType, setChosenBatteryType] = useState<string[]>([]);
   const [chosenRemoteUse, setChosenRemoteUse] = useState<string[]>([]);
 
+  useEffect(() => window.scrollTo(0, 0), []);
+
   useEffect(() => {
     const getDevices = async () => {
       try {
