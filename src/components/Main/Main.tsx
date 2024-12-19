@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import './Main.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export const Main: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   return (
     <main className="main">

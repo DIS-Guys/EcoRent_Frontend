@@ -8,7 +8,6 @@ import { getAllDevices } from '../../api/devices';
 import { useLocation } from 'react-router-dom';
 
 export const RentPage: React.FC = () => {
-  const location = useLocation();
   const { state } = useLocation();
   const [devices, setDevices] = useState<Device[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
@@ -32,12 +31,7 @@ export const RentPage: React.FC = () => {
   const [chosenBatteryType, setChosenBatteryType] = useState<string[]>([]);
   const [chosenRemoteUse, setChosenRemoteUse] = useState<string[]>([]);
 
-   useEffect(() => {
-    const scrollFromPaths = ['/'];
-    if (scrollFromPaths.includes(location.state?.from)) {
-      window.scrollTo(0, 0);
-    }
-  }, [location.state?.from]);
+  useEffect(() => window.scrollTo(0, 0), []);
 
   useEffect(() => {
     const getDevices = async () => {

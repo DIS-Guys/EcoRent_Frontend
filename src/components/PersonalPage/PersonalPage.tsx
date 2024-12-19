@@ -1,7 +1,10 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import './PersonalPage.css';
+import { useEffect } from 'react';
 
 export const PersonalPage: React.FC = () => {
+  useEffect(() => window.scrollTo(0, 0), []);
+
   return (
     <div className="gray-container">
       <div className="personal-page-section-buttons">

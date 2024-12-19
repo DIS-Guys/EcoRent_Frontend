@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './UserDevicesPage.css';
 import { useEffect, useState } from 'react';
 import { Device } from '../../types/Device';
@@ -9,20 +9,13 @@ import { toast } from 'react-toastify';
 export const UserDevicesPage: React.FC = () => {
   const [userDevices, setUserDevices] = useState<Device[]>([]);
 
-  const location = useLocation();
-
   useEffect(() => {
     const getDevices = async () => {
       const devices = await getUserDevices();
       setUserDevices(devices);
     };
     getDevices();
-
-    const scrollFromPaths = ['/'];
-    if (scrollFromPaths.includes(location.state?.from)) {
-      window.scrollTo(0, 0);
-    }
-  }, [location.state?.from]);
+  }, []);
 
   const handleDelete = async (id: string) => {
     try {

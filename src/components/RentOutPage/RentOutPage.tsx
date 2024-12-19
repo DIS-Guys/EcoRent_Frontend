@@ -37,9 +37,7 @@ export const RentOutPage: React.FC = () => {
     deviceInfo.manufacturer
   );
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+  useEffect(() => window.scrollTo(0, 0), []);
 
   useEffect(() => {
     setChosenManufacturer(deviceInfo.manufacturer);
