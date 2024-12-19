@@ -39,7 +39,9 @@ export const Profile: React.FC = () => {
         setUserProfile({ ...restData, phoneNumber: user.phoneNumber || '' });
         setInitialProfile({ ...restData, phoneNumber: user.phoneNumber || '' });
       } catch {
-        toast.error('Помилка при завантаженні профілю.', { position: 'bottom-right' });
+        toast.error('Помилка при завантаженні профілю.', {
+          position: 'bottom-right',
+        });
       }
     };
     fetchUserProfile();
@@ -60,17 +62,23 @@ export const Profile: React.FC = () => {
 
   const validateFields = () => {
     const errors: string[] = [];
-    const phoneNumberRegex = /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
+    const phoneNumberRegex =
+      /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
 
     if (!userProfile.name.trim()) errors.push("Ім'я є обов'язковим.");
     if (!userProfile.surname.trim()) errors.push('Прізвище є обовʼязковим.');
     if (!userProfile.email.trim() || !/^\S+@\S+\.\S+$/.test(userProfile.email))
       errors.push('Некоректний формат E-mail.');
-    if (userProfile.phoneNumber && !(phoneNumberRegex.test(userProfile.phoneNumber)))
+    if (
+      userProfile.phoneNumber &&
+      !phoneNumberRegex.test(userProfile.phoneNumber)
+    )
       errors.push('Некоректний формат номера телефону.');
 
     if (errors.length > 0) {
-      toast.error(`Поля заповнені невірно: \n ${errors.join('\n')}`, { position: 'bottom-right' });
+      toast.error(`Поля заповнені невірно: \n ${errors.join('\n')}`, {
+        position: 'bottom-right',
+      });
       return false;
     }
 
@@ -95,7 +103,9 @@ export const Profile: React.FC = () => {
       });
       toast.success('Профіль успішно оновлено.', { position: 'bottom-right' });
     } catch {
-      toast.error('Помилка при оновленні профілю.', { position: 'bottom-right' });
+      toast.error('Помилка при оновленні профілю.', {
+        position: 'bottom-right',
+      });
     }
   };
 
@@ -109,7 +119,10 @@ export const Profile: React.FC = () => {
             className="edit-icon"
             onClick={() => toggleEditable('name')}
           />
-          <label htmlFor="profileNameInput" className="profile-edit-label main-label">
+          <label
+            htmlFor="profileNameInput"
+            className="profile-edit-label main-label"
+          >
             Ім'я
           </label>
           <input
@@ -130,7 +143,10 @@ export const Profile: React.FC = () => {
             className="edit-icon"
             onClick={() => toggleEditable('surname')}
           />
-          <label htmlFor="profileSurnameInput" className="profile-edit-label main-label">
+          <label
+            htmlFor="profileSurnameInput"
+            className="profile-edit-label main-label"
+          >
             Прізвище
           </label>
           <input
@@ -152,7 +168,10 @@ export const Profile: React.FC = () => {
           className="edit-icon"
           onClick={() => toggleEditable('email')}
         />
-        <label htmlFor="profileEmailInput" className="profile-edit-label main-label">
+        <label
+          htmlFor="profileEmailInput"
+          className="profile-edit-label main-label"
+        >
           Ваш E-mail
         </label>
         <input
@@ -173,7 +192,10 @@ export const Profile: React.FC = () => {
           className="edit-icon"
           onClick={() => toggleEditable('phoneNumber')}
         />
-        <label htmlFor="profilePhoneInput" className="profile-edit-label main-label">
+        <label
+          htmlFor="profilePhoneInput"
+          className="profile-edit-label main-label"
+        >
           Телефон
         </label>
         <input
@@ -188,12 +210,22 @@ export const Profile: React.FC = () => {
         />
       </div>
       <div className="cabinet-buttons-block">
-        <button className="logout-button cancel-button secondary-button" onClick={logout}>
-          <img src="/icons/logout.svg" alt="Logout icon" className="logout-icon" />
+        <button
+          className="logout-button cancel-button secondary-button"
+          onClick={logout}
+        >
+          <img
+            src="/icons/logout.svg"
+            alt="Logout icon"
+            className="logout-icon"
+          />
           Вийти
         </button>
         <div className="edit-buttons-block">
-          <button className="cancel-button secondary-button" onClick={handleCancel}>
+          <button
+            className="cancel-button secondary-button"
+            onClick={handleCancel}
+          >
             Скасувати
           </button>
           <button className="save-button main-button" onClick={handleSave}>
