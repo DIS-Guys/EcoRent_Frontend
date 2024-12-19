@@ -59,15 +59,11 @@ export const Main: React.FC = () => {
           </article>
         </section>
         <section className="rent">
-          <Link
-            to="/personal-page/my-devices"
-            className="rent-button"
-            state={{ from: '/' }}
-          >
-            Здати в оренду!
-          </Link>
-          <Link to="/rent" className="rent-button" state={{ from: '/' }}>
+          <Link to="/rent" className="rent-button">
             Хочу орендувати!
+          </Link>
+          <Link to="/personal-page/my-devices" className="rent-button">
+            Здати в оренду!
           </Link>
         </section>
       </div>
