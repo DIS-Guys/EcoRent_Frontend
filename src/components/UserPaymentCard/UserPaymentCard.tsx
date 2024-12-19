@@ -1,6 +1,7 @@
 import React from 'react';
 import './UserPaymentCard.css';
 import { deleteCard } from '../../api/paymentCards.ts';
+import { toast } from 'react-toastify';
 
 interface UserPaymentCardProps {
   id: string;
@@ -8,7 +9,11 @@ interface UserPaymentCardProps {
   onDelete: (id: string) => void;
 }
 
-export const UserPaymentCard: React.FC<UserPaymentCardProps> = ({ id, cardNumber, onDelete }) => {
+export const UserPaymentCard: React.FC<UserPaymentCardProps> = ({
+  id,
+  cardNumber,
+  onDelete,
+}) => {
   const maskedCardNumber = `**** ${cardNumber.slice(-4)}`;
 
   const handleDelete = async () => {
@@ -16,6 +21,9 @@ export const UserPaymentCard: React.FC<UserPaymentCardProps> = ({ id, cardNumber
       onDelete(id);
       await deleteCard(id);
     } catch (error) {
+      toast.error('Помилка при видаленні платіжної картки.', {
+        position: 'bottom-right',
+      });
       console.error('Error deleting payment card:', error);
     }
   };

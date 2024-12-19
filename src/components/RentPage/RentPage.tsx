@@ -6,6 +6,7 @@ import sockets from '../../data/sockets.json';
 import { Device } from '../../types/Device';
 import { getAllDevices } from '../../api/devices';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export const RentPage: React.FC = () => {
   const { state } = useLocation();
@@ -38,6 +39,9 @@ export const RentPage: React.FC = () => {
         setDevices(devs);
         setFilteredDevices(devs);
       } catch (error) {
+        toast.error('Виникла помилка при завантаженні пристроїв.', {
+          position: 'bottom-right',
+        });
         console.error(error);
       }
     };

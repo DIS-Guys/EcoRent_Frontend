@@ -26,13 +26,13 @@ export const RegisterPage: React.FC = () => {
       errors.push('Пароль має містити щонайменше 6 символів.');
     }
 
-    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).{6,}$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).*$/;
     if (!isSignedUp && !passwordRegex.test(password)) {
-      errors.push('Пароль повинен містити від 6 символів, пароль має містити щонайменше одну літеру та одну цифру.');
+      errors.push('Пароль має містити щонайменше одну літеру та одну цифру.');
     }
 
     if (!isSignedUp && password !== repeatPassword) {
-      errors.push('Паролі не співпадають.');
+      errors.push('Паролі не збігаються.');
     }
 
     if (errors.length > 0) {
