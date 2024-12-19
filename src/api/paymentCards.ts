@@ -1,12 +1,22 @@
 import { client } from '../utils/sendRequest';
 import { PaymentCard } from '../types/PaymentCard.ts';
 
-export const createPaymentCard = async ({ cardNumber, expiryDate, ownerName }: PaymentCard) => {
-  return client.post('/api/paymentCards/createPaymentCard', { cardNumber, expiryDate, ownerName });
+export const addPaymentCard = async ({
+  cardNumber,
+  expiryDate,
+  ownerName,
+}: PaymentCard) => {
+  return client.post('/api/paymentCards/addPaymentCard', {
+    cardNumber,
+    expiryDate,
+    ownerName,
+  });
 };
 
 export const getUserPaymentCards = async () => {
-  return client.get<PaymentCard[]>('/api/paymentCards/getPaymentCardsByOwnerId');
+  return client.get<PaymentCard[]>(
+    '/api/paymentCards/getPaymentCardsByOwnerId'
+  );
 };
 
 export const deleteCard = async (id: string) => {

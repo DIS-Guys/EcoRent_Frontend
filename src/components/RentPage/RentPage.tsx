@@ -1,18 +1,20 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './RentPage.css';
 import { DeviceCard } from '../DeviceCard';
 import brands from '../../data/brands.json';
 import sockets from '../../data/sockets.json';
 import { Device } from '../../types/Device';
 import { getAllDevices } from '../../api/devices';
-import { useLocation } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 export const RentPage: React.FC = () => {
+  const navigate = useNavigate();
   const { state } = useLocation();
   const [devices, setDevices] = useState<Device[]>([]);
+  const [searchedDevices, setSearchedDevices] = useState<Device[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState<string>(state?.searchQuery || '');
   const [chosenBrands, setChosenBrands] = useState<string[]>([]);
   const [isBrandsChosen, setIsBrandsChosen] = useState(false);
   const [chosenModels, setChosenModels] = useState<string[]>([]);
@@ -32,12 +34,23 @@ export const RentPage: React.FC = () => {
   const [chosenBatteryType, setChosenBatteryType] = useState<string[]>([]);
   const [chosenRemoteUse, setChosenRemoteUse] = useState<string[]>([]);
 
+  useEffect(() => window.scrollTo(0, 0), []);
+
   useEffect(() => {
     const getDevices = async () => {
       try {
         const devs = await getAllDevices();
+        if (searchQuery) {
+          const searchedDevs = devs.filter(({ manufacturer, deviceModel }) =>
+            `${manufacturer} ${deviceModel}`
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase().trim())
+          );
+          setSearchedDevices(searchedDevs);
+        } else {
+          setSearchedDevices(devs);
+        }
         setDevices(devs);
-        setFilteredDevices(devs);
       } catch (error) {
         toast.error('Виникла помилка при завантаженні пристроїв.', {
           position: 'bottom-right',
@@ -46,6 +59,7 @@ export const RentPage: React.FC = () => {
       }
     };
     getDevices();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -55,31 +69,24 @@ export const RentPage: React.FC = () => {
   const handleSearch = useCallback(
     (query: string) => {
       if (!query.trim()) return;
+      navigate('.', { replace: true, state: {} });
 
       const searchedDevs = devices.filter(({ manufacturer, deviceModel }) =>
         `${manufacturer} ${deviceModel}`
           .toLowerCase()
           .includes(query.toLowerCase().trim())
       );
-      setFilteredDevices(searchedDevs);
+      setSearchedDevices(searchedDevs);
     },
-    [devices]
+    [devices, navigate]
   );
 
   useEffect(() => {
-    if (state?.searchQuery) {
-      setSearchQuery(state.searchQuery);
-      setTimeout(() => {
-        handleSearch(state.searchQuery);
-      }, 0);
-    }
-  }, [state?.searchQuery, devices, handleSearch]);
-
-  useEffect(() => {
     if (!searchQuery.trim()) {
-      setFilteredDevices(devices);
+      navigate('.', { replace: true, state: {} });
+      setSearchedDevices(devices);
     }
-  }, [devices, searchQuery]);
+  }, [devices, navigate, searchQuery]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -137,7 +144,7 @@ export const RentPage: React.FC = () => {
   useEffect(updateChosenModels, [chosenBrands]);
 
   const applyFilters = () => {
-    const filtered = devices.filter((device) => {
+    const filtered = searchedDevices.filter((device) => {
       const matchesBrand =
         chosenBrands.length === 0 || chosenBrands.includes(device.manufacturer);
       const matchesModel =
@@ -202,6 +209,7 @@ export const RentPage: React.FC = () => {
     devices,
     priceRange.from,
     priceRange.to,
+    searchedDevices,
     sizeRange.height,
     sizeRange.length,
     sizeRange.width,

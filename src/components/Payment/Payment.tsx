@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { UserPaymentCard } from '../UserPaymentCard';
 import { getUserPaymentCards } from '../../api/paymentCards.ts';
-import './Payment.css';
 import { PaymentCard } from '../../types/PaymentCard.ts';
-import { toast } from 'react-toastify';
+import './Payment.css';
 
 export const Payment: React.FC = () => {
   const [paymentCards, setPaymentCards] = useState<PaymentCard[]>([]);
@@ -15,7 +15,7 @@ export const Payment: React.FC = () => {
         const cards = await getUserPaymentCards();
         setPaymentCards(cards);
       } catch (error) {
-        toast.error('Помилка при завантаженні платіжних карток', {
+        toast.error('Помилка при завантаженні карток.', {
           position: 'bottom-right',
         });
         console.error('Error fetching payment cards:', error);
@@ -31,17 +31,12 @@ export const Payment: React.FC = () => {
 
   return (
     <div className="payment-block">
-      <div className="payment-cards-list">
-        {paymentCards.map((card) => (
-          <UserPaymentCard
-            key={card._id}
-            id={card._id}
-            cardNumber={card.cardNumber}
-            onDelete={handleDelete}
-          />
-        ))}
-      </div>
-      <Link to="add-card" className="add-button">
+      <Link
+        to="add-card"
+        className="add-button"
+        state={{ cardAmount: paymentCards.length }}
+        replace
+      >
         <img
           className="add-card-icon"
           alt="Add card icon"
@@ -49,6 +44,14 @@ export const Payment: React.FC = () => {
         />
         Додати картку
       </Link>
+      {paymentCards.map((card) => (
+        <UserPaymentCard
+          key={card._id}
+          id={card._id}
+          cardNumber={card.cardNumber}
+          onDelete={handleDelete}
+        />
+      ))}
     </div>
   );
 };

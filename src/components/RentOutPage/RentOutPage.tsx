@@ -1,5 +1,4 @@
 import { Gallery, Item } from 'react-photoswipe-gallery';
-import 'photoswipe/dist/photoswipe.css';
 import { useEffect, useState } from 'react';
 import './RentOutPage.css';
 import '../../App.css';
@@ -36,6 +35,8 @@ export const RentOutPage: React.FC = () => {
   const [chosenManufacturer, setChosenManufacturer] = useState(
     deviceInfo.manufacturer
   );
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   useEffect(() => {
     setChosenManufacturer(deviceInfo.manufacturer);
@@ -245,7 +246,7 @@ export const RentOutPage: React.FC = () => {
         formData.append(key, JSON.stringify(value));
       }
     }
-    
+
     await postDevice(formData);
     navigate('/personal-page/my-devices', { replace: true });
   };

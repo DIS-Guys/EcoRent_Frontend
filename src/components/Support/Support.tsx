@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Support.css';
 import { createTicket } from '../../api/tickets';
 import { toast } from 'react-toastify';
@@ -6,6 +6,8 @@ import { toast } from 'react-toastify';
 export const Support: React.FC = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+
+  useEffect(() => window.scrollTo(0, 0), []);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();

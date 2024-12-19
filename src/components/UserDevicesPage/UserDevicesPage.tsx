@@ -19,10 +19,10 @@ export const UserDevicesPage: React.FC = () => {
 
   const handleDelete = async (id: string) => {
     try {
-      await deleteDeviceById(id);
       setUserDevices((prevDevices) =>
         prevDevices.filter((device) => device._id !== id)
       );
+      await deleteDeviceById(id);
       toast.success('Пристрій видалено успішно.', {
         position: 'bottom-right',
       });

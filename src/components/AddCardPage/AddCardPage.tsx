@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './AddCardPage.css';
 import { toast } from 'react-toastify';
-import { createPaymentCard } from '../../api/paymentCards.ts';
+import { addPaymentCard } from '../../api/paymentCards.ts';
 
 export const AddCardPage: React.FC = () => {
   const navigate = useNavigate();
-
+  const { state } = useLocation();
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [ownerName, setOwnerName] = useState('');
@@ -23,7 +23,7 @@ export const AddCardPage: React.FC = () => {
 
   const validateExpiryDate = (expiryDate: string) => {
     const expiryParts = expiryDate.split('/');
-    if (expiryParts.length !== 2) return false;
+    if (expiryParts.length !== 2) return;
 
     const [month, year] = expiryParts.map(Number);
     const currentYear = new Date().getFullYear() % 100;
@@ -35,6 +35,13 @@ export const AddCardPage: React.FC = () => {
   };
 
   const handleSave = async () => {
+    if (state.cardAmount === 9) {
+      toast.error('Не можна додати більше 9 карток.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     if (!validateCardNumber(cardNumber)) {
       toast.error('Номер картки повинен містити 16 цифр.', {
         position: 'bottom-right',
@@ -50,7 +57,7 @@ export const AddCardPage: React.FC = () => {
     }
 
     if (!validateOwnerName(ownerName)) {
-      toast.error('Ім\'я власника не може бути порожнім.', {
+      toast.error("Ім'я власника не може бути порожнім.", {
         position: 'bottom-right',
       });
       return;
@@ -59,12 +66,16 @@ export const AddCardPage: React.FC = () => {
     try {
       const expiryParts = expiryDate.split('/');
       const [month, year] = expiryParts.map(Number);
-      await createPaymentCard({ _id: '', ownerId: '', cardNumber, expiryDate: [month, year], ownerName });
-      toast.success('Запит відправлено.', {
-        position: 'bottom-right',
+      await addPaymentCard({
+        _id: '',
+        ownerId: '',
+        cardNumber,
+        expiryDate: [month, year],
+        ownerName,
       });
-    } catch (error) {
-      toast.error('Помилка при відправленні запиту.', {
+      navigate('/personal-page/cabinet/payment', { replace: true });
+    } catch {
+      toast.error('Не вдалося додати картку.', {
         position: 'bottom-right',
       });
     }
