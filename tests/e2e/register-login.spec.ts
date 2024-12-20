@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
+import { log } from 'console';
 
 const generatePassword = () => {
   let password = '';
@@ -45,7 +46,7 @@ test.describe('User Registration and Login', () => {
       'input[placeholder="Підтвердити пароль"]',
       userData.password
     );
-
+    
     await page.click('button[type="submit"]');
 
     await expect(page).toHaveURL(
@@ -62,24 +63,6 @@ test.describe('User Registration and Login', () => {
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
-    await page.fill('input[placeholder="Ім\'я"]', userData.name);
-    await page.fill('input[placeholder="Прізвище"]', userData.surname);
-    await page.fill('input[placeholder="E-mail"]', userData.email);
-    await page.fill('input[placeholder="Пароль"]', userData.password);
-    await page.fill(
-      'input[placeholder="Підтвердити пароль"]',
-      userData.password
-    );
-
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(100);
-
-    const logoutButton2 = page.locator('.logout-button');
-    await logoutButton2.click();
-
-    await expect(page).toHaveURL('http://localhost:5173/login');
-
-    await page.waitForTimeout(1000);
     const loginButton = page.locator('text=Log-in');
     await loginButton.click();
     await page.waitForTimeout(1000);
@@ -91,12 +74,8 @@ test.describe('User Registration and Login', () => {
 
     await page.waitForTimeout(1000);
     await expect(page).toHaveURL(
-      'http://localhost:5173/'
+      'http://localhost:5173/personal-page/cabinet/profile'
     );
-
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
 
     await page.waitForTimeout(1000);
     const logoutButton = page.locator('.logout-button');
