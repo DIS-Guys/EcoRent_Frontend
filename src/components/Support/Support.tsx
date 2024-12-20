@@ -11,6 +11,16 @@ export const Support: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    const emailRegex = /^\S+@\S+\.\S+$/;
+
+    if (!emailRegex.test(email)) {
+      toast.error('Введіть правильний email.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     try {
       await createTicket({ userEmail: email, message });
       toast.success('Запит відправлено.', {
@@ -28,7 +38,7 @@ export const Support: React.FC = () => {
   return (
     <div className="gray-container">
       <div className="support-block">
-        <form className="support-form" onSubmit={handleSubmit}>
+        <form className="support-form" onSubmit={handleSubmit} noValidate>
           <label htmlFor="supportEmail" className="main-label">
             Ваш E-mail
           </label>
