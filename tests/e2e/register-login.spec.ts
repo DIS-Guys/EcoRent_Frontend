@@ -71,13 +71,6 @@ test.describe('User Registration and Login', () => {
 
     await page.click('button[type="submit"]');
 
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
-
-    const logoutButton = page.locator('.logout-button');
-    await logoutButton.click();
-
     await expect(page).toHaveURL('http://localhost:5173/login');
 
     const loginButton = page.locator('text=Log-in');
@@ -88,7 +81,14 @@ test.describe('User Registration and Login', () => {
 
     await page.click('button[type="submit"]');
 
-    await expect(page).toHaveURL('http://localhost:5173/');
+    await expect(page).toHaveURL(
+      'http://localhost:5173/personal-page/cabinet/profile'
+    );
+
+    const logoutButton = page.locator('.logout-button');
+    await logoutButton.click();
+
+    await expect(page).toHaveURL('http://localhost:5173/login');
   });
 
   test('should show error for invalid email format during registration', async ({
