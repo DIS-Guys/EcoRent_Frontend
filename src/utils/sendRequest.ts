@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = 'https://eco-rent-backend.vercel.app';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
