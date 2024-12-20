@@ -20,7 +20,7 @@ import { AddCardPage } from './components/AddCardPage';
 import { UserDevicesPage } from './components/UserDevicesPage';
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/EcoRent_Frontend">
     <StrictMode>
       <AuthProvider>
         <Routes>
