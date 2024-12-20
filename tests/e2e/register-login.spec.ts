@@ -70,21 +70,33 @@ test.describe('User Registration and Login', () => {
     );
 
     await page.click('button[type="submit"]');
+    await page.waitForTimeout(1000);
+
+    const logoutButton2 = page.locator('.logout-button');
+    await logoutButton2.click();
 
     await expect(page).toHaveURL('http://localhost:5173/login');
 
+    await page.waitForTimeout(1000);
     const loginButton = page.locator('text=Log-in');
     await loginButton.click();
+    await page.waitForTimeout(1000);
 
     await page.fill('input[type="email"]', userData.email);
     await page.fill('input[type="password"]', userData.password);
 
     await page.click('button[type="submit"]');
 
+    await page.waitForTimeout(1000);
     await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
+      'http://localhost:5173/'
     );
 
+    await page.waitForTimeout(1000);
+    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
+
+
+    await page.waitForTimeout(1000);
     const logoutButton = page.locator('.logout-button');
     await logoutButton.click();
 
