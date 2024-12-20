@@ -39,6 +39,7 @@ test.describe('Main Page', () => {
   });
 
   test('should display the main search input', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     await expect(searchInput).toBeVisible();
     await expect(searchInput).toHaveAttribute(
@@ -48,6 +49,7 @@ test.describe('Main Page', () => {
   });
 
   test('should navigate to rent page with search query', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     const searchButton = page.locator('.search-button');
 
@@ -64,6 +66,7 @@ test.describe('Main Page', () => {
   });
 
   test('should display about us section', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const aboutUsHeader = page.locator('.about-us-header-text');
     const aboutUsDetailed = page.locator('.about-us-detailed-text');
     const aboutUsService = page.locator('.about-us-service-text');
@@ -74,6 +77,7 @@ test.describe('Main Page', () => {
   });
 
   test('should have rent and rent out buttons', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const rentButton = page.locator('text=Хочу орендувати!');
     const rentOutButton = page.locator('text=Здати в оренду!');
 
@@ -84,6 +88,7 @@ test.describe('Main Page', () => {
   test('should navigate to rent page on rent button click', async ({
     page,
   }) => {
+    await page.waitForTimeout(1000);
     const rentButton = page.locator('text=Хочу орендувати!');
     await rentButton.click();
     await expect(page).toHaveURL('http://localhost:5173/rent');
@@ -92,6 +97,7 @@ test.describe('Main Page', () => {
   test('should navigate to personal devices page on rent out button click', async ({
     page,
   }) => {
+    await page.waitForTimeout(1000);
     const rentOutButton = page.locator('text=Здати в оренду!');
     await rentOutButton.click();
 

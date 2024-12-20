@@ -6,6 +6,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should interact with filters', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const brandCheckbox = page.locator('input[type="checkbox"]').first();
     await brandCheckbox.check();
     await expect(brandCheckbox).toBeChecked();
@@ -23,6 +24,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should perform a search', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     const searchButton = page.locator('.search-button');
 
@@ -37,6 +39,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should navigate to a device page', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const deviceCard = page.locator('.device-card').first();
     await deviceCard.click();
 
@@ -46,6 +49,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should handle invalid search gracefully', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     const searchButton = page.locator('.search-button');
     await page.waitForTimeout(1000);
@@ -58,6 +62,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should validate price range inputs', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const priceFromInput = page.locator('#priceFrom');
     const priceToInput = page.locator('#priceTo');
 
@@ -71,6 +76,7 @@ test.describe('Rent Page', () => {
   });
 
   test('should apply multiple filters correctly', async ({ page }) => {
+    await page.waitForTimeout(1000);
     const brandCheckbox = page.locator('input[type="checkbox"]').first();
     const modelCheckbox = page.locator('input[type="checkbox"]').nth(1);
     const priceFromInput = page.locator('#priceFrom');

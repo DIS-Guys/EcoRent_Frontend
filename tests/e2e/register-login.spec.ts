@@ -34,6 +34,7 @@ test.describe('User Registration and Login', () => {
   });
 
   test('should register a new user', async ({ page }) => {
+    await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
@@ -58,6 +59,7 @@ test.describe('User Registration and Login', () => {
   });
 
   test('should login with the registered user', async ({ page }) => {
+    await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
@@ -70,7 +72,7 @@ test.describe('User Registration and Login', () => {
     );
 
     await page.click('button[type="submit"]');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(100);
 
     const logoutButton2 = page.locator('.logout-button');
     await logoutButton2.click();
@@ -106,6 +108,7 @@ test.describe('User Registration and Login', () => {
   test('should show error for invalid email format during registration', async ({
     page,
   }) => {
+    await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
@@ -127,6 +130,7 @@ test.describe('User Registration and Login', () => {
   test('should show error for mismatched passwords during registration', async ({
     page,
   }) => {
+    await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
@@ -148,6 +152,7 @@ test.describe('User Registration and Login', () => {
   test('should show error for short password during registration', async ({
     page,
   }) => {
+    await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
