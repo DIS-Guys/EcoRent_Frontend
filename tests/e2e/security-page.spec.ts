@@ -47,13 +47,11 @@ test.describe('Profile page', () => {
     await expect(page).toHaveURL(
       'http://localhost:5173/personal-page/cabinet/profile'
     );
-    console.log(userData);
   });
 
   test('should update password successfully when passwords match and are valid', async ({
     page,
   }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -92,7 +90,6 @@ test.describe('Profile page', () => {
   });
 
   test('should show error when passwords do not match', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -128,7 +125,6 @@ test.describe('Profile page', () => {
   });
 
   test('should show error when new password is invalid', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -169,7 +165,6 @@ test.describe('Profile page', () => {
   });
 
   test('should cancel account deletion', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -204,7 +199,6 @@ test.describe('Profile page', () => {
   });
 
   test('should delete account successfully', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 

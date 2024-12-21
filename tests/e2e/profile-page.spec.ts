@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
-import { log } from 'console';
 
 const generatePassword = () => {
   let password = '';
@@ -47,11 +46,9 @@ test.describe('Profile page', () => {
     await expect(page).toHaveURL(
       'http://localhost:5173/personal-page/cabinet/profile'
     );
-    console.log(userData);
   });
 
   test('should validate profile fields', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -130,7 +127,6 @@ test.describe('Profile page', () => {
   });
 
   test('should cancel profile data editing', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -161,7 +157,6 @@ test.describe('Profile page', () => {
   });
 
   test('should logout successfully', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
@@ -185,7 +180,6 @@ test.describe('Profile page', () => {
   });
 
   test('should edit and save profile data', async ({ page }) => {
-    console.log(userData);
     await page.waitForTimeout(1000);
     await page.goto('http://localhost:5173/personal-page/cabinet/profile');
 
