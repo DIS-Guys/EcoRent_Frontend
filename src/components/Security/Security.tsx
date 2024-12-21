@@ -130,13 +130,13 @@ export const Security: React.FC = () => {
             </p>
             <div className="modal-buttons">
               <button
-                className="cancel-button main-button"
+                className="cancel-button main-button cancel-delete-button"
                 onClick={() => setIsModalOpen(false)}
               >
                 Скасувати
               </button>
               <button
-                className="delete-button secondary-button"
+                className="delete-button secondary-button accept-delete-button"
                 onClick={handleDeleteUser}
               >
                 Видалити
