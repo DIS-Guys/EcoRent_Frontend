@@ -46,7 +46,7 @@ test.describe('User Registration and Login', () => {
       'input[placeholder="Підтвердити пароль"]',
       userData.password
     );
-    
+
     await page.click('button[type="submit"]');
 
     await expect(page).toHaveURL(
