@@ -15,6 +15,32 @@ export const AddCardPage: React.FC = () => {
     navigate(-1);
   };
 
+  const formatCardNumber = (value: string) => {
+    const cleaned = value.replace(/\D/g, '');
+    const chunks = cleaned.match(/.{1,4}/g) || [];
+    return chunks.join(' ').substr(0, 19);
+  };
+
+  const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatCardNumber(e.target.value);
+    setCardNumber(formatted);
+  };
+
+  const formatExpiryDate = (value: string) => {
+    const cleaned = value.replace(/\D/g, '');
+    if (cleaned.length >= 2) {
+      return cleaned.substr(0, 2) + '/' + cleaned.substr(2, 2);
+    }
+    return cleaned;
+  };
+
+  const handleExpiryDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const formatted = formatExpiryDate(e.target.value);
+    if (formatted.length <= 5) {
+      setExpiryDate(formatted);
+    }
+  };
+
   const validateCardNumber = (cardNumber: string) => {
     const cardNumberRegex = /^\d{16}$/;
     const cleanedCardNumber = cardNumber.replace(/\s+/g, '');
@@ -23,7 +49,7 @@ export const AddCardPage: React.FC = () => {
 
   const validateExpiryDate = (expiryDate: string) => {
     const expiryParts = expiryDate.split('/');
-    if (expiryParts.length !== 2) return;
+    if (expiryParts.length !== 2) return false;
 
     const [month, year] = expiryParts.map(Number);
     const currentYear = new Date().getFullYear() % 100;
@@ -100,7 +126,8 @@ export const AddCardPage: React.FC = () => {
                   className="payment-card-input payment-card-big-input info-input"
                   placeholder="4441 8034 1488 2167"
                   value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
+                  onChange={handleCardNumberChange}
+                  maxLength={19}
                 />
               </div>
               <div className="payment-card-input-block">
@@ -132,7 +159,8 @@ export const AddCardPage: React.FC = () => {
                   className="payment-card-input payment-card-small-input info-input"
                   placeholder="MM/YY"
                   value={expiryDate}
-                  onChange={(e) => setExpiryDate(e.target.value)}
+                  onChange={handleExpiryDateChange}
+                  maxLength={5}
                 />
               </div>
             </div>
