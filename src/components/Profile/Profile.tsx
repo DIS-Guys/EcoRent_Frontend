@@ -66,7 +66,7 @@ export const Profile: React.FC = () => {
       /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
 
     if (!userProfile.name.trim()) errors.push("Ім'я є обов'язковим.");
-    if (!userProfile.surname.trim()) errors.push('Прізвище є обовʼязковим.');
+    if (!userProfile.surname.trim()) errors.push("Прізвище є обов'язковим.");
     if (!userProfile.email.trim() || !/^\S+@\S+\.\S+$/.test(userProfile.email))
       errors.push('Некоректний формат E-mail.');
     if (
