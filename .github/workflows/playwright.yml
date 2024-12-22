@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Clone backend repository
-        run: git clone https://github.com/username/EcoRent_Backend.git backend
+        run: git clone https://github.com/DIS-Guys/EcoRent_Backend.git backend
       - name: Install backend dependencies
         working-directory: backend
         run: npm ci
