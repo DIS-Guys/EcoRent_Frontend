@@ -22,7 +22,7 @@ jobs:
         run: npm ci
       - name: Start backend
         working-directory: backend
-        run: npm start &
+        run: npm run dev &
         env:
           NODE_ENV: test
           MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
