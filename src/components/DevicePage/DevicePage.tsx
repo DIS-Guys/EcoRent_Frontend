@@ -52,8 +52,6 @@ export const DevicePage: React.FC = () => {
     lightbox.init();
     lightboxRef.current = lightbox;
 
-    console.log(devicePictures);
-
     return () => {
       lightbox.destroy();
       lightboxRef.current = null;
