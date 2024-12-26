@@ -218,7 +218,7 @@ test.describe('Profile page', () => {
 
     await page.waitForTimeout(5500);
     await page.locator('.edit-icon').nth(2).click();
-    let newEmail = `1` + `${userData.email}`;
+    const newEmail = `1` + `${userData.email}`;
     await page.fill('#profileEmailInput', newEmail);
     await page.click('.save-button');
 
