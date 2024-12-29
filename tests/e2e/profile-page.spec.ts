@@ -1,81 +1,32 @@
 import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
-
-const generatePassword = () => {
-  let password = '';
-  while (!/\d/.test(password)) {
-    password = faker.internet.password({
-      length: 10,
-      pattern: /[A-Za-z0-9]/,
-    });
-  }
-  return password;
-};
-
-const generateRandomUser = () => {
-  return {
-    name: faker.person.firstName(),
-    surname: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: generatePassword(),
-  };
-};
+import {
+  generateRandomUser,
+  registerAndLogin,
+  login,
+  deleteAccount,
+} from '../e2e/test-helper';
+import type { UserData } from '../e2e/test-helper';
 
 test.describe('Profile page', () => {
-  let userData: {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-  };
-  test.beforeAll(() => {
+  let userData: UserData;
+
+  test.beforeEach(async () => {
     userData = generateRandomUser();
   });
 
-  test('should register and login a new user', async ({ page }) => {
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-    await page.fill('input[placeholder="Ім\'я"]', userData.name);
-    await page.fill('input[placeholder="Прізвище"]', userData.surname);
-    await page.fill('input[placeholder="E-mail"]', userData.email);
-    await page.fill('input[placeholder="Пароль"]', userData.password);
-    await page.fill(
-      'input[placeholder="Підтвердити пароль"]',
-      userData.password
-    );
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
-  });
-
   test('should validate profile fields', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
+    await registerAndLogin(page, userData);
+    await page.waitForTimeout(500);
+    
     const errorToast = page.locator('.Toastify__toast--error');
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
-
-    const toastError = page.locator('.Toastify__toast--error');
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#profileNameInput', '');
     await page.click('.save-button');
 
     await page.waitForTimeout(500);
-    await expect(toastError).toBeVisible();
-    await expect(toastError).toHaveText(
+    await expect(errorToast).toBeVisible();
+    await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Ім'я є обов'язковим.`
     );
 
@@ -85,8 +36,8 @@ test.describe('Profile page', () => {
     await page.click('.save-button');
 
     await page.waitForTimeout(500);
-    await expect(toastError).toBeVisible();
-    await expect(toastError).toHaveText(
+    await expect(errorToast).toBeVisible();
+    await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`
     );
 
@@ -124,25 +75,12 @@ test.describe('Profile page', () => {
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат номера телефону.`
     );
+
+    await deleteAccount(page);
   });
 
   test('should cancel profile data editing', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
+    await registerAndLogin(page, userData);
 
     const profileName = page.locator('#profileNameInput');
 
@@ -154,50 +92,25 @@ test.describe('Profile page', () => {
     const cancelButton = page.locator('text=Скасувати');
     await cancelButton.click();
     await expect(profileName).toHaveValue(originalName);
+
+    await deleteAccount(page);
   });
 
   test('should logout successfully', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
+    await registerAndLogin(page, userData);
 
     const logoutButton = page.locator('.logout-button');
     await logoutButton.click();
     await expect(page).toHaveURL('http://localhost:5173/login');
+    
+    await login(page, userData.email, userData.password);
+    await deleteAccount(page);
   });
 
   test('should edit and save profile data', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
-
+    await registerAndLogin(page, userData);
     const successToast = page.locator('.Toastify__toast--success');
+    await page.waitForTimeout(500);
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#profileNameInput', 'NewTestName');
@@ -234,5 +147,7 @@ test.describe('Profile page', () => {
     await page.waitForTimeout(500);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
+
+    await deleteAccount(page);
   });
 });
