@@ -1,72 +1,26 @@
 import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
+import {
+  generateRandomUser,
+  registerAndLogin,
+  login,
+  deleteAccount,
+} from '../e2e/test-helper';
+import type { UserData } from '../e2e/test-helper';
 
-const generatePassword = () => {
-  let password = '';
-  while (!/\d/.test(password)) {
-    password = faker.internet.password({
-      length: 10,
-      pattern: /[A-Za-z0-9]/,
-    });
-  }
-  return password;
-};
-
-const generateRandomUser = () => {
-  return {
-    name: faker.person.firstName(),
-    surname: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: generatePassword(),
-  };
-};
-
-const MAX_CARDS = 8;
+const MAX_CARDS = 9;
 
 test.describe('Payment page', () => {
-  let userData: {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-  };
+  let userData: UserData;
 
-  test.beforeAll(() => {
+  test.beforeEach(async () => {
     userData = generateRandomUser();
   });
 
-  test('should register and login a new user', async ({ page }) => {
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-    await page.fill('input[placeholder="Ім\'я"]', userData.name);
-    await page.fill('input[placeholder="Прізвище"]', userData.surname);
-    await page.fill('input[placeholder="E-mail"]', userData.email);
-    await page.fill('input[placeholder="Пароль"]', userData.password);
-    await page.fill(
-      'input[placeholder="Підтвердити пароль"]',
-      userData.password
-    );
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
-  });
-
   test('should add a new payment card successfully', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.waitForTimeout(500);
 
-    await page.waitForTimeout(1000);
     const addCard = page.locator('.add-button');
     await addCard.click();
 
@@ -81,24 +35,15 @@ test.describe('Payment page', () => {
     await expect(cardElement.locator('.user-payment-card-text')).toContainText(
       'Visa **** 2167'
     );
+
+    await deleteAccount(page);
   });
 
   test('should validate card input fields', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.waitForTimeout(500);
 
-    await page.waitForTimeout(1000);
     const addCard = page.locator('.add-button');
     await addCard.click();
 
@@ -134,24 +79,15 @@ test.describe('Payment page', () => {
     await page.waitForTimeout(500);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Ім'я власника не може бути порожнім.");
+
+    await deleteAccount(page);
   });
 
   test('should delete payment card', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.waitForTimeout(500);
 
-    await page.waitForTimeout(1000);
     const addCard = page.locator('.add-button');
     await addCard.click();
 
@@ -170,25 +106,17 @@ test.describe('Payment page', () => {
 
     await page.waitForTimeout(500);
     const cardElement = page.locator('.user-payment-card');
-    await expect(cardElement).toHaveCount(1);
+    await expect(cardElement).toHaveCount(0);
+
+    await deleteAccount(page);
   });
 
   test('should limit maximum number of cards to 9', async ({ page }) => {
     test.setTimeout(60000);
 
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-    await page.click('button[type="submit"]');
-    await page.waitForTimeout(1000);
-
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(500);
 
     for (let i = 0; i < MAX_CARDS; i++) {
       const addCard = page.locator('.add-button');
@@ -216,30 +144,14 @@ test.describe('Payment page', () => {
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Не можна додати більше 9 карток.');
+
+    await deleteAccount(page);
   });
 
   test('should handle card type detection correctly', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-
-    await page.waitForTimeout(1000);
-
-    for (let i = 0; i < MAX_CARDS + 1; i++) {
-      await page.click('.delete-payment-card-button');
-      await page.waitForTimeout(500);
-    }
-    await page.waitForTimeout(5500);
+    await page.waitForTimeout(500);
 
     const addCard = page.locator('.add-button');
     await addCard.click();
@@ -277,5 +189,7 @@ test.describe('Payment page', () => {
     await expect(masterCard.locator('.user-payment-card-text')).toContainText(
       'MasterCard'
     );
+
+    await deleteAccount(page);
   });
 });
