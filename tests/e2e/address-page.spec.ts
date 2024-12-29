@@ -1,75 +1,28 @@
 import { test, expect } from '@playwright/test';
-import { faker } from '@faker-js/faker';
-
-const generatePassword = () => {
-  let password = '';
-  while (!/\d/.test(password)) {
-    password = faker.internet.password({
-      length: 10,
-      pattern: /[A-Za-z0-9]/,
-    });
-  }
-  return password;
-};
-
-const generateRandomUser = () => {
-  return {
-    name: faker.person.firstName(),
-    surname: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: generatePassword(),
-  };
-};
+import {
+  generateRandomUser,
+  registerAndLogin,
+  login,
+  deleteAccount,
+  generatePassword,
+} from '../e2e/test-helper';
+import type { UserData } from '../e2e/test-helper';
 
 test.describe('Address page', () => {
-  let userData: {
-    name: string;
-    surname: string;
-    email: string;
-    password: string;
-  };
+  let userData: UserData;
 
-  test.beforeAll(() => {
+  test.beforeEach(async () => {
     userData = generateRandomUser();
-  });
-
-  test('should register and login a new user', async ({ page }) => {
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-    await page.fill('input[placeholder="Ім\'я"]', userData.name);
-    await page.fill('input[placeholder="Прізвище"]', userData.surname);
-    await page.fill('input[placeholder="E-mail"]', userData.email);
-    await page.fill('input[placeholder="Пароль"]', userData.password);
-    await page.fill(
-      'input[placeholder="Підтвердити пароль"]',
-      userData.password
-    );
-    await page.click('button[type="submit"]');
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
   });
 
   test('should edit and save address data successfully', async ({ page }) => {
     test.setTimeout(60000);
-
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/address');
+    await page.waitForTimeout(500);
 
     const successToast = page.locator('.Toastify__toast--success');
 
-    await page.waitForTimeout(1000);
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#regionInput', 'Київська');
     await page.click('.save-button');
@@ -122,30 +75,19 @@ test.describe('Address page', () => {
     await page.waitForTimeout(500);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
+
+    await deleteAccount(page);
   });
 
   test('should validate address fields', async ({ page }) => {
     test.setTimeout(60000);
-
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/address');
+    await page.waitForTimeout(500);
 
     const errorToast = page.locator('.Toastify__toast--error');
     const cancelButton = page.locator('text=Скасувати');
 
-    await page.waitForTimeout(1000);
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#regionInput', '123Region');
     await page.click('.save-button');
@@ -204,25 +146,15 @@ test.describe('Address page', () => {
       'Помилка при завантаженні адреси: Поле "Номер квартири" повинно починатися з цифри.'
     );
     await cancelButton.click();
+
+    await deleteAccount(page);
   });
 
   test('should cancel address data editing', async ({ page }) => {
-    await page.waitForTimeout(1000);
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
-
-    const loginButton = page.locator('text=Log-in');
-    await loginButton.click();
-    await page.waitForTimeout(1000);
-
-    await page.fill('input[type="email"]', userData.email);
-    await page.fill('input[type="password"]', userData.password);
-
-    await page.click('button[type="submit"]');
-
-    await page.waitForTimeout(1000);
+    await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/address');
+    await page.waitForTimeout(500);
 
-    await page.waitForTimeout(1000);
     const streetInput = page.locator('#streetInput');
     const originalStreet = await streetInput.inputValue();
 
@@ -233,5 +165,7 @@ test.describe('Address page', () => {
     await cancelButton.click();
 
     await expect(streetInput).toHaveValue(originalStreet);
+
+    await deleteAccount(page);
   });
 });
