@@ -54,7 +54,7 @@ test.describe('Payment page', () => {
     await page.fill('#expirationDateInput', '12/25');
     await page.click('button.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Номер картки повинен містити 16 цифр.'
@@ -65,7 +65,7 @@ test.describe('Payment page', () => {
     await page.fill('#expirationDateInput', '13/25');
     await page.click('button.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Неправильний формат дати або термін картки минув.'
@@ -76,7 +76,7 @@ test.describe('Payment page', () => {
     await page.fill('#ownerNameInput', '');
     await page.click('button.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Ім'я власника не може бути порожнім.");
 
@@ -99,7 +99,7 @@ test.describe('Payment page', () => {
     await page.waitForTimeout(1000);
     await page.click('.delete-payment-card-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Картку видалено успішно.');
@@ -140,7 +140,7 @@ test.describe('Payment page', () => {
     await page.fill('#expirationDateInput', '12/25');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Не можна додати більше 9 карток.');

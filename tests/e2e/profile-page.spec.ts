@@ -35,7 +35,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileSurnameInput', '');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`
@@ -55,7 +55,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileEmailInput', 'invalid-email');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат E-mail.`
@@ -70,7 +70,7 @@ test.describe('Profile page', () => {
     await page.fill('#profilePhoneInput', '123');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат номера телефону.`
@@ -116,7 +116,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileNameInput', 'NewTestName');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
@@ -125,7 +125,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileSurnameInput', 'NewTestSurname');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
@@ -135,7 +135,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileEmailInput', newEmail);
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
@@ -144,7 +144,7 @@ test.describe('Profile page', () => {
     await page.fill('#profilePhoneInput', '+380123456789');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 

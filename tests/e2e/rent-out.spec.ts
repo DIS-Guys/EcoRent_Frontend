@@ -30,7 +30,7 @@ test.describe('Rent out page', () => {
     await page.waitForTimeout(500);
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Заповніть обов'язкові поля!");
@@ -72,7 +72,7 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
       'Додайте принаймні одне зображення.'
@@ -119,7 +119,7 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
       'Введіть назву оголошення.'
@@ -165,7 +165,7 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
       'Введіть ціну за добу.'
@@ -215,7 +215,7 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
       'Мінімальна тривалість оренди не може бути більшою за максимальну.'
@@ -264,7 +264,7 @@ test.describe('Rent out page', () => {
     await page.fill('input[name="maxRentTerm"]', '30');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
       'Необхідно погодитися з умовами надання послуг.'

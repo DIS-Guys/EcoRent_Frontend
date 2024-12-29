@@ -35,6 +35,7 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const successToast = page.locator('.Toastify__toast--success');
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пароль успішно оновлено.');
 
@@ -58,6 +59,7 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const errorToast = page.locator('.Toastify__toast--error');
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Паролі не збігаються.');
 
@@ -80,6 +82,7 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const errorToasts = page.locator('.Toastify__toast--error');
+    await page.waitForTimeout(1000);
     await expect(errorToasts).toHaveCount(2);
     await expect(errorToasts.nth(0)).toHaveText(
       'Пароль повинен містити від 6 символів.'
@@ -128,6 +131,7 @@ test.describe('Security page', () => {
     await deleteButton.click();
 
     const successToast = page.locator('.Toastify__toast--success');
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Акаунт видалено успішно.');
   });

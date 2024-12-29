@@ -27,7 +27,7 @@ test.describe('Address page', () => {
     await page.fill('#regionInput', 'Київська');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -36,7 +36,7 @@ test.describe('Address page', () => {
     await page.fill('#townInput', 'Київ');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -45,7 +45,7 @@ test.describe('Address page', () => {
     await page.fill('#streetInput', 'Хрещатик');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -54,7 +54,7 @@ test.describe('Address page', () => {
     await page.fill('#houseNumberInput', '1');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -63,7 +63,7 @@ test.describe('Address page', () => {
     await page.fill('#apartmentNumberInput', '14');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -72,7 +72,7 @@ test.describe('Address page', () => {
     await page.fill('#floorInput', '3');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -92,7 +92,7 @@ test.describe('Address page', () => {
     await page.fill('#regionInput', '123Region');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Помилка при завантаженні адреси: Поле "Область" не може містити чисел. - Поле "Область" не може починатися з цифри.'
@@ -104,7 +104,7 @@ test.describe('Address page', () => {
     await page.fill('#townInput', '123City');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Помилка при завантаженні адреси: Поле "Місто" не може починатися з цифри.'
@@ -116,7 +116,7 @@ test.describe('Address page', () => {
     await page.fill('#streetInput', '3Street');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Помилка при завантаженні адреси: Поле "Вулиця" не може починатися з цифри.'
@@ -128,7 +128,7 @@ test.describe('Address page', () => {
     await page.fill('#houseNumberInput', 'abc');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Помилка при завантаженні адреси: Поле "Номер будинку" повинно починатися з цифри.'
@@ -140,7 +140,7 @@ test.describe('Address page', () => {
     await page.fill('#apartmentNumberInput', 'a33');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Помилка при завантаженні адреси: Поле "Номер квартири" повинно починатися з цифри.'

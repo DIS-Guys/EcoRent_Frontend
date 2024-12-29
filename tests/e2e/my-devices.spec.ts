@@ -31,6 +31,7 @@ test.describe('My devices page', () => {
     await page.click('button.put-on-rent-button');
 
     const errorToast = page.locator('.Toastify__toast--error');
+    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Заповніть обов'язкові поля!");
 
@@ -180,7 +181,7 @@ test.describe('My devices page', () => {
     const deleteButton = page.locator('.delete-device-button');
     await deleteButton.click();
 
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1000);
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пристрій видалено успішно.');

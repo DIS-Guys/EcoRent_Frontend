@@ -23,6 +23,7 @@ test.describe('Support Page', () => {
     await page.click('.support-send-button');
 
     const toastError = page.locator('.Toastify__toast--error');
+    await page.waitForTimeout(1000);
     await expect(toastError).toBeVisible();
     await expect(toastError).toHaveText(
       'Введіть правильний email.'
@@ -36,6 +37,7 @@ test.describe('Support Page', () => {
     await page.click('.support-send-button');
 
     const toastError = page.locator('.Toastify__toast--error');
+    await page.waitForTimeout(1000);
     await expect(toastError).toBeVisible();
     await expect(toastError).toHaveText(
       'Помилка при відправленні повідомлення.'
@@ -49,6 +51,7 @@ test.describe('Support Page', () => {
     await page.click('.support-send-button');
 
     const toastSuccess = page.locator('.Toastify__toast--success');
+    await page.waitForTimeout(1000);
     await expect(toastSuccess).toBeVisible();
     await expect(toastSuccess).toHaveText('Запит відправлено.');
   });
