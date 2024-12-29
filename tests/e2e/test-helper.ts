@@ -1,4 +1,3 @@
-// test-helpers.ts
 import { Page, expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 
@@ -67,7 +66,6 @@ export async function deleteAccount(page: Page) {
   const successToast = page.locator('.Toastify__toast--success');
   await expect(successToast).toBeVisible();
   await expect(successToast).toHaveText('Акаунт видалено успішно.');
-  
-  // Wait for redirect after deletion
+
   await page.waitForURL('http://localhost:5173/login');
 }
