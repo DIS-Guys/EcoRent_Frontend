@@ -90,5 +90,7 @@ test.describe('Main Page', () => {
 
     const addDeviceButton = page.locator('text=Додати пристрій');
     await expect(addDeviceButton).toBeVisible();
+
+    await deleteAccount(page);
   });
 });
