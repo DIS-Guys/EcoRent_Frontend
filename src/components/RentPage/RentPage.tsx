@@ -646,9 +646,16 @@ export const RentPage: React.FC = () => {
                     {i + 1}
                   </SearchLink>
                 ))}
-            {pagesNumber >= 10 && <div className="page-number">...</div>}
+            {pagesNumber >= 10 && pagesNumber !== 10 && (
+              <div className="page-number">...</div>
+            )}
             {pagesNumber >= 10 && (
-              <div className="page-number">{pagesNumber}</div>
+              <SearchLink
+                params={{ page: `${pagesNumber}` }}
+                className="page-number"
+              >
+                {pagesNumber}
+              </SearchLink>
             )}
             <SearchLink
               params={
