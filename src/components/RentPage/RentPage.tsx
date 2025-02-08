@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import classNames from 'classnames';
 import { toast } from 'react-toastify';
 import './RentPage.css';
 import { DeviceCard } from '../DeviceCard';
@@ -7,14 +8,20 @@ import brands from '../../data/brands.json';
 import sockets from '../../data/sockets.json';
 import { Device } from '../../types/Device';
 import { getAllDevices } from '../../api/devices';
+import { SearchLink } from '../../customComponents/SearchLink';
+
+const DEVICES_PER_PAGE = 12;
 
 export const RentPage: React.FC = () => {
   const navigate = useNavigate();
-  const { state } = useLocation();
+  const { state, search } = useLocation();
+  const [searchParams] = useSearchParams();
   const [devices, setDevices] = useState<Device[]>([]);
   const [searchedDevices, setSearchedDevices] = useState<Device[]>([]);
   const [filteredDevices, setFilteredDevices] = useState<Device[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>(state?.searchQuery || '');
+  const [searchQuery, setSearchQuery] = useState<string>(
+    state?.searchQuery || ''
+  );
   const [chosenBrands, setChosenBrands] = useState<string[]>([]);
   const [isBrandsChosen, setIsBrandsChosen] = useState(false);
   const [chosenModels, setChosenModels] = useState<string[]>([]);
@@ -33,6 +40,11 @@ export const RentPage: React.FC = () => {
   const [chosenSockets, setChosenSockets] = useState<string[]>([]);
   const [chosenBatteryType, setChosenBatteryType] = useState<string[]>([]);
   const [chosenRemoteUse, setChosenRemoteUse] = useState<string[]>([]);
+  const [pagesNumber, setPagesNumber] = useState(0);
+  const page = searchParams.get('page') || '1';
+
+  const firstOnPage = +page * DEVICES_PER_PAGE;
+  const lastOnPage = firstOnPage - DEVICES_PER_PAGE;
 
   useEffect(() => window.scrollTo(0, 0), []);
 
@@ -59,7 +71,7 @@ export const RentPage: React.FC = () => {
       }
     };
     getDevices();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -69,7 +81,7 @@ export const RentPage: React.FC = () => {
   const handleSearch = useCallback(
     (query: string) => {
       if (!query.trim()) return;
-      navigate('.', { replace: true, state: {} });
+      navigate(`.${search}`, { replace: true, state: {} });
 
       const searchedDevs = devices.filter(({ manufacturer, deviceModel }) =>
         `${manufacturer} ${deviceModel}`
@@ -78,15 +90,15 @@ export const RentPage: React.FC = () => {
       );
       setSearchedDevices(searchedDevs);
     },
-    [devices, navigate]
+    [devices, navigate, search]
   );
 
   useEffect(() => {
     if (!searchQuery.trim()) {
-      navigate('.', { replace: true, state: {} });
+      navigate(`.${search}`, { replace: true, state: {} });
       setSearchedDevices(devices);
     }
-  }, [devices, navigate, searchQuery]);
+  }, [devices, navigate, search, searchQuery]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(event.target.value);
@@ -194,6 +206,7 @@ export const RentPage: React.FC = () => {
       );
     });
     setFilteredDevices(filtered);
+    setPagesNumber(Math.ceil(filtered.length / DEVICES_PER_PAGE));
   };
 
   useEffect(applyFilters, [
@@ -591,7 +604,7 @@ export const RentPage: React.FC = () => {
 
         <div className="devices-block">
           <div className="cards-block">
-            {filteredDevices.map((device) => (
+            {filteredDevices.slice(lastOnPage, firstOnPage).map((device) => (
               <DeviceCard
                 key={device._id}
                 id={device._id}
@@ -604,22 +617,49 @@ export const RentPage: React.FC = () => {
             ))}
           </div>
           <div className="navigation-block">
-            <button className="arrow">
+            <SearchLink
+              params={+page <= 2 ? { page: null } : { page: `${+page - 1}` }}
+              className="arrow"
+            >
               <img src="./icons/leftarrow.svg" alt="Previous page" />
-            </button>
-            <div className="page-number">1</div>
-            <div className="page-number">2</div>
-            <div className="page-number">3</div>
-            <div className="page-number">4</div>
-            <div className="page-number">5</div>
-            <div className="page-number">6</div>
-            <div className="page-number">7</div>
-            <div className="page-number">8</div>
-            <div className="page-number">...</div>
-            <div className="page-number">14</div>
-            <button className="arrow">
+            </SearchLink>
+            {pagesNumber < 10
+              ? Array.from({ length: pagesNumber }, (_, i) => (
+                  <SearchLink
+                    key={i}
+                    params={i === 0 ? { page: null } : { page: `${i + 1}` }}
+                    className={classNames('page-number', {
+                      'is-page-active': +page === i + 1,
+                    })}
+                  >
+                    {i + 1}
+                  </SearchLink>
+                ))
+              : Array.from({ length: 9 }, (_, i) => (
+                  <SearchLink
+                    key={i}
+                    params={i === 0 ? { page: null } : { page: `${i + 1}` }}
+                    className={classNames('page-number', {
+                      'is-page-active': +page === i + 1,
+                    })}
+                  >
+                    {i + 1}
+                  </SearchLink>
+                ))}
+            {pagesNumber >= 10 && <div className="page-number">...</div>}
+            {pagesNumber >= 10 && (
+              <div className="page-number">{pagesNumber}</div>
+            )}
+            <SearchLink
+              params={
+                +page >= pagesNumber
+                  ? { page: `${pagesNumber}` }
+                  : { page: `${+page + 1}` }
+              }
+              className="arrow"
+            >
               <img src="./icons/rightarrow.svg" alt="Next page" />
-            </button>
+            </SearchLink>
           </div>
         </div>
       </div>
