@@ -141,6 +141,7 @@
   align-items: center;
   width: 40px;
   height: 40px;
+  text-decoration: none;
   border-radius: 8px;
   border: 1px solid #e3e6ec;
   font-size: 18px;
@@ -150,7 +151,7 @@
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
 }
 
-.page-number:hover {
+.page-number:hover, .is-page-active {
   background-color: #15b392;
   color: #fff;
   border-color: #15b392;
