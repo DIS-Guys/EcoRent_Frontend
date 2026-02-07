@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import PhotoSwipeLightbox from 'photoswipe/lightbox';
 import { Device } from '../../types/Device';

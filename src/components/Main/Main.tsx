@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import './Main.css';
 import { useEffect, useState } from 'react';
 

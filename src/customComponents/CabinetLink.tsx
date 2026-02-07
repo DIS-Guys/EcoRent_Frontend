@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router';
 
 const getButtonClass = ({ isActive }: { isActive: boolean }) =>
   `cabinet-menu-button ${isActive ? 'main-button' : 'secondary-button'}`;

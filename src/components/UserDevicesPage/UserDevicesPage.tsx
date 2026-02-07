@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import './UserDevicesPage.css';
 import { useEffect, useState } from 'react';
 import { Device } from '../../types/Device';

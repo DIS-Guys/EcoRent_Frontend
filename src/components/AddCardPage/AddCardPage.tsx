@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router';
 import './AddCardPage.css';
 import { toast } from 'react-toastify';
 import { addPaymentCard } from '../../api/paymentCards.ts';

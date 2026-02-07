@@ -1,4 +1,4 @@
-import { Link, LinkProps, useSearchParams } from 'react-router-dom';
+import { Link, LinkProps, useSearchParams } from 'react-router';
 import { getSearchWith, SearchParams } from '../utils/searchHelper';
 
 type Props = Omit<LinkProps, 'to'> & {

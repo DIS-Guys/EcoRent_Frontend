@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'https://eco-rent-backend-2f9ec97028bb.herokuapp.com';
+const BASE_URL = 'http://localhost:3000';
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 

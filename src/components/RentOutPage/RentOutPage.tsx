@@ -6,7 +6,7 @@ import { UploadedImage } from '../../types/UploadedImage';
 import brands from '../../data/brands.json';
 import { postDevice } from '../../api/devices';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export const RentOutPage: React.FC = () => {
   const navigate = useNavigate();
