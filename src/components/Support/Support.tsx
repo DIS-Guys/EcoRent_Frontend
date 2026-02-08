@@ -12,10 +12,24 @@ export const Support: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    const emailRegex = /^\S+@\S+\.\S+$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
       toast.error('Введіть правильний email.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (!message.trim()) {
+      toast.error('Повідомлення не може бути порожнім.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (message.length > 2000) {
+      toast.error('Повідомлення не може перевищувати 2000 символів.', {
         position: 'bottom-right',
       });
       return;

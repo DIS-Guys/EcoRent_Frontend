@@ -17,7 +17,11 @@ export const RegisterPage: React.FC = () => {
     const errors = [];
 
     if (!isSignedUp && !name.trim()) errors.push("Ім'я обов'язкове.");
+    if (!isSignedUp && name.length > 50)
+      errors.push("Ім'я не може перевищувати 50 символів.");
     if (!isSignedUp && !surname.trim()) errors.push("Прізвище обов'язкове.");
+    if (!isSignedUp && surname.length > 50)
+      errors.push('Прізвище не може перевищувати 50 символів.');
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');

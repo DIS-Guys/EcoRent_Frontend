@@ -56,6 +56,7 @@ export const Security: React.FC = () => {
       toast.error('Пароль повинен містити від 6 символів.', {
         position: 'bottom-right',
       });
+      return;
     }
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).*$/;

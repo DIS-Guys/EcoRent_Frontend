@@ -66,8 +66,15 @@ export const Profile: React.FC = () => {
       /^(((\+?38)[-\s(.]?\d{3}[-\s).]?)|([.(]?0\d{2}[.)]?))?[-\s.]?\d{3}[-\s.]?\d{2}[-\s.]?\d{2}$/;
 
     if (!userProfile.name.trim()) errors.push("Ім'я є обов'язковим.");
+    if (userProfile.name.length > 50)
+      errors.push("Ім'я не може перевищувати 50 символів.");
     if (!userProfile.surname.trim()) errors.push("Прізвище є обов'язковим.");
-    if (!userProfile.email.trim() || !/^\S+@\S+\.\S+$/.test(userProfile.email))
+    if (userProfile.surname.length > 50)
+      errors.push('Прізвище не може перевищувати 50 символів.');
+    if (
+      !userProfile.email.trim() ||
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(userProfile.email)
+    )
       errors.push('Некоректний формат E-mail.');
     if (
       userProfile.phoneNumber &&
