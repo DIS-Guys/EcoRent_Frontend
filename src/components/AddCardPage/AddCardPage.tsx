@@ -89,13 +89,20 @@ export const AddCardPage: React.FC = () => {
       return;
     }
 
+    if (ownerName.length > 100) {
+      toast.error("Ім'я власника не може перевищувати 100 символів.", {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     try {
       const expiryParts = expiryDate.split('/');
       const [month, year] = expiryParts.map(Number);
       await addPaymentCard({
         _id: '',
         ownerId: '',
-        cardNumber,
+        cardNumber: cardNumber.replace(/\s+/g, ''),
         expiryDate: [month, year],
         ownerName,
       });

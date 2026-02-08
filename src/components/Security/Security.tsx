@@ -52,8 +52,22 @@ export const Security: React.FC = () => {
   const handleSave = async () => {
     const { oldPassword, newPassword, repeatPassword } = passwords;
 
+    if (!oldPassword) {
+      toast.error('Введіть старий пароль.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
     if (newPassword.length < 6) {
       toast.error('Пароль повинен містити від 6 символів.', {
+        position: 'bottom-right',
+      });
+      return;
+    }
+
+    if (newPassword.length > 128) {
+      toast.error('Пароль не може перевищувати 128 символів.', {
         position: 'bottom-right',
       });
       return;

@@ -35,7 +35,15 @@ async function sendRequest<T>(
   }
 
   if (!response.ok) {
-    const errorResponse: Error = await response.json();
+    const errorResponse = await response.json();
+
+    if (errorResponse.errors?.length) {
+      const messages = errorResponse.errors
+        .map((e: { message: string }) => e.message)
+        .join('\n');
+      throw new Error(messages);
+    }
+
     throw new Error(errorResponse.message);
   }
 

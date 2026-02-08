@@ -26,8 +26,16 @@ export const RegisterPage: React.FC = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) errors.push('Невірний формат e-mail.');
 
+    if (isSignedUp && !password) {
+      errors.push("Пароль є обов'язковим.");
+    }
+
     if (!isSignedUp && password.length < 6) {
       errors.push('Пароль має містити щонайменше 6 символів.');
+    }
+
+    if (!isSignedUp && password.length > 128) {
+      errors.push('Пароль не може перевищувати 128 символів.');
     }
 
     const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d).*$/;

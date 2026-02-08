@@ -127,14 +127,31 @@ export const RentOutPage: React.FC = () => {
   };
 
   const validateForm = () => {
-    const errors: string[] = [];
+    const errors: { message: string; isRequired: boolean }[] = [];
 
     if (deviceInfo.images.length === 0) {
-      errors.push('Додайте принаймні одне зображення.');
+      errors.push({
+        message: 'Додайте принаймні одне зображення.',
+        isRequired: true,
+      });
     }
 
     if (!deviceInfo.title.trim()) {
-      errors.push('Введіть назву оголошення.');
+      errors.push({ message: 'Введіть назву оголошення.', isRequired: true });
+    }
+
+    if (deviceInfo.title.length > 200) {
+      errors.push({
+        message: 'Назва не може перевищувати 200 символів.',
+        isRequired: false,
+      });
+    }
+
+    if (deviceInfo.description.length > 2000) {
+      errors.push({
+        message: 'Опис не може перевищувати 2000 символів.',
+        isRequired: false,
+      });
     }
 
     const requiredCharFields = [
@@ -151,7 +168,7 @@ export const RentOutPage: React.FC = () => {
 
     requiredCharFields.map(({ field, message }) => {
       if (!deviceInfo[field as keyof typeof deviceInfo]) {
-        errors.push(message);
+        errors.push({ message, isRequired: true });
       }
     });
 
@@ -175,7 +192,7 @@ export const RentOutPage: React.FC = () => {
     requiredNumFields.map(({ field, message }) => {
       const value = deviceInfo[field as keyof typeof deviceInfo];
       if (!value || isNaN(Number(value)) || Number(value) <= 0) {
-        errors.push(message);
+        errors.push({ message, isRequired: true });
       }
     });
 
@@ -194,17 +211,50 @@ export const RentOutPage: React.FC = () => {
           ) < 0
       )
     ) {
-      errors.push('Введіть коректні розміри.');
+      errors.push({ message: 'Введіть коректні розміри.', isRequired: true });
     }
 
     if (Number(deviceInfo.minRentTerm) > Number(deviceInfo.maxRentTerm)) {
-      errors.push(
-        'Мінімальна тривалість оренди не може бути більшою за максимальну.'
-      );
+      errors.push({
+        message:
+          'Мінімальна тривалість оренди не може бути більшою за максимальну.',
+        isRequired: false,
+      });
+    }
+
+    if (
+      deviceInfo.minRentTerm &&
+      !Number.isInteger(Number(deviceInfo.minRentTerm))
+    ) {
+      errors.push({
+        message: 'Мінімальна тривалість оренди має бути цілим числом.',
+        isRequired: false,
+      });
+    }
+
+    if (
+      deviceInfo.maxRentTerm &&
+      !Number.isInteger(Number(deviceInfo.maxRentTerm))
+    ) {
+      errors.push({
+        message: 'Максимальна тривалість оренди має бути цілим числом.',
+        isRequired: false,
+      });
+    }
+
+    if (deviceInfo.additional.length > 2000) {
+      errors.push({
+        message:
+          'Додаткова інформація не може перевищувати 2000 символів.',
+        isRequired: false,
+      });
     }
 
     if (!deviceInfo.policyAgreement) {
-      errors.push('Необхідно погодитися з умовами надання послуг.');
+      errors.push({
+        message: 'Необхідно погодитися з умовами надання послуг.',
+        isRequired: true,
+      });
     }
 
     return errors;
@@ -214,8 +264,11 @@ export const RentOutPage: React.FC = () => {
     e.preventDefault();
 
     const validationErrors = validateForm();
+    const requiredErrorCount = validationErrors.filter(
+      (error) => error.isRequired
+    ).length;
 
-    if (validationErrors.length > 6) {
+    if (requiredErrorCount > 6) {
       toast.error("Заповніть обов'язкові поля!", {
         position: 'bottom-right',
       });
@@ -224,7 +277,7 @@ export const RentOutPage: React.FC = () => {
 
     if (validationErrors.length > 0) {
       validationErrors.map((error) => {
-        toast.error(error, {
+        toast.error(error.message, {
           position: 'bottom-right',
         });
       });
