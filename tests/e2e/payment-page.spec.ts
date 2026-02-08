@@ -26,7 +26,7 @@ test.describe('Payment page', () => {
   test('should add a new payment card successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
@@ -52,7 +52,7 @@ test.describe('Payment page', () => {
   test('should validate card input fields', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
     const invalidExpiryDate = `13/${validExpiryDate.split('/')[1]}`;
@@ -67,29 +67,26 @@ test.describe('Payment page', () => {
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('button.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Номер картки повинен містити 16 цифр.',
     );
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#expirationDateInput', invalidExpiryDate);
     await page.click('button.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       'Неправильний формат дати або термін картки минув.',
     );
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.fill('#ownerNameInput', '');
     await page.click('button.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Ім'я власника не може бути порожнім.");
 
@@ -99,7 +96,7 @@ test.describe('Payment page', () => {
   test('should delete payment card', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
@@ -112,15 +109,12 @@ test.describe('Payment page', () => {
     await page.click('.save-button');
     await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
 
-    await page.waitForTimeout(1000);
     await page.click('.delete-payment-card-button');
 
-    await page.waitForTimeout(1000);
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Картку видалено успішно.');
 
-    await page.waitForTimeout(500);
     const cardElement = page.locator('.user-payment-card');
     await expect(cardElement).toHaveCount(0);
 
@@ -132,13 +126,12 @@ test.describe('Payment page', () => {
 
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
     for (let i = 0; i < MAX_CARDS; i++) {
       const addCard = page.locator('.add-button');
       await addCard.click();
-      await page.waitForTimeout(500);
       await expect(page.locator('#cardNumberInput')).toBeVisible();
 
       await page.fill('#cardNumberInput', '4441803414882167');
@@ -147,12 +140,11 @@ test.describe('Payment page', () => {
       await page.click('.save-button');
 
       await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
-      await page.waitForTimeout(500);
+      await expect(page.locator('.user-payment-card')).toHaveCount(i + 1);
     }
 
     const addCard = page.locator('.add-button');
     await addCard.click();
-    await page.waitForTimeout(500);
     await expect(page.locator('#cardNumberInput')).toBeVisible();
 
     await page.fill('#cardNumberInput', '4441803414882167');
@@ -160,7 +152,6 @@ test.describe('Payment page', () => {
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Не можна додати більше 9 карток.');
@@ -171,13 +162,12 @@ test.describe('Payment page', () => {
   test('should handle card type detection correctly', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
     await addCard.click();
 
-    await page.waitForTimeout(500);
     await expect(page.locator('#cardNumberInput')).toBeVisible();
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#ownerNameInput', 'Test User');
@@ -196,7 +186,7 @@ test.describe('Payment page', () => {
 
     await page.click('.delete-payment-card-button');
 
-    await page.waitForTimeout(500);
+    await expect(page.locator('.user-payment-card')).toHaveCount(0);
     await page.click('.add-button');
     await expect(page.locator('#cardNumberInput')).toBeVisible();
     await page.fill('#cardNumberInput', '5441803414882167');

@@ -18,19 +18,16 @@ test.describe('Rent out page', () => {
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
-    await page.waitForTimeout(500);
+    await expect(page.locator('button.put-on-rent-button')).toBeVisible();
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Заповніть обов'язкові поля!");
@@ -40,17 +37,15 @@ test.describe('Rent out page', () => {
 
   test('should display error when no images are uploaded', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
-    await page.waitForTimeout(1000);
+    await expect(page.locator('input[name="title"]')).toBeVisible();
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
     await page.selectOption('select[name="deviceModel"]', { index: 1 });
@@ -72,10 +67,9 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
-      'Додайте принаймні одне зображення.'
+      'Додайте принаймні одне зображення.',
     );
 
     await deleteAccount(page);
@@ -83,21 +77,19 @@ test.describe('Rent out page', () => {
 
   test('should display error when title is empty', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
-    await page.waitForTimeout(1000);
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
+    await expect(page.locator('input[name="title"]')).toBeVisible();
 
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
     await page.selectOption('select[name="deviceModel"]', { index: 1 });
@@ -119,10 +111,9 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
-      'Введіть назву оголошення.'
+      'Введіть назву оголошення.',
     );
 
     await deleteAccount(page);
@@ -130,21 +121,19 @@ test.describe('Rent out page', () => {
 
   test('should display error when price is invalid', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
-    await page.waitForTimeout(1000);
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
+    await expect(page.locator('input[name="title"]')).toBeVisible();
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
     await page.selectOption('select[name="deviceModel"]', { index: 1 });
@@ -165,10 +154,9 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
-      'Введіть ціну за добу.'
+      'Введіть ціну за добу.',
     );
 
     await deleteAccount(page);
@@ -178,21 +166,19 @@ test.describe('Rent out page', () => {
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
-    await page.waitForTimeout(1000);
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
+    await expect(page.locator('input[name="title"]')).toBeVisible();
 
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
@@ -215,10 +201,9 @@ test.describe('Rent out page', () => {
     await page.check('input[name="policyAgreement"]');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
-      'Мінімальна тривалість оренди не може бути більшою за максимальну.'
+      'Мінімальна тривалість оренди не може бути більшою за максимальну.',
     );
 
     await deleteAccount(page);
@@ -228,21 +213,19 @@ test.describe('Rent out page', () => {
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
-    await page.waitForTimeout(1000);
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
+    await expect(page.locator('input[name="title"]')).toBeVisible();
 
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
@@ -264,10 +247,9 @@ test.describe('Rent out page', () => {
     await page.fill('input[name="maxRentTerm"]', '30');
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     await expect(page.locator('.Toastify__toast--error')).toBeVisible();
     await expect(page.locator('.Toastify__toast--error')).toHaveText(
-      'Необхідно погодитися з умовами надання послуг.'
+      'Необхідно погодитися з умовами надання послуг.',
     );
 
     await deleteAccount(page);

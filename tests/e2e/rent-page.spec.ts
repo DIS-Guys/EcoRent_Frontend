@@ -6,8 +6,8 @@ test.describe('Rent Page', () => {
   });
 
   test('should interact with filters', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const brandCheckbox = page.locator('input[type="checkbox"]').first();
+    await expect(brandCheckbox).toBeVisible();
     await brandCheckbox.check();
     await expect(brandCheckbox).toBeChecked();
 
@@ -24,23 +24,20 @@ test.describe('Rent Page', () => {
   });
 
   test('should perform a search', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     const searchButton = page.locator('.search-button');
+    await expect(searchInput).toBeVisible();
 
     await searchInput.fill('EcoFlow');
     await searchButton.click();
 
     await expect(page).toHaveURL(/\/rent/);
-    await page.waitForTimeout(1000);
-    const deviceCards = page.locator('.device-card');
-    const count = await deviceCards.count();
-    expect(count).toBeGreaterThan(0);
+    await expect(page.locator('.device-card').first()).toBeVisible();
   });
 
   test('should navigate to a device page', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const deviceCard = page.locator('.device-card').first();
+    await expect(deviceCard).toBeVisible();
     await deviceCard.click();
 
     await expect(page).toHaveURL(/\/rent\/\d+/);
@@ -49,47 +46,38 @@ test.describe('Rent Page', () => {
   });
 
   test('should handle invalid search gracefully', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const searchInput = page.locator('.main-search');
     const searchButton = page.locator('.search-button');
-    await page.waitForTimeout(1000);
+    await expect(searchInput).toBeVisible();
     await searchInput.fill('InvalidSearchQuery');
     await searchButton.click();
 
-    const deviceCards = page.locator('.device-card');
-    const count = await deviceCards.count();
-    expect(count).toBe(0);
+    await expect(page.locator('.device-card')).toHaveCount(0);
   });
 
   test('should validate price range inputs', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const priceFromInput = page.locator('#priceFrom');
     const priceToInput = page.locator('#priceTo');
+    await expect(priceFromInput).toBeVisible();
 
     await priceFromInput.fill('-100');
     await priceToInput.fill('-500');
 
-    await page.waitForTimeout(1000);
-    const deviceCards = page.locator('.device-card');
-    const count = await deviceCards.count();
-    expect(count).toBe(0);
+    await expect(page.locator('.device-card')).toHaveCount(0);
   });
 
   test('should apply multiple filters correctly', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const brandCheckbox = page.locator('input[type="checkbox"]').first();
     const modelCheckbox = page.locator('input[type="checkbox"]').nth(1);
     const priceFromInput = page.locator('#priceFrom');
     const priceToInput = page.locator('#priceTo');
+    await expect(brandCheckbox).toBeVisible();
 
     await brandCheckbox.check();
     await modelCheckbox.check();
     await priceFromInput.fill('100');
     await priceToInput.fill('500');
 
-    await page.waitForTimeout(1000);
-    const deviceCards = page.locator('.device-card');
-    const count = await deviceCards.count();
-    expect(count).toBeGreaterThan(0);
+    await expect(page.locator('.device-card').first()).toBeVisible();
   });
 });

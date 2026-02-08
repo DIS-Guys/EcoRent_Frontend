@@ -18,8 +18,14 @@ test.describe('Address page', () => {
   test('should edit and save address data successfully', async ({ page }) => {
     test.setTimeout(60000);
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/address');
-    await page.waitForTimeout(500);
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.url().includes('/api/auth/getUser') && response.ok(),
+      ),
+      page.goto('http://localhost:5173/personal-page/cabinet/address'),
+    ]);
+    await expect(page.locator('#regionInput')).toBeVisible();
 
     const successToast = page.locator('.Toastify__toast--success');
 
@@ -27,52 +33,46 @@ test.describe('Address page', () => {
     await page.fill('#regionInput', 'Київська');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#townInput', 'Київ');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#streetInput', 'Хрещатик');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#houseNumberInput', '1');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(4).click();
     await page.fill('#apartmentNumberInput', '14');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(5).click();
     await page.fill('#floorInput', '3');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
@@ -82,8 +82,14 @@ test.describe('Address page', () => {
   test('should validate address fields', async ({ page }) => {
     test.setTimeout(60000);
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/address');
-    await page.waitForTimeout(500);
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.url().includes('/api/auth/getUser') && response.ok(),
+      ),
+      page.goto('http://localhost:5173/personal-page/cabinet/address'),
+    ]);
+    await expect(page.locator('#regionInput')).toBeVisible();
 
     const errorToast = page.locator('.Toastify__toast--error');
     const cancelButton = page.locator('text=Скасувати');
@@ -92,58 +98,53 @@ test.describe('Address page', () => {
     await page.fill('#regionInput', '123Region');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Помилка при завантаженні адреси: Поле "Область" не може містити чисел. - Поле "Область" не може починатися з цифри.'
+      'Помилка при завантаженні адреси: Поле "Область" не може містити чисел. - Поле "Область" не може починатися з цифри.',
     );
     await cancelButton.click();
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#townInput', '123City');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Помилка при завантаженні адреси: Поле "Місто" не може починатися з цифри.'
+      'Помилка при завантаженні адреси: Поле "Місто" не може починатися з цифри.',
     );
     await cancelButton.click();
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#streetInput', '3Street');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Помилка при завантаженні адреси: Поле "Вулиця" не може починатися з цифри.'
+      'Помилка при завантаженні адреси: Поле "Вулиця" не може починатися з цифри.',
     );
     await cancelButton.click();
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#houseNumberInput', 'abc');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Помилка при завантаженні адреси: Поле "Номер будинку" повинно починатися з цифри.'
+      'Помилка при завантаженні адреси: Поле "Номер будинку" повинно починатися з цифри.',
     );
     await cancelButton.click();
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(4).click();
     await page.fill('#apartmentNumberInput', 'a33');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Помилка при завантаженні адреси: Поле "Номер квартири" повинно починатися з цифри.'
+      'Помилка при завантаженні адреси: Поле "Номер квартири" повинно починатися з цифри.',
     );
     await cancelButton.click();
 
@@ -152,8 +153,14 @@ test.describe('Address page', () => {
 
   test('should cancel address data editing', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/address');
-    await page.waitForTimeout(500);
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.url().includes('/api/auth/getUser') && response.ok(),
+      ),
+      page.goto('http://localhost:5173/personal-page/cabinet/address'),
+    ]);
+    await expect(page.locator('#streetInput')).toBeVisible();
 
     const streetInput = page.locator('#streetInput');
     const originalStreet = await streetInput.inputValue();

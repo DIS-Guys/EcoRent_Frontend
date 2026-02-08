@@ -6,7 +6,6 @@ test.describe('Device Page', () => {
   });
 
   test('should display device details', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const mainImage = page.locator('.main-device-picture');
     await expect(mainImage).toBeVisible();
 
@@ -18,8 +17,8 @@ test.describe('Device Page', () => {
   });
 
   test('should open lightbox on image click', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const mainImage = page.locator('.main-device-picture');
+    await expect(mainImage).toBeVisible();
     await mainImage.click();
 
     const lightbox = page.locator('.pswp__container');
@@ -27,8 +26,8 @@ test.describe('Device Page', () => {
   });
 
   test('should open and close rent modal', async ({ page }) => {
-    await page.waitForTimeout(1000);
     const rentButton = page.locator('.lessor-info-button');
+    await expect(rentButton).toBeVisible();
     await rentButton.click();
 
     const modal = page.locator('.modal-content');

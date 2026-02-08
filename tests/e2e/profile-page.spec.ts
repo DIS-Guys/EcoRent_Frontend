@@ -16,7 +16,7 @@ test.describe('Profile page', () => {
 
   test('should validate profile fields', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
+    await expect(page.locator('#profileNameInput')).toHaveValue(userData.name);
 
     const errorToast = page.locator('.Toastify__toast--error');
 
@@ -24,38 +24,34 @@ test.describe('Profile page', () => {
     await page.fill('#profileNameInput', '');
     await page.click('.save-button');
 
-    await page.waitForTimeout(500);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Ім'я є обов'язковим.`,
     );
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#profileSurnameInput', '');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`,
     );
 
-    await page.waitForTimeout(1000);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#profileNameInput', 'Testname');
 
-    await page.waitForTimeout(500);
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#profileSurnameInput', 'Testsurname');
     await page.click('.save-button');
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#profileEmailInput', 'invalid-email');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат E-mail.`,
@@ -65,12 +61,11 @@ test.describe('Profile page', () => {
     await page.fill('#profileEmailInput', `${userData.email}`);
     await page.click('.save-button');
 
-    await page.waitForTimeout(5500);
+    await expect(errorToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#profilePhoneInput', '123');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат номера телефону.`,
@@ -111,41 +106,37 @@ test.describe('Profile page', () => {
   test('should edit and save profile data', async ({ page }) => {
     await registerAndLogin(page, userData);
     const successToast = page.locator('.Toastify__toast--success');
-    await page.waitForTimeout(500);
+    await expect(page.locator('#profileNameInput')).toHaveValue(userData.name);
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#profileNameInput', 'NewTestName');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#profileSurnameInput', 'NewTestSurname');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(2).click();
     const newEmail = `1` + `${userData.email}`;
     await page.fill('#profileEmailInput', newEmail);
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await page.waitForTimeout(5500);
+    await expect(successToast).toBeHidden({ timeout: 7000 });
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#profilePhoneInput', '+380123456789');
     await page.click('.save-button');
 
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 

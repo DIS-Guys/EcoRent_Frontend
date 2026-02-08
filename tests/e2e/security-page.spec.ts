@@ -20,7 +20,7 @@ test.describe('Security page', () => {
   }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await page.waitForTimeout(500);
+    await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#oldPasswordInput', userData.password);
@@ -35,7 +35,6 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const successToast = page.locator('.Toastify__toast--success');
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пароль успішно оновлено.');
 
@@ -45,7 +44,7 @@ test.describe('Security page', () => {
   test('should show error when passwords do not match', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await page.waitForTimeout(500);
+    await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#oldPasswordInput', userData.password);
@@ -59,7 +58,6 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const errorToast = page.locator('.Toastify__toast--error');
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Паролі не збігаються.');
 
@@ -69,7 +67,7 @@ test.describe('Security page', () => {
   test('should show error when new password is invalid', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await page.waitForTimeout(500);
+    await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#oldPasswordInput', userData.password);
@@ -82,7 +80,6 @@ test.describe('Security page', () => {
 
     await page.click('button.save-button');
     const errorToasts = page.locator('.Toastify__toast--error');
-    await page.waitForTimeout(1000);
     await expect(errorToasts).toHaveCount(1);
     await expect(errorToasts.first()).toHaveText(
       'Пароль повинен містити від 6 символів.',
@@ -94,16 +91,14 @@ test.describe('Security page', () => {
   test('should cancel account deletion', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.delete-user-button')).toBeVisible();
 
     const deleteUserButton = page.locator('.delete-user-button');
     await deleteUserButton.click();
 
-    await page.waitForTimeout(500);
     const modal = page.locator('.modal');
     await expect(modal).toBeVisible();
 
-    await page.waitForTimeout(500);
     const cancelButton = page.locator('.cancel-delete-button');
     await cancelButton.click();
     await expect(modal).toBeHidden();
@@ -114,21 +109,18 @@ test.describe('Security page', () => {
   test('should delete account successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await page.waitForTimeout(500);
+    await expect(page.locator('.delete-user-button')).toBeVisible();
 
     const deleteUserButton = page.locator('.delete-user-button');
     await deleteUserButton.click();
 
-    await page.waitForTimeout(500);
     const modal = page.locator('.modal');
     await expect(modal).toBeVisible();
 
-    await page.waitForTimeout(500);
     const deleteButton = page.locator('.accept-delete-button');
     await deleteButton.click();
 
     const successToast = page.locator('.Toastify__toast--success');
-    await page.waitForTimeout(1000);
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Акаунт видалено успішно.');
   });

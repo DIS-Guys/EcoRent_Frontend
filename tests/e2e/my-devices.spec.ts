@@ -18,20 +18,16 @@ test.describe('My devices page', () => {
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
-    await page.waitForTimeout(500);
     await page.click('button.put-on-rent-button');
 
     const errorToast = page.locator('.Toastify__toast--error');
-    await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Заповніть обов'язкові поля!");
 
@@ -40,19 +36,17 @@ test.describe('My devices page', () => {
 
   test('should successfully create device listing', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
 
     await page.fill('input[name="title"]', 'Test Power Station');
@@ -78,7 +72,7 @@ test.describe('My devices page', () => {
     await page.click('button.put-on-rent-button');
 
     await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/my-devices'
+      'http://localhost:5173/personal-page/my-devices',
     );
 
     await deleteAccount(page);
@@ -86,19 +80,17 @@ test.describe('My devices page', () => {
 
   test('should view device details with correct ID', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
 
     await page.fill('input[name="title"]', 'Test Power Station');
@@ -123,15 +115,15 @@ test.describe('My devices page', () => {
 
     await page.click('button.put-on-rent-button');
 
+    await expect(page.locator('.review-device-button')).toBeVisible();
     const deviceLink = await page
       .locator('.review-device-button')
       .getAttribute('href');
     const deviceId = deviceLink.split('/rent/')[1];
     await page.goto(`http://localhost:5173/rent/${deviceId}`);
-    await page.waitForTimeout(1000);
 
     await expect(page.locator('.device-page-name-title')).toHaveText(
-      'Test Power Station'
+      'Test Power Station',
     );
     await expect(page).toHaveURL(`http://localhost:5173/rent/${deviceId}`);
 
@@ -140,19 +132,17 @@ test.describe('My devices page', () => {
 
   test('should delete device successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.waitForTimeout(500);
     await page.goto('http://localhost:5173/personal-page/my-devices');
 
-    await page.waitForTimeout(1000);
     const addDevice = page.locator('.add-device-button');
+    await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await page.waitForTimeout(1000);
     await expect(page).toHaveURL('http://localhost:5173/rent-out');
 
     const fileInput = page.locator('input[type="file"]');
     await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png'
+      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
     );
 
     await page.fill('input[name="title"]', 'Test Power Station');
@@ -177,11 +167,10 @@ test.describe('My devices page', () => {
 
     await page.click('button.put-on-rent-button');
 
-    await page.waitForTimeout(1000);
     const deleteButton = page.locator('.delete-device-button');
+    await expect(deleteButton).toBeVisible();
     await deleteButton.click();
 
-    await page.waitForTimeout(1000);
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пристрій видалено успішно.');
