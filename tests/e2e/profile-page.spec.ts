@@ -4,6 +4,7 @@ import {
   registerAndLogin,
   login,
   deleteAccount,
+  waitForToastToDisappear,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -29,7 +30,7 @@ test.describe('Profile page', () => {
       `Поля заповнені невірно: \n Ім'я є обов'язковим.`,
     );
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#profileSurnameInput', '');
     await page.click('.save-button');
@@ -39,7 +40,7 @@ test.describe('Profile page', () => {
       `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`,
     );
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#profileNameInput', 'Testname');
 
@@ -47,7 +48,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileSurnameInput', 'Testsurname');
     await page.click('.save-button');
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#profileEmailInput', 'invalid-email');
     await page.click('.save-button');
@@ -61,7 +62,7 @@ test.describe('Profile page', () => {
     await page.fill('#profileEmailInput', `${userData.email}`);
     await page.click('.save-button');
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#profilePhoneInput', '123');
     await page.click('.save-button');
@@ -115,7 +116,7 @@ test.describe('Profile page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#profileSurnameInput', 'NewTestSurname');
     await page.click('.save-button');
@@ -123,7 +124,7 @@ test.describe('Profile page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(2).click();
     const newEmail = `1` + `${userData.email}`;
     await page.fill('#profileEmailInput', newEmail);
@@ -132,7 +133,7 @@ test.describe('Profile page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#profilePhoneInput', '+380123456789');
     await page.click('.save-button');

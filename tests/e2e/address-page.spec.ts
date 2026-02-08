@@ -5,6 +5,7 @@ import {
   login,
   deleteAccount,
   generatePassword,
+  waitForToastToDisappear,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -36,7 +37,7 @@ test.describe('Address page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#townInput', 'Київ');
     await page.click('.save-button');
@@ -44,7 +45,7 @@ test.describe('Address page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#streetInput', 'Хрещатик');
     await page.click('.save-button');
@@ -52,7 +53,7 @@ test.describe('Address page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#houseNumberInput', '1');
     await page.click('.save-button');
@@ -60,7 +61,7 @@ test.describe('Address page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(4).click();
     await page.fill('#apartmentNumberInput', '14');
     await page.click('.save-button');
@@ -68,7 +69,7 @@ test.describe('Address page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Адреса успішно оновлена.');
 
-    await expect(successToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, successToast);
     await page.locator('.edit-icon').nth(5).click();
     await page.fill('#floorInput', '3');
     await page.click('.save-button');
@@ -96,6 +97,7 @@ test.describe('Address page', () => {
 
     await page.locator('.edit-icon').nth(0).click();
     await page.fill('#regionInput', '123Region');
+    await expect(page.locator('#regionInput')).toHaveValue('123Region');
     await page.click('.save-button');
 
     await expect(errorToast).toBeVisible();
@@ -104,9 +106,10 @@ test.describe('Address page', () => {
     );
     await cancelButton.click();
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(1).click();
     await page.fill('#townInput', '123City');
+    await expect(page.locator('#townInput')).toHaveValue('123City');
     await page.click('.save-button');
 
     await expect(errorToast).toBeVisible();
@@ -115,9 +118,10 @@ test.describe('Address page', () => {
     );
     await cancelButton.click();
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(2).click();
     await page.fill('#streetInput', '3Street');
+    await expect(page.locator('#streetInput')).toHaveValue('3Street');
     await page.click('.save-button');
 
     await expect(errorToast).toBeVisible();
@@ -126,9 +130,10 @@ test.describe('Address page', () => {
     );
     await cancelButton.click();
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(3).click();
     await page.fill('#houseNumberInput', 'abc');
+    await expect(page.locator('#houseNumberInput')).toHaveValue('abc');
     await page.click('.save-button');
 
     await expect(errorToast).toBeVisible();
@@ -137,9 +142,10 @@ test.describe('Address page', () => {
     );
     await cancelButton.click();
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.locator('.edit-icon').nth(4).click();
     await page.fill('#apartmentNumberInput', 'a33');
+    await expect(page.locator('#apartmentNumberInput')).toHaveValue('a33');
     await page.click('.save-button');
 
     await expect(errorToast).toBeVisible();

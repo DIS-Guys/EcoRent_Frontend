@@ -4,6 +4,7 @@ import {
   registerAndLogin,
   login,
   deleteAccount,
+  waitForToastToDisappear,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -72,7 +73,7 @@ test.describe('Payment page', () => {
       'Номер картки повинен містити 16 цифр.',
     );
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#expirationDateInput', invalidExpiryDate);
     await page.click('button.save-button');
@@ -82,7 +83,7 @@ test.describe('Payment page', () => {
       'Неправильний формат дати або термін картки минув.',
     );
 
-    await expect(errorToast).toBeHidden({ timeout: 7000 });
+    await waitForToastToDisappear(page, errorToast);
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.fill('#ownerNameInput', '');
     await page.click('button.save-button');
