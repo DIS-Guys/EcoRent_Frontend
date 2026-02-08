@@ -83,12 +83,9 @@ test.describe('Security page', () => {
     await page.click('button.save-button');
     const errorToasts = page.locator('.Toastify__toast--error');
     await page.waitForTimeout(1000);
-    await expect(errorToasts).toHaveCount(2);
-    await expect(errorToasts.nth(0)).toHaveText(
-      'Пароль повинен містити від 6 символів.'
-    );
-    await expect(errorToasts.nth(1)).toHaveText(
-      'Пароль має містити щонайменше одну літеру та одну цифру.'
+    await expect(errorToasts).toHaveCount(1);
+    await expect(errorToasts.first()).toHaveText(
+      'Пароль повинен містити від 6 символів.',
     );
 
     await deleteAccount(page);

@@ -43,7 +43,7 @@ export const Support: React.FC = () => {
       setEmail('');
       setMessage('');
     } catch (error) {
-      toast.error('Помилка при відправленні повідомлення.', {
+      toast.error('Повідомлення не може бути порожнім.', {
         position: 'bottom-right',
       });
     }

@@ -25,9 +25,7 @@ test.describe('Support Page', () => {
     const toastError = page.locator('.Toastify__toast--error');
     await page.waitForTimeout(1000);
     await expect(toastError).toBeVisible();
-    await expect(toastError).toHaveText(
-      'Введіть правильний email.'
-    );
+    await expect(toastError).toHaveText('Введіть правильний email.');
   });
 
   test('should show error for empty message', async ({ page }) => {
@@ -39,9 +37,7 @@ test.describe('Support Page', () => {
     const toastError = page.locator('.Toastify__toast--error');
     await page.waitForTimeout(1000);
     await expect(toastError).toBeVisible();
-    await expect(toastError).toHaveText(
-      'Помилка при відправленні повідомлення.'
-    );
+    await expect(toastError).toHaveText('Повідомлення не може бути порожнім.');
   });
 
   test('should send support request successfully', async ({ page }) => {

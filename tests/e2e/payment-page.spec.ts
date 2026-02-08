@@ -9,6 +9,13 @@ import type { UserData } from '../e2e/test-helper';
 
 const MAX_CARDS = 9;
 
+const getValidExpiryDate = (yearsAhead = 1) => {
+  const now = new Date();
+  const year = (now.getFullYear() + yearsAhead) % 100;
+  const month = String(now.getMonth() + 1).padStart(2, '0');
+  return `${month}/${String(year).padStart(2, '0')}`;
+};
+
 test.describe('Payment page', () => {
   let userData: UserData;
 
@@ -21,19 +28,22 @@ test.describe('Payment page', () => {
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
     await page.waitForTimeout(500);
 
+    const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
     await addCard.click();
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
 
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#ownerNameInput', 'Test User');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
 
     await page.click('button.save-button');
+    await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
 
     const cardElement = page.locator('.user-payment-card');
     await expect(cardElement).toBeVisible();
     await expect(cardElement.locator('.user-payment-card-text')).toContainText(
-      'Visa **** 2167'
+      'Visa **** 2167',
     );
 
     await deleteAccount(page);
@@ -44,35 +54,38 @@ test.describe('Payment page', () => {
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
     await page.waitForTimeout(500);
 
+    const validExpiryDate = getValidExpiryDate();
+    const invalidExpiryDate = `13/${validExpiryDate.split('/')[1]}`;
     const addCard = page.locator('.add-button');
     await addCard.click();
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
 
     const errorToast = page.locator('.Toastify__toast--error');
 
     await page.fill('#cardNumberInput', '1234');
     await page.fill('#ownerNameInput', 'Test User');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('button.save-button');
 
     await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Номер картки повинен містити 16 цифр.'
+      'Номер картки повинен містити 16 цифр.',
     );
 
     await page.waitForTimeout(5500);
     await page.fill('#cardNumberInput', '4441803414882167');
-    await page.fill('#expirationDateInput', '13/25');
+    await page.fill('#expirationDateInput', invalidExpiryDate);
     await page.click('button.save-button');
 
     await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      'Неправильний формат дати або термін картки минув.'
+      'Неправильний формат дати або термін картки минув.',
     );
 
     await page.waitForTimeout(5500);
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.fill('#ownerNameInput', '');
     await page.click('button.save-button');
 
@@ -88,13 +101,16 @@ test.describe('Payment page', () => {
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
     await page.waitForTimeout(500);
 
+    const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
     await addCard.click();
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
 
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#ownerNameInput', 'Test User');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
+    await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
 
     await page.waitForTimeout(1000);
     await page.click('.delete-payment-card-button');
@@ -118,26 +134,30 @@ test.describe('Payment page', () => {
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
     await page.waitForTimeout(500);
 
+    const validExpiryDate = getValidExpiryDate();
     for (let i = 0; i < MAX_CARDS; i++) {
       const addCard = page.locator('.add-button');
       await addCard.click();
       await page.waitForTimeout(500);
+      await expect(page.locator('#cardNumberInput')).toBeVisible();
 
       await page.fill('#cardNumberInput', '4441803414882167');
       await page.fill('#ownerNameInput', `Test User ${i + 1}`);
-      await page.fill('#expirationDateInput', '12/25');
+      await page.fill('#expirationDateInput', validExpiryDate);
       await page.click('.save-button');
 
-      await page.waitForTimeout(1000);
+      await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
+      await page.waitForTimeout(500);
     }
 
     const addCard = page.locator('.add-button');
     await addCard.click();
     await page.waitForTimeout(500);
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
 
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#ownerNameInput', 'Test User 10');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
     await page.waitForTimeout(1000);
@@ -153,41 +173,44 @@ test.describe('Payment page', () => {
     await page.goto('http://localhost:5173/personal-page/cabinet/payment');
     await page.waitForTimeout(500);
 
+    const validExpiryDate = getValidExpiryDate();
     const addCard = page.locator('.add-button');
     await addCard.click();
 
     await page.waitForTimeout(500);
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
     await page.fill('#cardNumberInput', '4441803414882167');
     await page.fill('#ownerNameInput', 'Test User');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
-    await page.waitForTimeout(5000);
+    await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
     const visaCard = page.locator('.user-payment-card').first();
     await expect(visaCard.locator('img[alt="Payment system"]')).toHaveAttribute(
       'src',
-      '/icons/visa.svg'
+      '/icons/visa.svg',
     );
     await expect(visaCard.locator('.user-payment-card-text')).toContainText(
-      'Visa'
+      'Visa',
     );
 
     await page.click('.delete-payment-card-button');
 
     await page.waitForTimeout(500);
     await page.click('.add-button');
+    await expect(page.locator('#cardNumberInput')).toBeVisible();
     await page.fill('#cardNumberInput', '5441803414882167');
     await page.fill('#ownerNameInput', 'Test User');
-    await page.fill('#expirationDateInput', '12/25');
+    await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
-    await page.waitForTimeout(5000);
+    await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
     const masterCard = page.locator('.user-payment-card').first();
     await expect(
-      masterCard.locator('img[alt="Payment system"]')
+      masterCard.locator('img[alt="Payment system"]'),
     ).toHaveAttribute('src', '/icons/master-card.svg');
     await expect(masterCard.locator('.user-payment-card-text')).toContainText(
-      'MasterCard'
+      'MasterCard',
     );
 
     await deleteAccount(page);

@@ -17,7 +17,7 @@ test.describe('Profile page', () => {
   test('should validate profile fields', async ({ page }) => {
     await registerAndLogin(page, userData);
     await page.waitForTimeout(500);
-    
+
     const errorToast = page.locator('.Toastify__toast--error');
 
     await page.locator('.edit-icon').nth(0).click();
@@ -27,7 +27,7 @@ test.describe('Profile page', () => {
     await page.waitForTimeout(500);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      `Поля заповнені невірно: \n Ім'я є обов'язковим.`
+      `Поля заповнені невірно: \n Ім'я є обов'язковим.`,
     );
 
     await page.waitForTimeout(5500);
@@ -38,7 +38,7 @@ test.describe('Profile page', () => {
     await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`
+      `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`,
     );
 
     await page.waitForTimeout(1000);
@@ -58,7 +58,7 @@ test.describe('Profile page', () => {
     await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      `Поля заповнені невірно: \n Некоректний формат E-mail.`
+      `Поля заповнені невірно: \n Некоректний формат E-mail.`,
     );
 
     await page.locator('.edit-icon').nth(2).click();
@@ -73,7 +73,7 @@ test.describe('Profile page', () => {
     await page.waitForTimeout(1000);
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText(
-      `Поля заповнені невірно: \n Некоректний формат номера телефону.`
+      `Поля заповнені невірно: \n Некоректний формат номера телефону.`,
     );
 
     await deleteAccount(page);
@@ -83,6 +83,7 @@ test.describe('Profile page', () => {
     await registerAndLogin(page, userData);
 
     const profileName = page.locator('#profileNameInput');
+    await expect(profileName).toHaveValue(userData.name);
 
     const originalName = await profileName.inputValue();
 
@@ -102,7 +103,7 @@ test.describe('Profile page', () => {
     const logoutButton = page.locator('.logout-button');
     await logoutButton.click();
     await expect(page).toHaveURL('http://localhost:5173/login');
-    
+
     await login(page, userData.email, userData.password);
     await deleteAccount(page);
   });
