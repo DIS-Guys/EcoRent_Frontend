@@ -9,16 +9,54 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+
+      - uses: actions/checkout@v5
+        with:
+          repository: DIS-Guys/EcoRent_Backend
+          path: EcoRent_Backend
+
+      - uses: actions/setup-node@v5
         with:
           node-version: lts/*
-      - name: Install dependencies
-        run: npm install
-      - name: Install Playwright Chromium Browser
-        run: npx playwright install --with-deps chromium
+
+      - name: Install backend dependencies
+        working-directory: EcoRent_Backend
+        run: npm ci
+
+      - name: Build backend
+        working-directory: EcoRent_Backend
+        run: npm run build
+
+      - name: Start backend server
+        working-directory: EcoRent_Backend
+        run: npm run start &
+        env:
+          MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
+          MONGO_PASSWD: ${{ secrets.MONGO_PASSWD }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          PORT: 3000
+          RATE_LIMIT_MAX: 100000
+          MOCK_S3: true
+
+      - name: Wait for backend to be ready
+        run: |
+          echo "Waiting for backend server on port 3000..."
+          timeout 60 bash -c 'until curl -s http://localhost:3000 > /dev/null 2>&1; do sleep 2; done'
+          echo "Backend server is ready!"
+
+      - name: Install frontend dependencies
+        run: npm ci
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+
       - name: Run Playwright tests
         run: npx playwright test
+
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
