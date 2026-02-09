@@ -5,6 +5,7 @@ import {
   login,
   deleteAccount,
   generatePassword,
+  tryDeleteAccount,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -13,6 +14,10 @@ test.describe('Security page', () => {
 
   test.beforeEach(async () => {
     userData = generateRandomUser();
+  });
+
+  test.afterEach(async ({ page }) => {
+    await tryDeleteAccount(page);
   });
 
   test('should update password successfully when passwords match and are valid', async ({

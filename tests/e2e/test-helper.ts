@@ -34,7 +34,20 @@ export async function registerAndLogin(page: Page, userData: UserData) {
   await page.fill('input[placeholder="E-mail"]', userData.email);
   await page.fill('input[placeholder="Пароль"]', userData.password);
   await page.fill('input[placeholder="Підтвердити пароль"]', userData.password);
-  await page.click('button[type="submit"]');
+
+  const [response] = await Promise.all([
+    page.waitForResponse((resp) => resp.url().includes('/api/auth/register'), {
+      timeout: 15000,
+    }),
+    page.click('button[type="submit"]'),
+  ]);
+
+  if (!response.ok()) {
+    const body = await response.json().catch(() => ({}));
+    throw new Error(
+      `Registration failed (${response.status()}): ${body.message || 'Unknown error'}`,
+    );
+  }
 
   await page.waitForURL('http://localhost:5173/personal-page/cabinet/profile');
 }
@@ -58,6 +71,23 @@ export async function waitForToastToDisappear(
 ) {
   await page.mouse.move(0, 0);
   await expect(toastLocator).toHaveCount(0, { timeout });
+}
+
+export async function tryDeleteAccount(page: Page) {
+  try {
+    await page.goto('http://localhost:5173/personal-page/cabinet/security', {
+      timeout: 5000,
+    });
+    const deleteUserButton = page.locator('.delete-user-button');
+    await deleteUserButton.click({ timeout: 3000 });
+    const modal = page.locator('.modal');
+    await expect(modal).toBeVisible({ timeout: 3000 });
+    const deleteButton = page.locator('.accept-delete-button');
+    await deleteButton.click({ timeout: 3000 });
+    await page.waitForURL('http://localhost:5173/login', { timeout: 5000 });
+  } catch {
+    // User may already be deleted or test didn't create one
+  }
 }
 
 export async function deleteAccount(page: Page) {

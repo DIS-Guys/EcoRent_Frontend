@@ -4,6 +4,7 @@ import {
   registerAndLogin,
   login,
   deleteAccount,
+  tryDeleteAccount,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -12,6 +13,10 @@ test.describe('My devices page', () => {
 
   test.beforeEach(async () => {
     userData = generateRandomUser();
+  });
+
+  test.afterEach(async ({ page }) => {
+    await tryDeleteAccount(page);
   });
 
   test('should display validation errors when submitting empty form', async ({
@@ -119,7 +124,7 @@ test.describe('My devices page', () => {
     const deviceLink = await page
       .locator('.review-device-button')
       .getAttribute('href');
-    const deviceId = deviceLink.split('/rent/')[1];
+    const deviceId = deviceLink?.split('/rent/')[1];
     await page.goto(`http://localhost:5173/rent/${deviceId}`);
 
     await expect(page.locator('.device-page-name-title')).toHaveText(

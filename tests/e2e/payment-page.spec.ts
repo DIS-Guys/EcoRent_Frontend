@@ -5,6 +5,7 @@ import {
   login,
   deleteAccount,
   waitForToastToDisappear,
+  tryDeleteAccount,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -22,6 +23,10 @@ test.describe('Payment page', () => {
 
   test.beforeEach(async () => {
     userData = generateRandomUser();
+  });
+
+  test.afterEach(async ({ page }) => {
+    await tryDeleteAccount(page);
   });
 
   test('should add a new payment card successfully', async ({ page }) => {
@@ -185,7 +190,13 @@ test.describe('Payment page', () => {
       'Visa',
     );
 
-    await page.click('.delete-payment-card-button');
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.url().includes('/deletePaymentCard') && response.ok(),
+      ),
+      page.click('.delete-payment-card-button'),
+    ]);
 
     await expect(page.locator('.user-payment-card')).toHaveCount(0);
     await page.click('.add-button');

@@ -4,6 +4,7 @@ import {
   registerAndLogin,
   login,
   deleteAccount,
+  tryDeleteAccount,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
 
@@ -12,6 +13,10 @@ test.describe('Rent out page', () => {
 
   test.beforeEach(async () => {
     userData = generateRandomUser();
+  });
+
+  test.afterEach(async ({ page }) => {
+    await tryDeleteAccount(page);
   });
 
   test('should display validation errors when submitting empty form', async ({
