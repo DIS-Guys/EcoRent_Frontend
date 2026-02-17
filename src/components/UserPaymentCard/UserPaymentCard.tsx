@@ -34,7 +34,11 @@ export const UserPaymentCard: React.FC<Props> = ({
   return (
     <div className="user-payment-card">
       <img
-        src={cardNumber.startsWith('5') ? '/icons/master-card.svg' : '/icons/visa.svg'}
+        src={
+          cardNumber.startsWith('5')
+            ? '/icons/master-card.svg'
+            : '/icons/visa.svg'
+        }
         alt="Payment system"
       />
       <p className="user-payment-card-text">{`${

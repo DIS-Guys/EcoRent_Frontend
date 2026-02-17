@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Locator } from '@playwright/test';
 import {
   generateRandomUser,
   registerAndLogin,
@@ -25,8 +25,19 @@ test.describe('Profile page', () => {
     await expect(page.locator('#profileNameInput')).toHaveValue(userData.name);
 
     const errorToast = page.locator('.Toastify__toast--error');
+    const successToast = page.locator('.Toastify__toast--success');
+    const editButtonFor = (inputSelector: string) =>
+      page
+        .locator('.profile-edit-block')
+        .filter({ has: page.locator(inputSelector) })
+        .locator('.edit-icon');
+    const dismissToast = async (toast: Locator) => {
+      const currentToast = toast.first();
+      await currentToast.getByRole('button', { name: 'close' }).click();
+      await expect(toast).toHaveCount(0);
+    };
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor('#profileNameInput').click();
     await page.fill('#profileNameInput', '');
     await page.click('.save-button');
 
@@ -35,8 +46,8 @@ test.describe('Profile page', () => {
       `Поля заповнені невірно: \n Ім'я є обов'язковим.`,
     );
 
-    await waitForToastToDisappear(page, errorToast);
-    await page.locator('.edit-icon').nth(1).click();
+    await dismissToast(errorToast);
+    await editButtonFor('#profileSurnameInput').click();
     await page.fill('#profileSurnameInput', '');
     await page.click('.save-button');
 
@@ -45,16 +56,18 @@ test.describe('Profile page', () => {
       `Поля заповнені невірно: \n Ім'я є обов'язковим. \n Прізвище є обов'язковим.`,
     );
 
-    await waitForToastToDisappear(page, errorToast);
-    await page.locator('.edit-icon').nth(0).click();
+    await dismissToast(errorToast);
+    await editButtonFor('#profileNameInput').click();
     await page.fill('#profileNameInput', 'Testname');
 
-    await page.locator('.edit-icon').nth(1).click();
+    await editButtonFor('#profileSurnameInput').click();
     await page.fill('#profileSurnameInput', 'Testsurname');
     await page.click('.save-button');
 
-    await waitForToastToDisappear(page, errorToast);
-    await page.locator('.edit-icon').nth(2).click();
+    await expect(successToast).toBeVisible();
+    await dismissToast(successToast);
+
+    await editButtonFor('#profileEmailInput').click();
     await page.fill('#profileEmailInput', 'invalid-email');
     await page.click('.save-button');
 
@@ -63,12 +76,14 @@ test.describe('Profile page', () => {
       `Поля заповнені невірно: \n Некоректний формат E-mail.`,
     );
 
-    await page.locator('.edit-icon').nth(2).click();
+    await dismissToast(errorToast);
+    await editButtonFor('#profileEmailInput').click();
     await page.fill('#profileEmailInput', `${userData.email}`);
     await page.click('.save-button');
 
-    await waitForToastToDisappear(page, errorToast);
-    await page.locator('.edit-icon').nth(3).click();
+    await expect(successToast).toBeVisible();
+    await dismissToast(successToast);
+    await editButtonFor('#profilePhoneInput').click();
     await page.fill('#profilePhoneInput', '123');
     await page.click('.save-button');
 

@@ -18,6 +18,14 @@ const getValidExpiryDate = (yearsAhead = 1) => {
   return `${month}/${String(year).padStart(2, '0')}`;
 };
 
+const getUniqueVisaCardNumber = () => {
+  const suffix = `${Date.now()}${Math.floor(Math.random() * 1000)}`
+    .slice(-15)
+    .padStart(15, '0');
+
+  return `4${suffix}`;
+};
+
 test.describe('Payment page', () => {
   let userData: UserData;
 
@@ -105,24 +113,38 @@ test.describe('Payment page', () => {
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
+    const uniqueCardNumber = getUniqueVisaCardNumber();
+    const uniqueCardLast4 = uniqueCardNumber.slice(-4);
     const addCard = page.locator('.add-button');
     await addCard.click();
     await expect(page.locator('#cardNumberInput')).toBeVisible();
 
-    await page.fill('#cardNumberInput', '4441803414882167');
+    await page.fill('#cardNumberInput', uniqueCardNumber);
     await page.fill('#ownerNameInput', 'Test User');
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
     await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
 
-    await page.click('.delete-payment-card-button');
+    const addedCard = page
+      .locator('.user-payment-card')
+      .filter({ hasText: `Visa **** ${uniqueCardLast4}` });
+    await expect(addedCard).toHaveCount(1);
+
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.request().method() === 'DELETE' &&
+          response.url().includes('/api/paymentCards/deletePaymentCard/') &&
+          response.ok(),
+      ),
+      addedCard.locator('.delete-payment-card-button').click(),
+    ]);
 
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Картку видалено успішно.');
 
-    const cardElement = page.locator('.user-payment-card');
-    await expect(cardElement).toHaveCount(0);
+    await expect(addedCard).toHaveCount(0);
 
     await deleteAccount(page);
   });
@@ -190,15 +212,13 @@ test.describe('Payment page', () => {
       'Visa',
     );
 
-    await Promise.all([
-      page.waitForResponse(
-        (response) =>
-          response.url().includes('/deletePaymentCard') && response.ok(),
-      ),
-      page.click('.delete-payment-card-button'),
-    ]);
+    await page.click('.delete-payment-card-button');
 
+    const successToast = page.locator('.Toastify__toast--success');
+    await expect(successToast).toBeVisible();
     await expect(page.locator('.user-payment-card')).toHaveCount(0);
+    await waitForToastToDisappear(page, successToast);
+
     await page.click('.add-button');
     await expect(page.locator('#cardNumberInput')).toBeVisible();
     await page.fill('#cardNumberInput', '5441803414882167');
