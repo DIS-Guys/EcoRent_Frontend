@@ -18,8 +18,8 @@ export const UserPaymentCard: React.FC<Props> = ({
 
   const handleDelete = async () => {
     try {
-      onDelete(id);
       await deleteCard(id);
+      onDelete(id);
       toast.success('Картку видалено успішно.', {
         position: 'bottom-right',
       });

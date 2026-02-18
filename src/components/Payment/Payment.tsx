@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router';
 import { toast } from 'react-toastify';
 import { UserPaymentCard } from '../UserPaymentCard';
@@ -8,12 +8,15 @@ import './Payment.css';
 
 export const Payment: React.FC = () => {
   const [paymentCards, setPaymentCards] = useState<PaymentCard[]>([]);
+  const deletedCardIdsRef = useRef(new Set<string>());
 
   useEffect(() => {
     const fetchPaymentCards = async () => {
       try {
         const cards = await getUserPaymentCards();
-        setPaymentCards(cards);
+        setPaymentCards(
+          cards.filter((card) => !deletedCardIdsRef.current.has(card._id)),
+        );
       } catch (error) {
         toast.error('Помилка при завантаженні карток.', {
           position: 'bottom-right',
@@ -26,6 +29,7 @@ export const Payment: React.FC = () => {
   }, []);
 
   const handleDelete = (id: string) => {
+    deletedCardIdsRef.current.add(id);
     setPaymentCards((prevCards) => prevCards.filter((card) => card._id !== id));
   };
 

@@ -25,6 +25,14 @@ const getUniqueVisaCardNumber = () => {
   return `4${suffix}`;
 };
 
+const getUniqueMasterCardNumber = () => {
+  const suffix = `${Date.now()}${Math.floor(Math.random() * 1000)}`
+    .slice(-15)
+    .padStart(15, '0');
+
+  return `5${suffix}`;
+};
+
 test.describe('Payment page', () => {
   let userData: UserData;
 
@@ -139,7 +147,10 @@ test.describe('Payment page', () => {
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Картку видалено успішно.');
 
-    await expect(addedCard).toHaveCount(0);
+    // Verify final, server-backed state to avoid transient render races.
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    await expect(addedCard).toHaveCount(0, { timeout: 15000 });
   });
 
   test('should limit maximum number of cards to 9', async ({ page }) => {
@@ -184,17 +195,22 @@ test.describe('Payment page', () => {
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
+    const uniqueVisaCardNumber = getUniqueVisaCardNumber();
+    const uniqueVisaLast4 = uniqueVisaCardNumber.slice(-4);
     const addCard = page.locator('.add-button');
     await addCard.click();
 
     await expect(page.locator('#cardNumberInput')).toBeVisible();
-    await page.fill('#cardNumberInput', '4441803414882167');
+    await page.fill('#cardNumberInput', uniqueVisaCardNumber);
     await page.fill('#ownerNameInput', 'Test User');
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
     await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
-    const visaCard = page.locator('.user-payment-card').first();
+    const visaCard = page
+      .locator('.user-payment-card')
+      .filter({ hasText: `Visa **** ${uniqueVisaLast4}` });
+    await expect(visaCard).toHaveCount(1);
     await expect(visaCard.locator('img[alt="Payment system"]')).toHaveAttribute(
       'src',
       '/icons/visa.svg',
@@ -203,22 +219,38 @@ test.describe('Payment page', () => {
       'Visa',
     );
 
-    await page.click('.delete-payment-card-button');
+    await Promise.all([
+      page.waitForResponse(
+        (response) =>
+          response.request().method() === 'DELETE' &&
+          response.url().includes('/api/paymentCards/deletePaymentCard/') &&
+          response.ok(),
+      ),
+      visaCard.locator('.delete-payment-card-button').click(),
+    ]);
 
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
-    await expect(page.locator('.user-payment-card')).toHaveCount(0);
-    await waitForToastToDisappear(page, successToast);
+    await expect(successToast).toHaveText('Картку видалено успішно.');
+
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+    await expect(visaCard).toHaveCount(0, { timeout: 15000 });
 
     await page.click('.add-button');
     await expect(page.locator('#cardNumberInput')).toBeVisible();
-    await page.fill('#cardNumberInput', '5441803414882167');
+    const uniqueMasterCardNumber = getUniqueMasterCardNumber();
+    const uniqueMasterLast4 = uniqueMasterCardNumber.slice(-4);
+    await page.fill('#cardNumberInput', uniqueMasterCardNumber);
     await page.fill('#ownerNameInput', 'Test User');
     await page.fill('#expirationDateInput', validExpiryDate);
     await page.click('.save-button');
 
     await page.waitForURL(/\/personal-page\/cabinet\/payment$/);
-    const masterCard = page.locator('.user-payment-card').first();
+    const masterCard = page
+      .locator('.user-payment-card')
+      .filter({ hasText: `MasterCard **** ${uniqueMasterLast4}` });
+    await expect(masterCard).toHaveCount(1);
     await expect(
       masterCard.locator('img[alt="Payment system"]'),
     ).toHaveAttribute('src', '/icons/master-card.svg');
