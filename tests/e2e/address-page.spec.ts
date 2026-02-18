@@ -26,17 +26,16 @@ test.describe('Address page', () => {
       .filter({ has: page.locator(inputSelector) })
       .locator('img[alt="Edit icon"]');
 
+  const openAddressPage = async (page: Page) => {
+    await page.goto('/personal-page/cabinet/address');
+    await page.waitForLoadState('networkidle');
+    await expect(page.locator('#regionInput')).toBeVisible();
+  };
+
   test('should edit and save address data successfully', async ({ page }) => {
     test.setTimeout(60000);
     await registerAndLogin(page, userData);
-    await Promise.all([
-      page.waitForResponse(
-        (response) =>
-          response.url().includes('/api/auth/getUser') && response.ok(),
-      ),
-      page.goto('/personal-page/cabinet/address'),
-    ]);
-    await expect(page.locator('#regionInput')).toBeVisible();
+    await openAddressPage(page);
 
     const successToast = page.locator('.Toastify__toast--success');
 
@@ -97,14 +96,7 @@ test.describe('Address page', () => {
   test('should validate address fields', async ({ page }) => {
     test.setTimeout(60000);
     await registerAndLogin(page, userData);
-    await Promise.all([
-      page.waitForResponse(
-        (response) =>
-          response.url().includes('/api/auth/getUser') && response.ok(),
-      ),
-      page.goto('/personal-page/cabinet/address'),
-    ]);
-    await expect(page.locator('#regionInput')).toBeVisible();
+    await openAddressPage(page);
 
     const errorToast = page.locator('.Toastify__toast--error');
     const cancelButton = page.locator('text=Скасувати');
@@ -181,13 +173,7 @@ test.describe('Address page', () => {
 
   test('should cancel address data editing', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await Promise.all([
-      page.waitForResponse(
-        (response) =>
-          response.url().includes('/api/auth/getUser') && response.ok(),
-      ),
-      page.goto('/personal-page/cabinet/address'),
-    ]);
+    await openAddressPage(page);
     await expect(page.locator('#streetInput')).toBeVisible();
 
     const streetInput = page.locator('#streetInput');
