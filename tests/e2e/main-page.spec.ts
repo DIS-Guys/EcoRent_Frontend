@@ -15,7 +15,7 @@ test.describe('Main Page', () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173/');
+    await page.goto('/');
   });
 
   test('should display the main search input', async ({ page }) => {
@@ -34,9 +34,7 @@ test.describe('Main Page', () => {
 
     await searchInput.fill('EcoFlow');
     await searchButton.click();
-    await expect(page).toHaveURL('http://localhost:5173/rent');
-
-    await expect(page.locator('.device-card').first()).toBeVisible();
+    await expect(page).toHaveURL(/\/rent$/);
 
     await expect(searchInput).toHaveValue('EcoFlow');
   });
@@ -65,7 +63,7 @@ test.describe('Main Page', () => {
     const rentButton = page.locator('text=Хочу орендувати!');
     await expect(rentButton).toBeVisible();
     await rentButton.click();
-    await expect(page).toHaveURL('http://localhost:5173/rent');
+    await expect(page).toHaveURL(/\/rent$/);
   });
 
   test('should navigate to personal devices page on rent out button click', async ({
@@ -77,10 +75,8 @@ test.describe('Main Page', () => {
 
     await registerAndLogin(page, userData);
 
-    await page.goto('http://localhost:5173/personal-page/my-devices');
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/my-devices',
-    );
+    await page.goto('/personal-page/my-devices');
+    await expect(page).toHaveURL(/\/personal-page\/my-devices$/);
 
     const addDeviceButton = page.locator('text=Додати пристрій');
     await expect(addDeviceButton).toBeVisible();

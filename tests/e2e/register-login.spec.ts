@@ -9,16 +9,14 @@ test.describe('User Registration', () => {
   test('should register a new user', async ({ page }) => {
     const userData = generateRandomUser();
     await registerAndLogin(page, userData);
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/cabinet/profile'
-    );
+    await expect(page).toHaveURL(/\/personal-page\/cabinet\/profile$/);
 
     await deleteAccount(page);
   });
 
   test('should show error for invalid email format', async ({ page }) => {
     const userData = generateRandomUser();
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
+    await page.goto('/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
     await page.fill('input[placeholder="Прізвище"]', userData.surname);
@@ -26,7 +24,7 @@ test.describe('User Registration', () => {
     await page.fill('input[placeholder="Пароль"]', userData.password);
     await page.fill(
       'input[placeholder="Підтвердити пароль"]',
-      userData.password
+      userData.password,
     );
 
     await page.click('button[type="submit"]');
@@ -38,7 +36,7 @@ test.describe('User Registration', () => {
 
   test('should show error for mismatched passwords', async ({ page }) => {
     const userData = generateRandomUser();
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
+    await page.goto('/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
     await page.fill('input[placeholder="Прізвище"]', userData.surname);
@@ -55,7 +53,7 @@ test.describe('User Registration', () => {
 
   test('should show error for short password', async ({ page }) => {
     const userData = generateRandomUser();
-    await page.goto('http://localhost:5173/personal-page/cabinet/profile');
+    await page.goto('/personal-page/cabinet/profile');
 
     await page.fill('input[placeholder="Ім\'я"]', userData.name);
     await page.fill('input[placeholder="Прізвище"]', userData.surname);
@@ -68,10 +66,10 @@ test.describe('User Registration', () => {
     const errorToasts = page.locator('.Toastify__toast--error');
     await expect(errorToasts).toHaveCount(2);
     await expect(errorToasts.nth(0)).toHaveText(
-      'Пароль має містити щонайменше 6 символів.'
+      'Пароль має містити щонайменше 6 символів.',
     );
     await expect(errorToasts.nth(1)).toHaveText(
-      'Пароль має містити щонайменше одну літеру та одну цифру.'
+      'Пароль має містити щонайменше одну літеру та одну цифру.',
     );
   });
 });

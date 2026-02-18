@@ -3,7 +3,6 @@ import {
   generateRandomUser,
   registerAndLogin,
   login,
-  deleteAccount,
   tryDeleteAccount,
 } from '../e2e/test-helper';
 import type { UserData } from '../e2e/test-helper';
@@ -23,36 +22,32 @@ test.describe('My devices page', () => {
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/my-devices');
+    await page.goto('/personal-page/my-devices');
 
     const addDevice = page.locator('.add-device-button');
     await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await expect(page).toHaveURL('http://localhost:5173/rent-out');
+    await expect(page).toHaveURL(/\/rent-out$/);
     await page.click('button.put-on-rent-button');
 
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Заповніть обов'язкові поля!");
-
-    await deleteAccount(page);
   });
 
   test('should successfully create device listing', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/my-devices');
+    await page.goto('/personal-page/my-devices');
 
     const addDevice = page.locator('.add-device-button');
     await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await expect(page).toHaveURL('http://localhost:5173/rent-out');
+    await expect(page).toHaveURL(/\/rent-out$/);
 
     const fileInput = page.locator('input[type="file"]');
-    await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
-    );
+    await fileInput.setInputFiles('tests/e2e/fixtures/device-image.svg');
 
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
@@ -76,27 +71,21 @@ test.describe('My devices page', () => {
 
     await page.click('button.put-on-rent-button');
 
-    await expect(page).toHaveURL(
-      'http://localhost:5173/personal-page/my-devices',
-    );
-
-    await deleteAccount(page);
+    await expect(page).toHaveURL(/\/personal-page\/my-devices$/);
   });
 
   test('should view device details with correct ID', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/my-devices');
+    await page.goto('/personal-page/my-devices');
 
     const addDevice = page.locator('.add-device-button');
     await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await expect(page).toHaveURL('http://localhost:5173/rent-out');
+    await expect(page).toHaveURL(/\/rent-out$/);
 
     const fileInput = page.locator('input[type="file"]');
-    await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
-    );
+    await fileInput.setInputFiles('tests/e2e/fixtures/device-image.svg');
 
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
@@ -125,30 +114,26 @@ test.describe('My devices page', () => {
       .locator('.review-device-button')
       .getAttribute('href');
     const deviceId = deviceLink?.split('/rent/')[1];
-    await page.goto(`http://localhost:5173/rent/${deviceId}`);
+    await page.goto(`/rent/${deviceId}`);
 
     await expect(page.locator('.device-page-name-title')).toHaveText(
       'Test Power Station',
     );
-    await expect(page).toHaveURL(`http://localhost:5173/rent/${deviceId}`);
-
-    await deleteAccount(page);
+    await expect(page).toHaveURL(new RegExp(`/rent/${deviceId}$`));
   });
 
   test('should delete device successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/my-devices');
+    await page.goto('/personal-page/my-devices');
 
     const addDevice = page.locator('.add-device-button');
     await expect(addDevice).toBeVisible();
     await addDevice.click();
 
-    await expect(page).toHaveURL('http://localhost:5173/rent-out');
+    await expect(page).toHaveURL(/\/rent-out$/);
 
     const fileInput = page.locator('input[type="file"]');
-    await fileInput.setInputFiles(
-      '../EcoRent_Frontend/tests/e2e/test-image/ecorent.png',
-    );
+    await fileInput.setInputFiles('tests/e2e/fixtures/device-image.svg');
 
     await page.fill('input[name="title"]', 'Test Power Station');
     await page.selectOption('select[name="manufacturer"]', 'Jackery');
@@ -179,7 +164,5 @@ test.describe('My devices page', () => {
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пристрій видалено успішно.');
-
-    await deleteAccount(page);
   });
 });

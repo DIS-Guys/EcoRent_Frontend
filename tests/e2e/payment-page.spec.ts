@@ -3,7 +3,6 @@ import {
   generateRandomUser,
   registerAndLogin,
   login,
-  deleteAccount,
   waitForToastToDisappear,
   tryDeleteAccount,
 } from '../e2e/test-helper';
@@ -39,7 +38,7 @@ test.describe('Payment page', () => {
 
   test('should add a new payment card successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.goto('/personal-page/cabinet/payment');
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
@@ -59,13 +58,11 @@ test.describe('Payment page', () => {
     await expect(cardElement.locator('.user-payment-card-text')).toContainText(
       'Visa **** 2167',
     );
-
-    await deleteAccount(page);
   });
 
   test('should validate card input fields', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.goto('/personal-page/cabinet/payment');
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
@@ -103,13 +100,11 @@ test.describe('Payment page', () => {
 
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText("Ім'я власника не може бути порожнім.");
-
-    await deleteAccount(page);
   });
 
   test('should delete payment card', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.goto('/personal-page/cabinet/payment');
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
@@ -145,15 +140,13 @@ test.describe('Payment page', () => {
     await expect(successToast).toHaveText('Картку видалено успішно.');
 
     await expect(addedCard).toHaveCount(0);
-
-    await deleteAccount(page);
   });
 
   test('should limit maximum number of cards to 9', async ({ page }) => {
     test.setTimeout(60000);
 
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.goto('/personal-page/cabinet/payment');
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
@@ -183,13 +176,11 @@ test.describe('Payment page', () => {
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Не можна додати більше 9 карток.');
-
-    await deleteAccount(page);
   });
 
   test('should handle card type detection correctly', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/payment');
+    await page.goto('/personal-page/cabinet/payment');
     await expect(page.locator('.add-button')).toBeVisible();
 
     const validExpiryDate = getValidExpiryDate();
@@ -234,7 +225,5 @@ test.describe('Payment page', () => {
     await expect(masterCard.locator('.user-payment-card-text')).toContainText(
       'MasterCard',
     );
-
-    await deleteAccount(page);
   });
 });

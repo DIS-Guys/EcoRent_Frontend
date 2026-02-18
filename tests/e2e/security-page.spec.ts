@@ -1,9 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
 import {
   generateRandomUser,
   registerAndLogin,
   login,
-  deleteAccount,
   generatePassword,
   tryDeleteAccount,
 } from '../e2e/test-helper';
@@ -20,67 +19,69 @@ test.describe('Security page', () => {
     await tryDeleteAccount(page);
   });
 
+  const editButtonFor = (page: Page, inputSelector: string) =>
+    page
+      .locator('.profile-edit-block')
+      .filter({ has: page.locator(inputSelector) })
+      .locator('img[alt="Edit icon"]');
+
   test('should update password successfully when passwords match and are valid', async ({
     page,
   }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/security');
+    await page.goto('/personal-page/cabinet/security');
     await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor(page, '#oldPasswordInput').click();
     await page.fill('#oldPasswordInput', userData.password);
 
     const newPassword = generatePassword();
 
-    await page.locator('.edit-icon').nth(1).click();
+    await editButtonFor(page, '#newPasswordInput').click();
     await page.fill('#newPasswordInput', newPassword);
 
-    await page.locator('.edit-icon').nth(2).click();
+    await editButtonFor(page, '#repeatPasswordInput').click();
     await page.fill('#repeatPasswordInput', newPassword);
 
     await page.click('button.save-button');
     const successToast = page.locator('.Toastify__toast--success');
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Пароль успішно оновлено.');
-
-    await deleteAccount(page);
   });
 
   test('should show error when passwords do not match', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/security');
+    await page.goto('/personal-page/cabinet/security');
     await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor(page, '#oldPasswordInput').click();
     await page.fill('#oldPasswordInput', userData.password);
 
     const newPassword = generatePassword();
-    await page.locator('.edit-icon').nth(1).click();
+    await editButtonFor(page, '#newPasswordInput').click();
     await page.fill('#newPasswordInput', newPassword);
 
-    await page.locator('.edit-icon').nth(2).click();
+    await editButtonFor(page, '#repeatPasswordInput').click();
     await page.fill('#repeatPasswordInput', 'differentPassword01');
 
     await page.click('button.save-button');
     const errorToast = page.locator('.Toastify__toast--error');
     await expect(errorToast).toBeVisible();
     await expect(errorToast).toHaveText('Паролі не збігаються.');
-
-    await deleteAccount(page);
   });
 
   test('should show error when new password is invalid', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/security');
+    await page.goto('/personal-page/cabinet/security');
     await expect(page.locator('#oldPasswordInput')).toBeVisible();
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor(page, '#oldPasswordInput').click();
     await page.fill('#oldPasswordInput', userData.password);
 
-    await page.locator('.edit-icon').nth(1).click();
+    await editButtonFor(page, '#newPasswordInput').click();
     await page.fill('#newPasswordInput', 'short');
 
-    await page.locator('.edit-icon').nth(2).click();
+    await editButtonFor(page, '#repeatPasswordInput').click();
     await page.fill('#repeatPasswordInput', 'short');
 
     await page.click('button.save-button');
@@ -89,16 +90,18 @@ test.describe('Security page', () => {
     await expect(errorToasts.first()).toHaveText(
       'Пароль повинен містити від 6 символів.',
     );
-
-    await deleteAccount(page);
   });
 
   test('should cancel account deletion', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await expect(page.locator('.delete-user-button')).toBeVisible();
+    await page.goto('/personal-page/cabinet/security');
+    await expect(
+      page.getByRole('button', { name: 'Видалити акаунт' }),
+    ).toBeVisible();
 
-    const deleteUserButton = page.locator('.delete-user-button');
+    const deleteUserButton = page.getByRole('button', {
+      name: 'Видалити акаунт',
+    });
     await deleteUserButton.click();
 
     const modal = page.locator('.modal');
@@ -107,16 +110,18 @@ test.describe('Security page', () => {
     const cancelButton = page.locator('.cancel-delete-button');
     await cancelButton.click();
     await expect(modal).toBeHidden();
-
-    await deleteAccount(page);
   });
 
   test('should delete account successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
-    await page.goto('http://localhost:5173/personal-page/cabinet/security');
-    await expect(page.locator('.delete-user-button')).toBeVisible();
+    await page.goto('/personal-page/cabinet/security');
+    await expect(
+      page.getByRole('button', { name: 'Видалити акаунт' }),
+    ).toBeVisible();
 
-    const deleteUserButton = page.locator('.delete-user-button');
+    const deleteUserButton = page.getByRole('button', {
+      name: 'Видалити акаунт',
+    });
     await deleteUserButton.click();
 
     const modal = page.locator('.modal');

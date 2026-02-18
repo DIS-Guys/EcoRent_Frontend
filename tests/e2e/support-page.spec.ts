@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Support Page', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173/support');
+    await page.goto('/support');
     await expect(page.locator('#supportEmail')).toBeVisible();
   });
 

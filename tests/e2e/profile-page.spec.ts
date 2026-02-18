@@ -1,9 +1,8 @@
-import { test, expect, type Locator } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 import {
   generateRandomUser,
   registerAndLogin,
   login,
-  deleteAccount,
   waitForToastToDisappear,
   tryDeleteAccount,
 } from '../e2e/test-helper';
@@ -20,24 +19,25 @@ test.describe('Profile page', () => {
     await tryDeleteAccount(page);
   });
 
+  const editButtonFor = (page: Page, inputSelector: string) =>
+    page
+      .locator('.profile-edit-block')
+      .filter({ has: page.locator(inputSelector) })
+      .locator('img[alt="Edit icon"]');
+
   test('should validate profile fields', async ({ page }) => {
     await registerAndLogin(page, userData);
     await expect(page.locator('#profileNameInput')).toHaveValue(userData.name);
 
     const errorToast = page.locator('.Toastify__toast--error');
     const successToast = page.locator('.Toastify__toast--success');
-    const editButtonFor = (inputSelector: string) =>
-      page
-        .locator('.profile-edit-block')
-        .filter({ has: page.locator(inputSelector) })
-        .locator('.edit-icon');
     const dismissToast = async (toast: Locator) => {
       const currentToast = toast.first();
       await currentToast.getByRole('button', { name: 'close' }).click();
       await expect(toast).toHaveCount(0);
     };
 
-    await editButtonFor('#profileNameInput').click();
+    await editButtonFor(page, '#profileNameInput').click();
     await page.fill('#profileNameInput', '');
     await page.click('.save-button');
 
@@ -47,7 +47,7 @@ test.describe('Profile page', () => {
     );
 
     await dismissToast(errorToast);
-    await editButtonFor('#profileSurnameInput').click();
+    await editButtonFor(page, '#profileSurnameInput').click();
     await page.fill('#profileSurnameInput', '');
     await page.click('.save-button');
 
@@ -57,17 +57,17 @@ test.describe('Profile page', () => {
     );
 
     await dismissToast(errorToast);
-    await editButtonFor('#profileNameInput').click();
+    await editButtonFor(page, '#profileNameInput').click();
     await page.fill('#profileNameInput', 'Testname');
 
-    await editButtonFor('#profileSurnameInput').click();
+    await editButtonFor(page, '#profileSurnameInput').click();
     await page.fill('#profileSurnameInput', 'Testsurname');
     await page.click('.save-button');
 
     await expect(successToast).toBeVisible();
     await dismissToast(successToast);
 
-    await editButtonFor('#profileEmailInput').click();
+    await editButtonFor(page, '#profileEmailInput').click();
     await page.fill('#profileEmailInput', 'invalid-email');
     await page.click('.save-button');
 
@@ -77,13 +77,13 @@ test.describe('Profile page', () => {
     );
 
     await dismissToast(errorToast);
-    await editButtonFor('#profileEmailInput').click();
+    await editButtonFor(page, '#profileEmailInput').click();
     await page.fill('#profileEmailInput', `${userData.email}`);
     await page.click('.save-button');
 
     await expect(successToast).toBeVisible();
     await dismissToast(successToast);
-    await editButtonFor('#profilePhoneInput').click();
+    await editButtonFor(page, '#profilePhoneInput').click();
     await page.fill('#profilePhoneInput', '123');
     await page.click('.save-button');
 
@@ -91,8 +91,6 @@ test.describe('Profile page', () => {
     await expect(errorToast).toHaveText(
       `Поля заповнені невірно: \n Некоректний формат номера телефону.`,
     );
-
-    await deleteAccount(page);
   });
 
   test('should cancel profile data editing', async ({ page }) => {
@@ -103,25 +101,22 @@ test.describe('Profile page', () => {
 
     const originalName = await profileName.inputValue();
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor(page, '#profileNameInput').click();
     await page.fill('#profileNameInput', 'AnotherName');
 
     const cancelButton = page.locator('text=Скасувати');
     await cancelButton.click();
     await expect(profileName).toHaveValue(originalName);
-
-    await deleteAccount(page);
   });
 
   test('should logout successfully', async ({ page }) => {
     await registerAndLogin(page, userData);
 
-    const logoutButton = page.locator('.logout-button');
+    const logoutButton = page.getByRole('button', { name: 'Вийти' });
     await logoutButton.click();
-    await expect(page).toHaveURL('http://localhost:5173/login');
+    await expect(page).toHaveURL(/\/login$/);
 
     await login(page, userData.email, userData.password);
-    await deleteAccount(page);
   });
 
   test('should edit and save profile data', async ({ page }) => {
@@ -129,7 +124,7 @@ test.describe('Profile page', () => {
     const successToast = page.locator('.Toastify__toast--success');
     await expect(page.locator('#profileNameInput')).toHaveValue(userData.name);
 
-    await page.locator('.edit-icon').nth(0).click();
+    await editButtonFor(page, '#profileNameInput').click();
     await page.fill('#profileNameInput', 'NewTestName');
     await page.click('.save-button');
 
@@ -137,7 +132,7 @@ test.describe('Profile page', () => {
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
     await waitForToastToDisappear(page, successToast);
-    await page.locator('.edit-icon').nth(1).click();
+    await editButtonFor(page, '#profileSurnameInput').click();
     await page.fill('#profileSurnameInput', 'NewTestSurname');
     await page.click('.save-button');
 
@@ -145,7 +140,7 @@ test.describe('Profile page', () => {
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
     await waitForToastToDisappear(page, successToast);
-    await page.locator('.edit-icon').nth(2).click();
+    await editButtonFor(page, '#profileEmailInput').click();
     const newEmail = `1` + `${userData.email}`;
     await page.fill('#profileEmailInput', newEmail);
     await page.click('.save-button');
@@ -154,13 +149,11 @@ test.describe('Profile page', () => {
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
 
     await waitForToastToDisappear(page, successToast);
-    await page.locator('.edit-icon').nth(3).click();
+    await editButtonFor(page, '#profilePhoneInput').click();
     await page.fill('#profilePhoneInput', '+380123456789');
     await page.click('.save-button');
 
     await expect(successToast).toBeVisible();
     await expect(successToast).toHaveText('Профіль успішно оновлено.');
-
-    await deleteAccount(page);
   });
 });
