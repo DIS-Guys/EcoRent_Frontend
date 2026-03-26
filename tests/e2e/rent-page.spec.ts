@@ -59,14 +59,12 @@ test.describe('Rent Page', () => {
 
     test.skip(cardsCount === 0, 'Catalog has no devices to open');
 
-    const firstCardTitle = await page
-      .locator('.device-card-title')
-      .evaluateAll((titles) => titles[0]?.textContent?.trim() || '');
-    expect(firstCardTitle).not.toBe('');
+    const firstCard = cards.first();
+    await expect(firstCard).toBeVisible();
+    await expect(firstCard).toHaveAttribute('href', /\/rent\/[^/]+$/);
 
-    await page.getByText(firstCardTitle, { exact: true }).click();
+    await Promise.all([page.waitForURL(/\/rent\/[^/]+$/), firstCard.click()]);
 
-    await expect(page).toHaveURL(/\/rent\/[^/]+$/);
     await expect(page.locator('.device-page-name-title')).toBeVisible();
   });
 

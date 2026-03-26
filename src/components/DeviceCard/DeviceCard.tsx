@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import './DeviceCard.css';
 
 type Props = {
@@ -18,10 +18,8 @@ export const DeviceCard: React.FC<Props> = ({
   price,
   location,
 }) => {
-  const navigate = useNavigate();
-
   return (
-    <div className="device-card" onClick={() => navigate(id)}>
+    <Link className="device-card" to={`/rent/${id}`}>
       <img className="device-card-image" src={mainImage} />
       <div className="device-card-description-block">
         <h2 className="device-card-title">{`${brand} ${model}`}</h2>
@@ -30,6 +28,6 @@ export const DeviceCard: React.FC<Props> = ({
           <p className="device-rent-price">{`${price} грн/добу`}</p>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
