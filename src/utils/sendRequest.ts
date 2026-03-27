@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = (
+  import.meta.env.VITE_API_URL || 'http://localhost:3000'
+).replace(/\/+$/, '');
 
 type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 async function sendRequest<T>(
   url: string,
   method: RequestMethod = 'GET',
-  data?: any
+  data?: any,
 ): Promise<T> {
   const token = localStorage.getItem('jwt');
   const headers: HeadersInit = {};

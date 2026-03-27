@@ -32,13 +32,15 @@ jobs:
         working-directory: EcoRent_Backend
         run: npm run start &
         env:
-          MONGO_USERNAME: ${{ secrets.MONGO_USERNAME }}
-          MONGO_PASSWD: ${{ secrets.MONGO_PASSWD }}
+          NODE_ENV: test
+          MONGO_URI: ${{ secrets.MONGO_URI }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          PORT: 3000
+          CORS_ORIGINS: http://localhost:5173
+          S3_BUCKET: eco-rent-images
+          PORT: ${{ vars.PORT }}
           RATE_LIMIT_MAX: 100000
           MOCK_S3: true
 
@@ -56,6 +58,8 @@ jobs:
 
       - name: Run Playwright tests
         run: npm run test:e2e
+        env:
+          VITE_API_URL: http://localhost:3000
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
